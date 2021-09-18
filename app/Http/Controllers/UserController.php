@@ -70,8 +70,7 @@ class UserController extends Controller
 
             // \DB::commit() ini akan menginput data jika dari proses diatas tidak ada yg salah atau error.
             \DB::commit();
-            $naus = $data->name;
-            alert()->success('Success Create',"Successfully Created Data : $data->name");
+            alert()->success('Success Created',"Successfully Created Data : $data->name");
             return redirect()->back();
 
         } catch (\Exception $e) {

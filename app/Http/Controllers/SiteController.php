@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\MsSite;
 
 class SiteController extends Controller
 {
@@ -13,7 +14,8 @@ class SiteController extends Controller
      */
     public function index()
     {
-        //
+        $data = MsSite::all();
+        return view('dashboard_view.elements.site', compact('data'));
     }
 
     /**
@@ -34,7 +36,28 @@ class SiteController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name_site' => ['required', 'string', 'max:255'],
+        ]);
+
+        try {
+
+            \DB::beginTransaction();
+
+            $data = new MsSite;
+            $data->name_site = $request->name_site;
+            $data->location_site = $request->location_site;
+            $data->save();
+            // \DB::commit() ini akan menginput data jika dari proses diatas tidak ada yg salah atau error.
+            \DB::commit();
+            alert()->success('Success Created',"Successfully Created Data : $data->name_site");
+            return redirect(route('site-element.index'));
+
+        } catch (\Exception $e) {
+            \DB::rollback();
+            alert()->error('Error',$e->getMessage());
+            return redirect(route('site-element.index'));
+        }
     }
 
     /**
@@ -68,7 +91,32 @@ class SiteController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request, [
+            'name_site' => ['required', 'string', 'max:255'],
+        ]);
+
+        try {
+            
+            \DB::beginTransaction();
+
+            $data = MsSite::find($id);
+            $data->name_site = $request->get('name_site');
+            $data->location_site = $request->get('location_site');
+            
+            
+            $data->save();
+
+            \DB::commit();
+            alert()->success('Success Updated',"Successfully Updated Data : $data->name_site");
+            return redirect(route('site-element.index'));
+            
+        } catch (\Exception $e) {
+            // \DB::rollback() yang akan mengembalikan data atau dihapus jika ada salah satu proses diatas ada yg
+            // error ataupun salah. Biasakan pakai Ini juga 
+            \DB::rollback();
+            alert()->error('Error',$e->getMessage());
+            return redirect(route('site-element.index'));
+        }
     }
 
     /**
@@ -79,6 +127,9 @@ class SiteController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $data_redirect = MsSite::find($id);
+        $data = MsSite::find($id)->delete();
+
+        return redirect(route('site-element.index'));
     }
 }

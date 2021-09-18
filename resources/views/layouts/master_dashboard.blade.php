@@ -282,7 +282,7 @@
                     </ul>
                 </li>
 
-                <li class="treeview">
+                <li class="treeview {{ request()->is('vendor-element', 'site-element') ? 'active' : '' }}">
                     <a href="#">
                         <i class="fa fa-book"></i> <span>Elements</span>
                         <span class="pull-right-container">
@@ -292,8 +292,8 @@
                     <ul class="treeview-menu">
                         <li><a href="#"><i class="fa fa-circle-o"></i> Link Element</a></li>
                         <li><a href="#"><i class="fa fa-circle-o"></i> Capacity Element</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Site Element</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Vendor Element</a></li>
+                        <li class="{{ request()->is('site-element') ? 'active' : '' }}"><a href="{{route('site-element.index')}}"><i class="fa fa-circle-o"></i> Site Element</a></li>
+                        <li class="{{ request()->is('vendor-element') ? 'active' : '' }}"><a href="{{route('vendor-element.index')}}"><i class="fa fa-circle-o"></i> Vendor Element</a></li>
                     </ul>
                 </li>
 

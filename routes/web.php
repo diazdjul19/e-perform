@@ -44,8 +44,13 @@ Route::group(['middleware' => ['auth', 'cekroleuser:admin,noc,sales']], function
 
     Route::resource('link-element', 'LinkController');
     Route::resource('capacity-element', 'CapacityController');
+
     Route::resource('site-element', 'SiteController');
+    Route::get('/site-element-delete/{id}', 'SiteController@destroy')->name('site-element-delete');
+    
     Route::resource('vendor-element', 'VendorController');
+    Route::get('/vendor-element-delete/{id}', 'VendorController@destroy')->name('vendor-element-delete');
+
 
 
 });
