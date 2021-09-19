@@ -16,6 +16,7 @@ class CreateMsCapacitiesTable extends Migration
         Schema::create('ms_capacities', function (Blueprint $table) {
             $table->id();
             $table->string("bandwith_capacity");
+            $table->string("type_trasfer");
             $table->float("price_capacity_fromme");
             $table->float("price_capacity_vendor")->nullable();
             $table->integer('id_vendor_rel')->nullable();

@@ -282,7 +282,7 @@
                     </ul>
                 </li>
 
-                <li class="treeview {{ request()->is('vendor-element', 'site-element') ? 'active' : '' }}">
+                <li class="treeview {{ request()->is('vendor-element', 'site-element', 'capacity-element') ? 'active' : '' }}">
                     <a href="#">
                         <i class="fa fa-book"></i> <span>Elements</span>
                         <span class="pull-right-container">
@@ -291,7 +291,7 @@
                     </a>
                     <ul class="treeview-menu">
                         <li><a href="#"><i class="fa fa-circle-o"></i> Link Element</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Capacity Element</a></li>
+                        <li class="{{ request()->is('capacity-element') ? 'active' : '' }}"><a href="{{route('capacity-element.index')}}"><i class="fa fa-circle-o"></i> Capacity Element</a></li>
                         <li class="{{ request()->is('site-element') ? 'active' : '' }}"><a href="{{route('site-element.index')}}"><i class="fa fa-circle-o"></i> Site Element</a></li>
                         <li class="{{ request()->is('vendor-element') ? 'active' : '' }}"><a href="{{route('vendor-element.index')}}"><i class="fa fa-circle-o"></i> Vendor Element</a></li>
                     </ul>
@@ -321,7 +321,7 @@
             {{-- <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
             reserved. --}}
             
-            <strong>Copyright &copy;<script>document.write(new Date().getFullYear())</script></strong> <a href="https://laravel.com/">Laravel</a> By <a href="https://www.instagram.com/diazdjuliansyah">Diaz Djuliansyah</a>
+            <strong>Copyright &copy;<script>document.write(new Date().getFullYear())</script></strong> <a href="https://laravel.com/">Laravel</a> By <a href="https://diazdjul19.github.io/">Diaz Djuliansyah</a>
         </footer>
 
         <!-- Control Sidebar -->
@@ -573,6 +573,7 @@
     @stack('show-hide-password')
     @stack('lightbox')
     @stack('confirm-alert')
+    @stack('input-rupiah')
 
 
 

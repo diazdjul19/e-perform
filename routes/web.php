@@ -43,7 +43,10 @@ Route::group(['middleware' => ['auth', 'cekroleuser:admin,noc,sales']], function
     Route::post('/select-delete-user', 'UserController@select_delete_user')->name('select-delete-user');
 
     Route::resource('link-element', 'LinkController');
+
     Route::resource('capacity-element', 'CapacityController');
+    Route::get('/capacity-element-delete/{id}', 'CapacityController@destroy')->name('capacity-element-delete');
+
 
     Route::resource('site-element', 'SiteController');
     Route::get('/site-element-delete/{id}', 'SiteController@destroy')->name('site-element-delete');
