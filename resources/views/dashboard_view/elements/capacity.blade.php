@@ -250,7 +250,11 @@
                                         <td style="min-width:120px; text-align:center;">{{$d->bandwith_capacity}} {{$d->type_trasfer}}</td>
                                         <td style="min-width:120px; text-align:center;">Rp. {{number_format($d->price_capacity_fromme,0, ".", ".")}}</td>
                                         <td style="min-width:120px; text-align:center;">Rp. {{number_format($d->price_capacity_vendor,0, ".", ".")}}</td>
-                                        <td style="min-width:120px; text-align:center;">{{$d->jnsvendor->name_vendor}}</td>
+                                        @if ($d->jnsvendor != null)
+                                            <td style="min-width:120px; text-align:center;">{{$d->jnsvendor->name_vendor}}</td>
+                                        @elseif ($d->jnsvendor == null) 
+                                            <td style="min-width:120px; text-align:center; font-weight:bold;">ID Not Found !!!</td>
+                                        @endif
                                         <td style="min-width:120px; text-align:center;" style="padding-top: 15px;" class="text-center">
                                             <a href="#" id="open-modal" class="btn btn-success btn-xs"  style="margin: 3px;"><i class="fa fa-edit"></i> Edit</a>
                                             <a href="{{route('capacity-element-delete', $d->id)}}" id="" class="delete-alert btn btn-danger btn-xs"  style="margin: 3px;"><i class="fa fa-trash"></i> Delete</a>

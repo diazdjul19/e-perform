@@ -17,6 +17,7 @@ class CreateMsLinksTable extends Migration
             $table->id();
             $table->string("name_link");
             $table->string("penanggung_jawab_link");
+            $table->string("vlan")->nullable();
             $table->integer('id_capacity_rel')->nullable();
             $table->integer('id_site_rel')->nullable();
             $table->integer('id_vendor_rel')->nullable();
