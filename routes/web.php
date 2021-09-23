@@ -48,12 +48,17 @@ Route::group(['middleware' => ['auth', 'cekroleuser:admin,noc,sales']], function
     Route::resource('capacity-element', 'CapacityController');
     Route::get('/capacity-element-delete/{id}', 'CapacityController@destroy')->name('capacity-element-delete');
 
-
     Route::resource('site-element', 'SiteController');
     Route::get('/site-element-delete/{id}', 'SiteController@destroy')->name('site-element-delete');
     
     Route::resource('vendor-element', 'VendorController');
     Route::get('/vendor-element-delete/{id}', 'VendorController@destroy')->name('vendor-element-delete');
+    
+
+    Route::get('/noc-dialy-report', 'NocReportController@noc_dialy_report')->name('noc-dialy-report');
+    Route::post('/noc-dialy-reportstore', 'NocReportController@noc_dialy_report_store')->name('noc-dialy-reportstore');
+    Route::get('/noc-dialy-report-edit/{id}', 'NocReportController@noc_dialy_report_editshow')->name('noc-dialy-report-edit');
+    Route::get('/noc-dialy-report-show/{id}', 'NocReportController@noc_dialy_report_editshow')->name('noc-dialy-report-show');
 
 
 

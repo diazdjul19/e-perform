@@ -287,7 +287,7 @@
 
                                         @if ($d->jnsvendor != null)
                                             <td style="min-width:120px;" class="text-center">{{$d->jnsvendor->name_vendor}}</td>
-                                        @elseif ($d->jnscapacity == null) 
+                                        @elseif ($d->jnsvendor == null) 
                                             <td style="min-width:120px; text-align:center; font-weight:bold;">ID Not Found !!!</td>
                                         @endif
 

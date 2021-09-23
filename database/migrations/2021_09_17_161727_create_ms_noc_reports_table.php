@@ -18,12 +18,12 @@ class CreateMsNocReportsTable extends Migration
             $table->string("tiket_report");
             $table->integer('id_user_rel');
             $table->integer('id_link_rel');
-            $table->string('issues');
-            $table->string('solution');
-            $table->dateTime('dari_long');
-            $table->dateTime('sampai_long');
+            $table->string('issues')->nullable();
+            $table->string('solution')->nullable();
+            $table->dateTime('dari_long')->nullable();
+            $table->dateTime('sampai_long')->nullable();
             $table->string('status');
-            $table->string('notes');
+            $table->string('notes')->nullable();
             $table->timestamps();
         });
     }

@@ -28,7 +28,7 @@
     <link rel="stylesheet" href="/assets-admin/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
 
     <!-- App favicon -->
-    <link rel="shortcut icon" href="/assets-eperform/jenjang_pendidikan/Logo-Ponpes-Redesign.png">
+    {{-- <link rel="shortcut icon" href="/assets-eperform/jenjang_pendidikan/Logo-Ponpes-Redesign.png"> --}}
 
     <!-- Summernote -->
     {{-- <link href="/assets-admin/bower_components/summernote/summernote-bs4.css" rel="stylesheet"> --}}
@@ -38,6 +38,13 @@
 
     {{-- Lightbox --}}
     <link href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css" rel="stylesheet">
+
+    <!-- Select2 -->
+    <link rel="stylesheet" href="/assets-admin/bower_components/select2/dist/css/select2.css">
+
+    
+    {{-- Datetimepicker --}}
+    <link rel="stylesheet" type="text/css" href="/assets-eperform/datetimepicker-master/jquery.datetimepicker.css"/>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -256,7 +263,7 @@
                     </ul>
                 </li>
 
-                <li class="treeview">
+                <li class="treeview {{ request()->is('noc-dialy-report') ? 'active' : '' }}">
                     <a href="#">
                         <i class="fa fa-desktop"></i> <span>NOC Management</span>
                         <span class="pull-right-container">
@@ -264,7 +271,7 @@
                         </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="#"><i class="fa fa-circle-o"></i> NOC Dialy Report</a></li>
+                        <li class="{{ request()->is('noc-dialy-report') ? 'active' : '' }}"><a href="{{route('noc-dialy-report')}}"><i class="fa fa-circle-o"></i> NOC Dialy Report</a></li>
                         <li><a href="#"><i class="fa fa-circle-o"></i> NOC Perform Report</a></li>
                     </ul>
                 </li>
@@ -545,10 +552,17 @@
         <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
         {{-- Lightbox --}}
         <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.js"></script>
-
         <!-- DataTables -->
         <script src="/assets-admin/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
         <script src="/assets-admin/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+        <!-- Select2 -->
+        <script src="/assets-admin/bower_components/select2/dist/js/select2.full.min.js"></script>
+        {{-- DatetimePicker --}}
+        {{-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script> --}}
+        <script src="/assets-eperform/datetimepicker-master/jquery.datetimepicker.js"></script>
+        <script src="/assets-eperform/datetimepicker-master/build/jquery.datetimepicker.full.js"></script>    
+
+
         <script>
             $(document).ready(function () {
                 $('.sidebar-menu').tree()
@@ -574,6 +588,9 @@
     @stack('lightbox')
     @stack('confirm-alert')
     @stack('input-rupiah')
+    @stack('select2')
+    @stack('datetime-picker')
+    @stack('show-hide-input')
 
 
 
