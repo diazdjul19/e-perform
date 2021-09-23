@@ -56,9 +56,13 @@ Route::group(['middleware' => ['auth', 'cekroleuser:admin,noc,sales']], function
     
 
     Route::get('/noc-dialy-report', 'NocReportController@noc_dialy_report')->name('noc-dialy-report');
-    Route::post('/noc-dialy-reportstore', 'NocReportController@noc_dialy_report_store')->name('noc-dialy-reportstore');
     Route::get('/noc-dialy-report-edit/{id}', 'NocReportController@noc_dialy_report_editshow')->name('noc-dialy-report-edit');
     Route::get('/noc-dialy-report-show/{id}', 'NocReportController@noc_dialy_report_editshow')->name('noc-dialy-report-show');
+    Route::put('/noc-dialy-report-update/{id}', 'NocReportController@noc_dialy_report_update')->name('noc-dialy-report-update');
+    Route::post('/select-delete-dialy-report-noc', 'NocReportController@select_delete_dialy_report_noc')->name('select-delete-dialy-report-noc');
+
+    Route::post('/noc-dialy-reportstore', 'NocReportController@noc_dialy_report_store')->name('noc-dialy-reportstore');
+    
 
 
 

@@ -156,7 +156,7 @@
 
             <!-- Default box -->
             <div class="box box-success">
-                <form action="#" method="post" >
+                <form action="{{route('select-delete-dialy-report-noc')}}" method="post" >
                     @csrf
                     <div class="box-header with-border">
                         <h3 class="box-title">Table Dialy Report</h3>
@@ -172,6 +172,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <button type="button" class="btn btn-info btn-sm" style="margin-top: 10px;" data-toggle="modal" data-target="#modal-create"><i class="fa fa-user-plus"></i> Tambah</button>
+                                <a href="" class="btn btn-sm" style="margin-top: 10px; background-color:#ff8f9e;color:#fff;"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> PDF</a>
                                 <button type="button" class="btn btn-danger btn-sm" style="margin-top: 10px;" id="btn-co-delete" name="select_delete[]" type="submit">
                                     <i class="fa fa-trash" aria-hidden="true"></i> Hapus
                                 </button>
@@ -215,29 +216,36 @@
                                                 @endif
 
                                                 @if ($d->jnsuser != null)
-                                                    <td style="min-width:120px;">{{$d->jnsuser->name}}</td>
+                                                    <td style="min-width:120px;">
+                                                        {{$d->jnsuser->name}}
+                                                        @if ($d->jnsuser->role == "admin")
+                                                            (Admin)
+                                                        @elseif ($d->jnsuser->role == "noc")
+                                                            (NOC)
+                                                        @endif
+                                                    </td>
                                                 @elseif ($d->jnsuser == null) 
                                                     <td style="min-width:120px;font-weight:bold;">ID Not Found !!!</td>
                                                 @endif
 
                                                 @if ($d->jnslink != null)
-                                                    <td style="min-width:120px;" class="text-center">{{$d->jnslink->name_link}}</td>
+                                                    <td style="min-width:120px;" class="text-center">{{$d->jnslink->name_link}} ({{$d->jnslink->vlan}})</td>
                                                 @elseif ($d->jnslink == null) 
                                                     <td style="min-width:120px; text-align:center; font-weight:bold;">ID Not Found !!!</td>
                                                 @endif
 
                                                 @if ($d->dari_long != "1970-01-01 00:00:00" and $d->sampai_long != "1970-01-01 00:00:00")
                                                     <td style="min-width:120px;" class="text-center">
-                                                        <span class="label label-success" style="font-size:12px; margin-left:2px; margin-right:2px">
+                                                        <span class="label label-success" style="font-size:12px; margin-left:2px; margin-right:2px;">
                                                             {{date('d M Y  | H:i', strtotime($d->dari_long))}}
                                                         </span>
-                                                        <span class="label label-danger" style="font-size:12px; margin-left:2px; margin-right:2px">
+                                                        <span class="label label-danger" style="font-size:12px; margin-left:2px; margin-right:2px;">
                                                             {{date('d M Y  | H:i', strtotime($d->sampai_long))}}
                                                         </span>
                                                     </td>
                                                 @else
                                                     <td style="min-width:120px;" class="text-center">
-                                                        <span class="label label-default" style="font-size:12px; margin-left:2px; margin-right:2px">
+                                                        <span class="label label-default" style="font-size:12px; margin-left:2px; margin-right:2px;">
                                                             From Time Or After Time, Not been set
                                                         </span>
                                                     </td>
@@ -253,9 +261,17 @@
                                                     @endif
                                                 </td>
 
-                                                <td class="text-center">
-                                                    <input type="checkbox" name="select_delete[]" value="{{$d->id}}">
-                                                </td>
+                                                @if (Auth::user()->role == "admin")
+                                                    <td class="text-center"><input type="checkbox" name="select_delete[]" value="{{$d->id}}"></td>
+                                                @elseif (Auth::user()->role == "noc")
+                                                    @if ($d->jnsuser->id == Auth::user()->id)
+                                                        <td class="text-center"><input type="checkbox" name="select_delete[]" value="{{$d->id}}"></td>
+                                                    @elseif ($d->jnsuser->id != Auth::user()->id)
+                                                        <td></td>
+                                                    @endif
+                                                @else
+                                                    <td>-</td>
+                                                @endif
                                             </tr>
                                         @endif
                                     @endforeach
