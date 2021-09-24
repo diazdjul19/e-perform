@@ -5,16 +5,16 @@
     <section class="content-header">
         <h1>
             <i class="fa fa-file-text"></i>
-            NOC Dialy Report
+            NOC Daily Report
         </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> E-Perform</a></li>
             <li><a href="#">NOC Management</a></li>
-            <li><a href="#">NOC Dialy Report</a></li>
-            @if (request()->is('noc-dialy-report-edit/*'))
-                <li class="active">Edit Dialy Report</li>
-            @elseif(request()->is('noc-dialy-report-show/*'))
-                <li class="active">Show Dialy Report</li>
+            <li><a href="#">NOC Daily Report</a></li>
+            @if (request()->is('noc-daily-report-edit/*'))
+                <li class="active">Edit Daily Report</li>
+            @elseif(request()->is('noc-daily-report-show/*'))
+                <li class="active">Show Daily Report</li>
             @endif
         </ol>
     </section>
@@ -24,9 +24,9 @@
         <!-- Default box -->
         <div class="box box-success">
             <div class="box-header with-border">
-                @if (request()->is('noc-dialy-report-edit/*'))
+                @if (request()->is('noc-daily-report-edit/*'))
                     <h3 class="box-title"><a href="{{ URL::previous() }}"><i class="fa fa-pencil-square-o"></i></a> Form Edit Profil</h3>
-                @elseif(request()->is('noc-dialy-report-show/*'))
+                @elseif(request()->is('noc-daily-report-show/*'))
                     <h3 class="box-title"><a href="{{ URL::previous() }}"><i class="fa fa-arrow-left"></i></a> Form Show Profil</h3>
                 @endif
 
@@ -40,8 +40,8 @@
             </div>
 
 
-            @if (request()->is('noc-dialy-report-edit/*'))
-                <form class="form-sample" action="{{route('noc-dialy-report-update', $data->id)}}" method="POST" enctype="multipart/form-data">
+            @if (request()->is('noc-daily-report-edit/*'))
+                <form class="form-sample" action="{{route('noc-daily-report-update', $data->id)}}" method="POST" enctype="multipart/form-data">
                         @csrf
                         {{method_field('put')}}
 
@@ -237,7 +237,7 @@
                             <button type="submit" class="btn btn-info"><i class="fa fa-save"></i> Update</button>
                         </div>
                 </form>
-            @elseif(request()->is('noc-dialy-report-show/*'))
+            @elseif(request()->is('noc-daily-report-show/*'))
                 <!-- /.box-body -->
                 <div class="box-body">
                     <div class="row">

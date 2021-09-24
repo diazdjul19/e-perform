@@ -11,7 +11,7 @@ use DateTime;
 
 class NocReportController extends Controller
 {
-    public function noc_dialy_report()
+    public function noc_daily_report()
     {
         $get_auth = Auth::user();
 
@@ -21,20 +21,22 @@ class NocReportController extends Controller
             return abort(404);
         }
 
-        $id_dialy = MsNocReport::orderBy('id', 'DESC')->first();
-        if ($id_dialy == null) {
-            $tiket_autogenerate = "ICT" . "-" . str_pad(1, 6, "0", STR_PAD_LEFT);
+        $id_daily = MsNocReport::orderBy('id', 'DESC')->first();
+        if ($id_daily == null) {
+            // $tiket_autogenerate = "ICT" . "-" . str_pad(1, 6, "0", STR_PAD_LEFT);
+            $tiket_autogenerate = "AutoGenerage-Tiket";
+
         }else {
-            $tiket_autogenerate = "ICT" . "-" . str_pad($id_dialy->id + 1, 6, "0", STR_PAD_LEFT);
+            $tiket_autogenerate = "ICT" . "-" . str_pad($id_daily->id + 1, 6, "0", STR_PAD_LEFT);
         }
 
         $data_user = User::where('role', 'admin')->orWhere('role', 'noc')->get();
         $data_link = MsLink::all();
 
-        return view('dashboard_view.noc_management.noc_dialy_report', compact('data', 'tiket_autogenerate', 'data_user', 'data_link'));
+        return view('dashboard_view.noc_management.noc_daily_report', compact('data', 'tiket_autogenerate', 'data_user', 'data_link'));
     }
 
-    public function noc_dialy_report_store(Request $request)
+    public function noc_daily_report_store(Request $request)
     {
         $this->validate($request, [
             'tiket_report' => ['required', 'string', 'max:255'],
@@ -59,19 +61,26 @@ class NocReportController extends Controller
             $data->status = $request->status;
             $data->notes = $request->notes;
             $data->save();
+
+            // Ini fungsi untuk generate otomatis untuk yang pertama.
+            if ($data->tiket_report == "AutoGenerage-Tiket") {
+                $tiket_autogenerate_first = "ICT" . "-" . str_pad($data->id, 6, "0", STR_PAD_LEFT);
+                $data->update(['tiket_report' => $tiket_autogenerate_first]);
+            }
+
             // \DB::commit() ini akan menginput data jika dari proses diatas tidak ada yg salah atau error.
             \DB::commit();
             alert()->success('Success Created',"Ticket $data->tiket_report has been successfully entered.");
-            return redirect(route('noc-dialy-report'));
+            return redirect(route('noc-daily-report'));
 
         } catch (\Exception $e) {
             \DB::rollback();
             alert()->error('Error',$e->getMessage());
-            return redirect(route('noc-dialy-report'));
+            return redirect(route('noc-daily-report'));
         }
     }
 
-    public function noc_dialy_report_editshow($id)
+    public function noc_daily_report_editshow($id)
     {
         $get_auth = Auth::user();
 
@@ -84,11 +93,11 @@ class NocReportController extends Controller
         $data_user = User::where('role', 'admin')->orWhere('role', 'noc')->get();
         $data_link = MsLink::all();
         
-        return view('dashboard_view.noc_management.noc_dialy_report_editshow', compact('data', 'data_user', 'data_link'));
+        return view('dashboard_view.noc_management.noc_daily_report_editshow', compact('data', 'data_user', 'data_link'));
 
     }
 
-    public function noc_dialy_report_update(Request $request, $id)
+    public function noc_daily_report_update(Request $request, $id)
     {
         $this->validate($request, [
             'tiket_report' => ['required', 'string', 'max:255'],
@@ -116,16 +125,16 @@ class NocReportController extends Controller
             // \DB::commit() ini akan menginput data jika dari proses diatas tidak ada yg salah atau error.
             \DB::commit();
             alert()->success('Success Updated',"Ticket $data->ticket_report has been successfully updated.");
-            return redirect(route('noc-dialy-report'));
+            return redirect(route('noc-daily-report'));
 
         } catch (\Exception $e) {
             \DB::rollback();
             alert()->error('Error',$e->getMessage());
-            return redirect(route('noc-dialy-report'));
+            return redirect(route('noc-daily-report'));
         }
     }
 
-    public function select_delete_dialy_report_noc(Request $request)
+    public function select_delete_daily_report_noc(Request $request)
     {
         $select_delete = $request->get('select_delete');
 
@@ -144,5 +153,27 @@ class NocReportController extends Controller
         } else {
             return redirect()->back();
         }
+    }
+
+
+
+    public function perform_noc_history()
+    {
+        $get_auth = Auth::user();
+
+        if ($get_auth->role == "admin") {
+            $data = MsNocReport::with('jnsuser', 'jnslink')->get();
+            $data_user = User::where('role', 'admin')->orWhere('role', 'noc')->get();
+            $data_link = MsLink::all();
+
+            return view('dashboard_view.noc_management.perform_noc_history', compact('data', 'data_user', 'data_link'));
+        }else {
+            return abort(404);
+        }
+    }
+
+    public function perform_noc_history_store(Request $request)
+    {
+        
     }
 }

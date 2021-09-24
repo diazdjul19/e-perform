@@ -263,7 +263,7 @@
                     </ul>
                 </li>
 
-                <li class="treeview {{ request()->is('noc-dialy-report') ? 'active' : '' }}">
+                <li class="treeview {{ request()->is('noc-daily-report', 'noc-daily-report-edit/*', 'noc-daily-report-show/*', 'perform-noc-history') ? 'active' : '' }}">
                     <a href="#">
                         <i class="fa fa-desktop"></i> <span>NOC Management</span>
                         <span class="pull-right-container">
@@ -271,8 +271,8 @@
                         </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li class="{{ request()->is('noc-dialy-report') ? 'active' : '' }}"><a href="{{route('noc-dialy-report')}}"><i class="fa fa-circle-o"></i> NOC Dialy Report</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> NOC Perform Report</a></li>
+                        <li class="{{ request()->is('noc-daily-report', 'noc-daily-report-edit/*', 'noc-daily-report-show/*') ? 'active' : '' }}"><a href="{{route('noc-daily-report')}}"><i class="fa fa-circle-o"></i> NOC daily Report</a></li>
+                        <li class="{{ request()->is('perform-noc-history') ? 'active' : '' }}"><a href="{{route('perform-noc-history')}}"><i class="fa fa-circle-o"></i> NOC Perform Report</a></li>
                     </ul>
                 </li>
 

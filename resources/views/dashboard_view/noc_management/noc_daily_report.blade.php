@@ -4,12 +4,12 @@
         <section class="content-header">
             <h1>
                 <i class="fa fa-file-text"></i>
-                NOC Dialy Report
+                NOC Daily Report
             </h1>
             <ol class="breadcrumb">
                 <li><a href="#"><i class="fa fa-dashboard"></i> E-Perform</a></li>
                 <li><a href="#">NOC Management</a></li>
-                <li class="active">NOC Dialy Report</li>
+                <li class="active">NOC Daily Report</li>
             </ol>
         </section>
     
@@ -21,10 +21,10 @@
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span></button>
-                            <h4 class="modal-title"><i class="fa fa-file-text" aria-hidden="true"></i> Tambah Dialy Report</h4>
+                            <h4 class="modal-title"><i class="fa fa-file-text" aria-hidden="true"></i> Tambah Daily Report</h4>
                         </div>
 
-                        <form action="{{route('noc-dialy-reportstore')}}" method="post" enctype="multipart/form-data">
+                        <form action="{{route('noc-daily-reportstore')}}" method="post" enctype="multipart/form-data">
                             @csrf
                             <div class="modal-body">
                                 <div class="row">
@@ -69,7 +69,7 @@
                                         <div class="form-group row" style="margin:0px;">
                                             <label class="col-md-4 col-form-label" for="id_link_rel"><h6 style="color: black; font-weight:bold;font-size:13px;">Select Link<span style="color: red;">*</span></h6></label>
                                             <div class="col-md-8">
-                                                <select class="form-control select2"  name="id_link_rel" id="" style="width: 100%;">
+                                                <select class="form-control select2"  name="id_link_rel" id="" style="width: 100%;" required>
                                                     <option value selected disabled>Choise</option>
                                                         @foreach ($data_link as $item)
                                                             <option value="{{$item->id}}">{{$item->name_link}} ({{$item->vlan}})</option>
@@ -90,7 +90,7 @@
                                             <label class="col-md-4 col-form-label" for="status"><h6 style="color: black; font-weight:bold;font-size:13px;">Status<span style="color: red;">*</span></h6></label>
                                             
                                             <div class="col-md-8">
-                                                <select class="form-control pt-0 pb-0" id="status" name="status" style="height:35px;" >
+                                                <select class="form-control pt-0 pb-0" id="status" name="status" style="height:35px;" required>
                                                         <option value selected disabled>Choise</option>
                                                         <option style="background-color: #FFCA2C;color:#000;" value="ocn">&#9201;&#65039; On Check NOC</option>
                                                         <option style="background-color: #157347;color:#FFF;" value="solved">&#10004; Solved</option>
@@ -156,10 +156,10 @@
 
             <!-- Default box -->
             <div class="box box-success">
-                <form action="{{route('select-delete-dialy-report-noc')}}" method="post" >
+                <form action="{{route('select-delete-daily-report-noc')}}" method="post" >
                     @csrf
                     <div class="box-header with-border">
-                        <h3 class="box-title">Table Dialy Report</h3>
+                        <h3 class="box-title">Table daily Report</h3>
         
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
@@ -204,12 +204,12 @@
                                                 <td>{{$loop->iteration}}</td>
                                                 
                                                 @if (Auth::user()->role == "admin")
-                                                    <td style="min-width:120px;"><a href="{{route('noc-dialy-report-edit', $d->id)}}" style="color: #17a2b8;text-decoration:none;" data-toggle="tooltip" title="Click here to view or edit data" data-placement="top">{{$d->tiket_report}}</a></td>
+                                                    <td style="min-width:120px;"><a href="{{route('noc-daily-report-edit', $d->id)}}" style="color: #17a2b8;text-decoration:none;" data-toggle="tooltip" title="Click here to view or edit data" data-placement="top">{{$d->tiket_report}}</a></td>
                                                 @elseif (Auth::user()->role == "noc")
                                                     @if ($d->jnsuser->id == Auth::user()->id)
-                                                        <td style="min-width:120px;"><a href="{{route('noc-dialy-report-edit', $d->id)}}" style="color: #17a2b8;text-decoration:none;" data-toggle="tooltip" title="Click here to view or edit data" data-placement="top">{{$d->tiket_report}}</a></td>
+                                                        <td style="min-width:120px;"><a href="{{route('noc-daily-report-edit', $d->id)}}" style="color: #17a2b8;text-decoration:none;" data-toggle="tooltip" title="Click here to view or edit data" data-placement="top">{{$d->tiket_report}}</a></td>
                                                     @elseif ($d->jnsuser->id != Auth::user()->id)
-                                                        <td style="min-width:120px;"><a href="{{route('noc-dialy-report-show', $d->id)}}" style="color: #17a2b8;text-decoration:none;" data-toggle="tooltip" title="Click here to view or edit data" data-placement="top">{{$d->tiket_report}}</a></td>
+                                                        <td style="min-width:120px;"><a href="{{route('noc-daily-report-show', $d->id)}}" style="color: #17a2b8;text-decoration:none;" data-toggle="tooltip" title="Click here to view or edit data" data-placement="top">{{$d->tiket_report}}</a></td>
                                                     @endif
                                                 @else
                                                     <td>-</td>

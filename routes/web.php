@@ -55,13 +55,16 @@ Route::group(['middleware' => ['auth', 'cekroleuser:admin,noc,sales']], function
     Route::get('/vendor-element-delete/{id}', 'VendorController@destroy')->name('vendor-element-delete');
     
 
-    Route::get('/noc-dialy-report', 'NocReportController@noc_dialy_report')->name('noc-dialy-report');
-    Route::get('/noc-dialy-report-edit/{id}', 'NocReportController@noc_dialy_report_editshow')->name('noc-dialy-report-edit');
-    Route::get('/noc-dialy-report-show/{id}', 'NocReportController@noc_dialy_report_editshow')->name('noc-dialy-report-show');
-    Route::put('/noc-dialy-report-update/{id}', 'NocReportController@noc_dialy_report_update')->name('noc-dialy-report-update');
-    Route::post('/select-delete-dialy-report-noc', 'NocReportController@select_delete_dialy_report_noc')->name('select-delete-dialy-report-noc');
+    Route::get('/noc-daily-report', 'NocReportController@noc_daily_report')->name('noc-daily-report');
+    Route::post('/noc-daily-reportstore', 'NocReportController@noc_daily_report_store')->name('noc-daily-reportstore');
+    Route::get('/noc-daily-report-edit/{id}', 'NocReportController@noc_daily_report_editshow')->name('noc-daily-report-edit');
+    Route::get('/noc-daily-report-show/{id}', 'NocReportController@noc_daily_report_editshow')->name('noc-daily-report-show');
+    Route::put('/noc-daily-report-update/{id}', 'NocReportController@noc_daily_report_update')->name('noc-daily-report-update');
+    Route::post('/select-delete-daily-report-noc', 'NocReportController@select_delete_daily_report_noc')->name('select-delete-daily-report-noc');
 
-    Route::post('/noc-dialy-reportstore', 'NocReportController@noc_dialy_report_store')->name('noc-dialy-reportstore');
+    Route::get('/perform-noc-history', 'NocReportController@perform_noc_history')->name('perform-noc-history');
+    Route::get('/perform-noc-history-store', 'NocReportController@perform_noc_history_store')->name('perform-noc-history-store');
+
     
 
 
