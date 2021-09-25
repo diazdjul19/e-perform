@@ -29,9 +29,8 @@
                     </div>
                 </div>
 
-                <form class="form-sample" action="#" method="POST" enctype="multipart/form-data">
+                <form class="form-sample" action="{{route('perform-noc-history-store')}}" method="POST" enctype="multipart/form-data">
                         @csrf
-
                         <!-- /.box-body -->
                         <div class="box-body">
                             <div class="row">
@@ -62,7 +61,7 @@
                                             @foreach ($data_link as $item)
                                                 <option value="{{$item->id}}">{{$item->name_link}} ({{$item->vlan}})</option>
                                             @endforeach
-                                            <option value="#">&#127760; All Link</option>
+                                            <option value="0101010101">&#127760; All Link</option>
                                         </select>
                                     </div>
                                 </div>
@@ -79,21 +78,29 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-2">
-                                    <div class="form-group ">
-                                        <label for="picker-1" style="color: black; font-weight:bold;font-size:13px;" >From Time<span style="color: red;">*</span></label>                                    
-                                        <input id="picker-1" type="text" class="form-control" name="dari_long" >
+                                <div class="col-md-4" id="IfSolvedRange">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group ">
+                                                <label for="picker-1" style="color: black; font-weight:bold;font-size:13px;" data-toggle="tooltip" title="It is recommended to set the time to 00:00" data-placement="top">From Time<span style="color: red;">*</span></label>                                    
+                                                <input id="picker-1" type="text" class="form-control" name="from_long" autocomplete="off">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group ">
+                                                <label for="picker-2" style="color: black; font-weight:bold;font-size:13px;" data-toggle="tooltip" title="It is recommended to set the time to 00:00" data-placement="top">After Time<span style="color: red;">*</span></label>                                    
+                                                <input id="picker-2" type="text" class="form-control" name="after_long" autocomplete="off">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div class="col-md-2">
-                                    <div class="form-group ">
-                                        <label for="picker-2" style="color: black; font-weight:bold;font-size:13px;" >After Time<span style="color: red;">*</span></label>                                    
-                                        <input id="picker-2" type="text" class="form-control" name="after_long" >
+                                <div class="col-md-4" id="If_ocn_or_Nsolved_Range">
+                                    <div class="form-group">
+                                        <label class="" for="">Range Time, From Time - After Time</label>  
+                                        <input id="dummy_input" type="text" class="form-control" name="" value="Range Time, From Time - After Time" disabled="disabled">
                                     </div>
-                                </div>
-
-                                
+                                </div>                 
                             </div>
                         </div>
                         <!-- /.box-body -->
@@ -104,8 +111,120 @@
                             <button type="submit" class="btn btn-info"><i class="fa fa-external-link"></i> Buka Data</button>
                         </div>
                 </form>
+                
                 <!-- /.box-body -->
             </div>
+
+            @if (isset($data_history))
+                <div class="box box-success">
+                    
+                    <div class="box-header with-border">
+                        <h3 class="box-title"><i class="fa fa-table" aria-hidden="true"></i> Table NOC Daily History</h3>
+        
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                                    title="Collapse">
+                            <i class="fa fa-minus"></i></button>
+                            <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+                            <i class="fa fa-times"></i></button>
+                        </div>
+        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <a href="" class="btn btn-sm" style="margin-top: 10px; background-color:#1be7aa;color:#fff;"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Excel</a>
+                                <a href="" class="btn btn-sm" style="margin-top: 10px; background-color:#ff8f9e;color:#fff;"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> PDF</a>
+                            </div>
+                            <div class="col-md-c"></div>
+                        </div>   
+                    </div>
+                    
+                    <div class="box-body">
+                        <div class="table-responsive">
+                            <table id="example1" class="table table-bordered table-striped" >
+                                <thead>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Tiket</th>
+                                        <th>PIC NOC</th>
+                                        <th class="text-center">Link</th>
+                                        <th class="text-center">Issues</th>
+                                        <th class="text-center">Range Issues</th>
+                                        <th class="text-center">Status</th>
+                                        <th class="text-center">Solution</th>
+                                        <th class="text-center">*Notes*</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @foreach ($data_history as $d)
+                                        <tr>
+                                            <td>{{$loop->iteration}}</td>
+                                            <td style="min-width:120px;"><a href="{{route('noc-daily-report-edit', $d->id)}}" style="color: #17a2b8;text-decoration:none;" data-toggle="tooltip" title="Click here to view or edit data" data-placement="top">{{$d->tiket_report}}</a></td>
+
+                                            @if ($d->jnsuser != null)
+                                                <td style="min-width:120px;">
+                                                    {{$d->jnsuser->name}}
+                                                    @if ($d->jnsuser->role == "admin")
+                                                        (Admin)
+                                                    @elseif ($d->jnsuser->role == "noc")
+                                                        (NOC)
+                                                    @endif
+                                                </td>
+                                            @elseif ($d->jnsuser == null) 
+                                                <td style="min-width:120px;font-weight:bold;">ID Not Found !!!</td>
+                                            @endif
+
+                                            @if ($d->jnslink != null)
+                                                <td style="min-width:120px;" class="text-center">{{$d->jnslink->name_link}} ({{$d->jnslink->vlan}})</td>
+                                            @elseif ($d->jnslink == null) 
+                                                <td style="min-width:120px; text-align:center; font-weight:bold;">ID Not Found !!!</td>
+                                            @endif
+
+                                            <td class="text-center">{{$d->issues}}</td>
+
+                                            @if ($d->dari_long != "1970-01-01 00:00:00" and $d->sampai_long != "1970-01-01 00:00:00")
+                                                <td style="min-width:120px;" class="text-center">
+                                                    <span class="label label-success" style="font-size:12px; margin-left:2px; margin-right:2px;">
+                                                        {{date('d M Y  | H:i', strtotime($d->dari_long))}}
+                                                    </span>
+                                                    <span class="label label-danger" style="font-size:12px; margin-left:2px; margin-right:2px;">
+                                                        {{date('d M Y  | H:i', strtotime($d->sampai_long))}}
+                                                    </span>
+                                                </td>
+                                            @else
+                                                <td style="min-width:120px;" class="text-center">
+                                                    <span class="label label-default" style="font-size:12px; margin-left:2px; margin-right:2px;">
+                                                        From Time Or After Time, Not been set
+                                                    </span>
+                                                </td>
+                                            @endif
+                                            
+                                            <td class="text-center">
+                                                @if ($d->status == "ocn")
+                                                    <span class="label label-warning">On Check NOC</span>
+                                                @elseif ($d->status == "solved")
+                                                    <span class="label label-primary">Solved</span>
+                                                @elseif ($d->status == "n_solved")
+                                                    <span class="label label-danger">Not Solved</span>
+                                                @endif
+                                            </td>
+
+                                            <td style="min-width:120px;">{{$d->solution}}</td>
+                                            <td style="min-width:120px;">{{$d->notes}}</td>
+
+
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                                
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- /.box-body -->
+                </div>
+            @endif
+            
             <!-- /.box -->
         </section>
 @endsection
@@ -182,6 +301,33 @@
             });
         });
 
+    </script>
+@endpush
+
+@push('show-hide-input')
+    <script>
+        $("#status").change(function() {
+            if ($(this).val() == "solved") {
+                $('#IfSolvedRange').show();
+                // $('#picker-1').attr('required', '');
+                // $('#picker-1').attr('data-error', 'This field is required.');
+                // $('#picker-2').attr('required', '');
+                // $('#picker-2').attr('data-error', 'This field is required.');
+            } else {
+                $('#IfSolvedRange').hide();
+                $('#picker-1').removeAttr('required');
+                $('#picker-1').removeAttr('data-error');
+                $('#picker-2').removeAttr('required');
+                $('#picker-2').removeAttr('data-error');
+            }
+
+            if ($(this).val() != "solved") {
+                $('#If_ocn_or_Nsolved_Range').show();
+            } else {
+                $('#If_ocn_or_Nsolved_Range').hide();
+            }
+        });
+        $("#status").trigger("change");
     </script>
 @endpush
 

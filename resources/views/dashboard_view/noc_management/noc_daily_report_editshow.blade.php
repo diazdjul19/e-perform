@@ -116,7 +116,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group ">
                                         <label class="" for="status">Status<span style="color: red;">*</span></label>  
-                                        <select class="form-control" name="status" placeholder="" required>
+                                        <select class="form-control" name="status" id="status" placeholder="" required>
                                             <optgroup label="Status Saat Ini">
                                                 @if ($data->status == "ocn")
                                                     <option style="background-color: #FFCA2C;color:#000;" value="{{$data->status}}">&#9201;&#65039; On Check NOC</option>
@@ -136,7 +136,7 @@
                                 </div>
 
                                 <div class="col-md-6">
-                                    <div class="form-group ">
+                                    <div class="form-group" id="IfSolvedRange">
                                         <div class="row">
                                             @if ($data->dari_long != "1970-01-01 00:00:00" and $data->sampai_long != "1970-01-01 00:00:00")
                                                 <div class="col-md-6">
@@ -209,20 +209,30 @@
                                             @endif
                                         </div>
                                     </div>
+
+                                    <div class="form-group" id="If_ocn_or_Nsolved_Range">
+                                        <label class="" for="">Range Time, From Time - After Time</label>  
+                                        <input id="dummy_input" type="text" class="form-control" name="" value="Range Time, From Time - After Time" disabled="disabled">
+                                    </div>
                                 </div>
                                 
                             </div>
 
                             <div class="row">
                                 <div class="col-md-6">
-                                    <div class="form-group ">
+                                    <div class="form-group" id="IfSolvedSolution">
                                         <label class="" for="solution">Solution</label>  
                                         <input type="text" name="solution" class="form-control" id="solution"  placeholder="solution" value="{{$data->solution}}">
+                                    </div>
+
+                                    <div class="form-group" id="If_ocn_or_Nsolved_Solution">
+                                        <label class="" for=""> Solution</label>  
+                                        <input id="dummy_input" type="text" class="form-control" name="" value="If the status has been solved, then you can edit this form." disabled="disabled">
                                     </div>
                                 </div>
                                 
                                 <div class="col-md-6">
-                                    <div class="form-group ">
+                                    <div class="form-group" >
                                         <label class="" for="">*Notes*</label>
                                         <textarea name="notes" id="" rows="5" style="width:100%;">{{$data->notes}}</textarea>
                                     </div>
@@ -464,3 +474,43 @@
     </script>
 @endpush
 
+@push('show-hide-input')
+    <script>
+        $("#status").change(function() {
+            if ($(this).val() == "solved") {
+                $('#IfSolvedRange').show();
+                // $('#picker-1').attr('required', '');
+                // $('#picker-1').attr('data-error', 'This field is required.');
+                // $('#picker-2').attr('required', '');
+                // $('#picker-2').attr('data-error', 'This field is required.');
+            } else {
+                $('#IfSolvedRange').hide();
+                $('#picker-1').removeAttr('required');
+                $('#picker-1').removeAttr('data-error');
+                $('#picker-2').removeAttr('required');
+                $('#picker-2').removeAttr('data-error');
+            }
+
+            if ($(this).val() == "solved") {
+                $('#IfSolvedSolution').show();
+                $('#solution').attr('required', '');
+                $('#solution').attr('data-error', 'This field is required.');
+            } else {
+                $('#IfSolvedSolution').hide();
+                $('#solution').removeAttr('required');
+                $('#solution').removeAttr('data-error');
+            }
+
+
+            if ($(this).val() != "solved") {
+                $('#If_ocn_or_Nsolved_Range').show();
+                $('#If_ocn_or_Nsolved_Solution').show();
+            } else {
+                $('#If_ocn_or_Nsolved_Range').hide();
+                $('#If_ocn_or_Nsolved_Solution').hide();
+            }
+            
+        });
+        $("#status").trigger("change");
+    </script>
+@endpush

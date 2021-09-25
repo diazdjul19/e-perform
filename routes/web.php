@@ -63,7 +63,7 @@ Route::group(['middleware' => ['auth', 'cekroleuser:admin,noc,sales']], function
     Route::post('/select-delete-daily-report-noc', 'NocReportController@select_delete_daily_report_noc')->name('select-delete-daily-report-noc');
 
     Route::get('/perform-noc-history', 'NocReportController@perform_noc_history')->name('perform-noc-history');
-    Route::get('/perform-noc-history-store', 'NocReportController@perform_noc_history_store')->name('perform-noc-history-store');
+    Route::post('/perform-noc-history-store', 'NocReportController@perform_noc_history_store')->name('perform-noc-history-store');
 
     
 

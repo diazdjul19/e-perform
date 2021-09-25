@@ -116,10 +116,12 @@ class NocReportController extends Controller
             $data->id_user_rel = $request->get('id_user_rel');
             $data->id_link_rel = $request->get('id_link_rel');
             $data->issues = $request->get('issues');
-            $data->solution = $request->get('solution');
-            $data->dari_long = date('Y-m-d H:i:s',strtotime($request->input('dari_long')));
-            $data->sampai_long = date('Y-m-d H:i:s',strtotime($request->input('sampai_long')));
             $data->status = $request->get('status');
+            if ($request->status == "solved") {
+                $data->solution = $request->get('solution');
+                $data->dari_long = date('Y-m-d H:i:s',strtotime($request->input('dari_long')));
+                $data->sampai_long = date('Y-m-d H:i:s',strtotime($request->input('sampai_long')));
+            }
             $data->notes = $request->get('notes');
             $data->save();
             // \DB::commit() ini akan menginput data jika dari proses diatas tidak ada yg salah atau error.
@@ -174,6 +176,78 @@ class NocReportController extends Controller
 
     public function perform_noc_history_store(Request $request)
     {
+        // Data From perform_noc_history
+        $get_auth = Auth::user();
+
+        if ($get_auth->role == "admin") {
+            $data = MsNocReport::with('jnsuser', 'jnslink')->get();
+            $data_user = User::where('role', 'admin')->orWhere('role', 'noc')->get();
+            $data_link = MsLink::all();
+
+        }else {
+            return abort(404);
+        }
+
+
+        $this->validate($request, [
+            'id_user_rel' => ['required', 'integer', 'min:1'],
+            'id_link_rel' => ['required', 'numeric'],
+            'status' => ['required', 'string', 'max:255'],
+
+        ]);
+
+        // Data Pendukung (whereBetween)
+        $data_dari_long = date('Y-m-d H:i',strtotime($request->input('from_long')));
+        $data_sampai_long = date('Y-m-d H:i',strtotime($request->input('after_long')));
+
+        if ($request->status == "solved") {
+
+            if ($data_dari_long == "1970-01-01 00:00" || $data_sampai_long == "1970-01-01 00:00") {
+                alert()->error('ErrorAlert','Pastikan field (From Time / After Time) sudah terisi !!!');
+                return redirect(route('perform-noc-history'));  
+            }else {
+                if ($request->id_link_rel != "0101010101" ) {
+                    $data_history = MsNocReport::whereBetween('created_at',[$data_dari_long, $data_sampai_long])
+                        ->where('id_user_rel',$request->id_user_rel)
+                        ->where('id_link_rel',$request->id_link_rel)
+                        ->where('status',$request->status)
+                        ->with('jnsuser', 'jnslink')
+                        ->get();
+                }elseif ($request->id_link_rel == "0101010101" ) {
+                    $data_history = MsNocReport::whereBetween('created_at',[$data_dari_long, $data_sampai_long])
+                        ->where('id_user_rel',$request->id_user_rel)
+                        ->where('status',$request->status)
+                        ->with('jnsuser', 'jnslink')
+                        ->get();
+                }else {
+                    return abort(404);   
+                }
+            }        
+            
+        } elseif ($request->status == "ocn" || $request->status == "n_solved") {
+            if ($data_dari_long == "1970-01-01 00:00" || $data_sampai_long == "1970-01-01 00:00") {
+                if ($request->id_link_rel != "0101010101" ) {
+                    $data_history = MsNocReport::where('id_user_rel',$request->id_user_rel)
+                        ->where('id_link_rel',$request->id_link_rel)
+                        ->where('status',$request->status)
+                        ->with('jnsuser', 'jnslink')
+                        ->get();
+                }elseif ($request->id_link_rel == "0101010101" ) {
+                    $data_history = MsNocReport::where('id_user_rel',$request->id_user_rel)
+                        ->where('status',$request->status)
+                        ->with('jnsuser', 'jnslink')
+                        ->get();
+                }else {
+                    return abort(404);   
+                }
+            }
+
+        } else{
+            return abort(404); 
+        }
+
+        return view('dashboard_view.noc_management.perform_noc_history', compact('data_history', 'data', 'data_user', 'data_link'));
+        
         
     }
 }
