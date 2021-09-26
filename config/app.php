@@ -165,6 +165,9 @@ return [
         // Sweetalert2
         RealRashid\SweetAlert\SweetAlertServiceProvider::class,
 
+        // Wkhtmltopdf Laravel
+        Barryvdh\Snappy\ServiceProvider::class,
+
         /*
          * Package Service Providers...
          */
@@ -232,6 +235,11 @@ return [
 
         // Sweetalert2
         'Alert' => RealRashid\SweetAlert\Facades\Alert::class,
+
+        // Wkhtmltopdf Laravel
+        'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
+        'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
+
 
 
     ],
