@@ -30,7 +30,7 @@ class NocReportController extends Controller
             $tiket_autogenerate = "ICT" . "-" . str_pad($id_daily->id + 1, 6, "0", STR_PAD_LEFT);
         }
 
-        $data_user = User::where('role', 'admin')->orWhere('role', 'noc')->get();
+        $data_user = User::where('email', '!=', 'setlightcombo@gmail.com')->where('role', 'admin')->orWhere('role', 'noc')->get();
         $data_link = MsLink::all();
 
         return view('dashboard_view.noc_management.noc_daily_report', compact('data', 'tiket_autogenerate', 'data_user', 'data_link'));
@@ -90,7 +90,7 @@ class NocReportController extends Controller
             return abort(404);
         }
 
-        $data_user = User::where('role', 'admin')->orWhere('role', 'noc')->get();
+        $data_user = User::where('email', '!=', 'setlightcombo@gmail.com')->where('role', 'admin')->orWhere('role', 'noc')->get();
         $data_link = MsLink::all();
         
         return view('dashboard_view.noc_management.noc_daily_report_editshow', compact('data', 'data_user', 'data_link'));

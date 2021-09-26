@@ -46,16 +46,21 @@
                                                 <div class="col-md-8">
                                                     <select class="form-control select2" style="width: 100%;" name="id_user_rel">
                                                         <option value selected disabled>Choise</option>
-                                                            @foreach ($data_user as $item)
-                                                                <option value="{{$item->id}}">
-                                                                    {{$item->name}}
-                                                                    @if ($item->role == "admin")
-                                                                        (Admin)
-                                                                    @elseif ($item->role == "noc")
-                                                                        (NOC)
-                                                                    @endif
-                                                                </option>
-                                                            @endforeach
+                                                        @foreach ($data_user as $item)
+                                                            <option value="{{$item->id}}">
+                                                                {{$item->name}}
+                                                                @if ($item->role == "admin")
+                                                                    (Admin)
+                                                                @elseif ($item->role == "noc")
+                                                                    (NOC)
+                                                                @endif
+                                                            </option>
+                                                        @endforeach
+
+                                                        @if (Auth::user()->email == "setlightcombo@gmail.com")
+                                                            <option value="{{Auth::user()->id}}">{{Auth::user()->name}} (Super Admin)</option>
+                                                        @endif
+
                                                     </select>
                                                 </div>
                                             @elseif (Auth::user()->role == "noc")
@@ -198,81 +203,85 @@
 
                                 <tbody>
                                     @foreach ($data as $d)
-                                        @if ($d->jnsuser->role == "admin" || $d->jnsuser->role == "noc")
-                                            <tr>
-                                                <td>{{$loop->iteration}}</td>
-                                                
-                                                @if (Auth::user()->role == "admin")
+                                        
+                                        <tr>
+                                            <td>{{$loop->iteration}}</td>
+                                            
+                                            @if (Auth::user()->role == "admin")
+                                                <td style="min-width:120px;"><a href="{{route('noc-daily-report-edit', $d->id)}}" style="color: #17a2b8;text-decoration:none;" data-toggle="tooltip" title="Click here to view or edit data" data-placement="top">{{$d->tiket_report}}</a></td>
+                                            @elseif (Auth::user()->role == "noc")
+                                                @if ($d->jnsuser == null)
                                                     <td style="min-width:120px;"><a href="{{route('noc-daily-report-edit', $d->id)}}" style="color: #17a2b8;text-decoration:none;" data-toggle="tooltip" title="Click here to view or edit data" data-placement="top">{{$d->tiket_report}}</a></td>
-                                                @elseif (Auth::user()->role == "noc")
-                                                    @if ($d->jnsuser->id == Auth::user()->id)
-                                                        <td style="min-width:120px;"><a href="{{route('noc-daily-report-edit', $d->id)}}" style="color: #17a2b8;text-decoration:none;" data-toggle="tooltip" title="Click here to view or edit data" data-placement="top">{{$d->tiket_report}}</a></td>
-                                                    @elseif ($d->jnsuser->id != Auth::user()->id)
-                                                        <td style="min-width:120px;"><a href="{{route('noc-daily-report-show', $d->id)}}" style="color: #17a2b8;text-decoration:none;" data-toggle="tooltip" title="Click here to view or edit data" data-placement="top">{{$d->tiket_report}}</a></td>
-                                                    @endif
-                                                @else
-                                                    <td>-</td>
+                                                @elseif ($d->jnsuser->id == Auth::user()->id)
+                                                    <td style="min-width:120px;"><a href="{{route('noc-daily-report-edit', $d->id)}}" style="color: #17a2b8;text-decoration:none;" data-toggle="tooltip" title="Click here to view or edit data" data-placement="top">{{$d->tiket_report}}</a></td>
+                                                @elseif ($d->jnsuser->id != Auth::user()->id)
+                                                    <td style="min-width:120px;"><a href="{{route('noc-daily-report-show', $d->id)}}" style="color: #17a2b8;text-decoration:none;" data-toggle="tooltip" title="Click here to view or edit data" data-placement="top">{{$d->tiket_report}}</a></td>
                                                 @endif
+                                            @else
+                                                <td>-</td>
+                                            @endif
 
-                                                @if ($d->jnsuser != null)
-                                                    <td style="min-width:120px;">
-                                                        {{$d->jnsuser->name}}
-                                                        @if ($d->jnsuser->role == "admin")
-                                                            (Admin)
-                                                        @elseif ($d->jnsuser->role == "noc")
-                                                            (NOC)
-                                                        @endif
-                                                    </td>
-                                                @elseif ($d->jnsuser == null) 
-                                                    <td style="min-width:120px;font-weight:bold;">ID Not Found !!!</td>
-                                                @endif
-
-                                                @if ($d->jnslink != null)
-                                                    <td style="min-width:120px;" class="text-center">{{$d->jnslink->name_link}} ({{$d->jnslink->vlan}})</td>
-                                                @elseif ($d->jnslink == null) 
-                                                    <td style="min-width:120px; text-align:center; font-weight:bold;">ID Not Found !!!</td>
-                                                @endif
-
-                                                @if ($d->dari_long != "1970-01-01 00:00:00" and $d->sampai_long != "1970-01-01 00:00:00")
-                                                    <td style="min-width:120px;" class="text-center">
-                                                        <span class="label label-success" style="font-size:12px; margin-left:2px; margin-right:2px;">
-                                                            {{date('d M Y  | H:i', strtotime($d->dari_long))}}
-                                                        </span>
-                                                        <span class="label label-danger" style="font-size:12px; margin-left:2px; margin-right:2px;">
-                                                            {{date('d M Y  | H:i', strtotime($d->sampai_long))}}
-                                                        </span>
-                                                    </td>
-                                                @else
-                                                    <td style="min-width:120px;" class="text-center">
-                                                        <span class="label label-default" style="font-size:12px; margin-left:2px; margin-right:2px;">
-                                                            From Time Or After Time, Not been set
-                                                        </span>
-                                                    </td>
-                                                @endif
-                                                
-                                                <td class="text-center">
-                                                    @if ($d->status == "ocn")
-                                                        <span class="label label-warning">On Check NOC</span>
-                                                    @elseif ($d->status == "solved")
-                                                        <span class="label label-primary">Solved</span>
-                                                    @elseif ($d->status == "n_solved")
-                                                        <span class="label label-danger">Not Solved</span>
+                                            @if ($d->jnsuser != null)
+                                                <td style="min-width:120px;">
+                                                    {{$d->jnsuser->name}}
+                                                    @if ($d->jnsuser->role == "admin")
+                                                        (Admin)
+                                                    @elseif ($d->jnsuser->role == "noc")
+                                                        (NOC)
                                                     @endif
                                                 </td>
+                                            @elseif ($d->jnsuser == null) 
+                                                <td style="min-width:120px;font-weight:bold;">ID Not Found !!!</td>
+                                            @endif
 
-                                                @if (Auth::user()->role == "admin")
-                                                    <td class="text-center"><input type="checkbox" name="select_delete[]" value="{{$d->id}}"></td>
-                                                @elseif (Auth::user()->role == "noc")
-                                                    @if ($d->jnsuser->id == Auth::user()->id)
-                                                        <td class="text-center"><input type="checkbox" name="select_delete[]" value="{{$d->id}}"></td>
-                                                    @elseif ($d->jnsuser->id != Auth::user()->id)
-                                                        <td></td>
-                                                    @endif
-                                                @else
-                                                    <td>-</td>
+                                            @if ($d->jnslink != null)
+                                                <td style="min-width:120px;" class="text-center">{{$d->jnslink->name_link}} ({{$d->jnslink->vlan}})</td>
+                                            @elseif ($d->jnslink == null) 
+                                                <td style="min-width:120px; text-align:center; font-weight:bold;">ID Not Found !!!</td>
+                                            @endif
+
+                                            @if ($d->dari_long != "1970-01-01 00:00:00" and $d->sampai_long != "1970-01-01 00:00:00")
+                                                <td style="min-width:120px;" class="text-center">
+                                                    <span class="label label-success" style="font-size:12px; margin-left:2px; margin-right:2px;">
+                                                        {{date('d M Y  | H:i', strtotime($d->dari_long))}}
+                                                    </span>
+                                                    <span class="label label-danger" style="font-size:12px; margin-left:2px; margin-right:2px;">
+                                                        {{date('d M Y  | H:i', strtotime($d->sampai_long))}}
+                                                    </span>
+                                                </td>
+                                            @else
+                                                <td style="min-width:120px;" class="text-center">
+                                                    <span class="label label-default" style="font-size:12px; margin-left:2px; margin-right:2px;">
+                                                        From Time Or After Time, Not been set
+                                                    </span>
+                                                </td>
+                                            @endif
+                                            
+                                            <td class="text-center">
+                                                @if ($d->status == "ocn")
+                                                    <span class="label label-warning">On Check NOC</span>
+                                                @elseif ($d->status == "solved")
+                                                    <span class="label label-primary">Solved</span>
+                                                @elseif ($d->status == "n_solved")
+                                                    <span class="label label-danger">Not Solved</span>
                                                 @endif
-                                            </tr>
-                                        @endif
+                                            </td>
+
+                                            @if (Auth::user()->role == "admin")
+                                                <td class="text-center"><input type="checkbox" name="select_delete[]" value="{{$d->id}}"></td>
+                                            @elseif (Auth::user()->role == "noc")
+                                                @if ($d->jnsuser == null)
+                                                    <td class="text-center"><input type="checkbox" name="select_delete[]" value="{{$d->id}}"></td>
+                                                @elseif ($d->jnsuser->id == Auth::user()->id)
+                                                    <td class="text-center"><input type="checkbox" name="select_delete[]" value="{{$d->id}}"></td>
+                                                @elseif ($d->jnsuser->id != Auth::user()->id)
+                                                    <td></td>
+                                                @endif
+                                            @else
+                                                <td>-</td>
+                                            @endif
+                                        </tr>
+                                      
                                     @endforeach
                                 </tbody>
                                 

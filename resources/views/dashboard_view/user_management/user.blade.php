@@ -227,8 +227,7 @@
                                                 @endif
                                             </td>
                                         
-                                            <td class="text-center">
-                                                
+                                            <td class="text-center">                   
                                                 @if ($d->role == 'admin')
                                                     @if ($d->status == 'P')
                                                         <a href="{{route('user.active', $d->id)}}" id="" class="label label-warning" style="font-size: 12px;" data-toggle="tooltip" title="Click here to Activate" data-placement="top"><i class="fa fa-clock-o"></i> Belum Aktif</a>
@@ -246,7 +245,6 @@
                                                         <a  href="{{route('user.not-active', $d->id)}}" id="" class="label label-info" style="font-size: 12px;"  data-toggle="tooltip" title="Click here to Turn Off" data-placement="top"><i class="fa fa-check-square-o"></i> User Aktif</a>
                                                     @endif 
                                                 @endif
-
                                             </td>
                                             <td class="text-center"><input type="checkbox" name="select_delete[]" value="{{$d->id}}"></td>
                                         </tr>

@@ -57,11 +57,14 @@
                                 <div class="col-md-6">
                                     <div class="form-group ">
                                         <label class="" for="id_user_rel">PIC NOC<span style="color: red;">*</span></label>  
-                                        @if (Auth::user()->role == "admin")
-                                            
+                                        @if (Auth::user()->role == "admin")             
                                             <select class="form-control select2" name="id_user_rel" placeholder="" required>
                                                 <optgroup label="PIC NOC Saat Ini">
-                                                    <option  value="{{$data->jnsuser->id}}">{{$data->jnsuser->name}}</option>
+                                                    @if ($data->jnsuser == null)
+                                                        <option  value="">ID Not Found !!!</option>
+                                                    @elseif ($data->jnsuser != null)
+                                                        <option  value="{{$data->jnsuser->id}}">{{$data->jnsuser->name}}</option>
+                                                    @endif
                                                 </optgroup>  
                                                 <optgroup label="PIC NOC Baru">  
                                                     @foreach ($data_user as $item)
@@ -78,7 +81,7 @@
                                             </select>  
                                         @elseif (Auth::user()->role == "noc")
                                             <input id="id_user_rel" name="" type="text" class="form-control" required autocomplete="off" value="{{Auth::user()->name}}" disabled="disabled">
-                                            <input type="hidden" name="id_user_rel" value="{{Auth::user()->id}}" required disabled="disabled"  >
+                                            <input type="hidden" name="id_user_rel" value="{{Auth::user()->id}}" required readonly  >
                                         @endif   
                                     </div>
                                 </div>
@@ -90,7 +93,11 @@
                                         <label class="" for="id_link_rel">Select Link<span style="color: red;">*</span></label>  
                                         <select class="form-control select2" name="id_link_rel" placeholder="" required>
                                             <optgroup label="PIC NOC Saat Ini">
-                                                <option  value="{{$data->jnslink->id}}">{{$data->jnslink->name_link}} ({{$data->jnslink->vlan}})</option>
+                                                @if ($data->jnslink == null)
+                                                    <option  value="">ID Not Found !!!</option>
+                                                @elseif ($data->jnslink != null) 
+                                                    <option  value="{{$data->jnslink->id}}">{{$data->jnslink->name_link}} ({{$data->jnslink->vlan}})</option>
+                                                @endif
                                             </optgroup>  
                                             <optgroup label="PIC NOC Baru">  
                                                 @foreach ($data_link as $item)
