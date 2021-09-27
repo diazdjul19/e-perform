@@ -130,7 +130,102 @@
                         </li>
                     </ul>
 
-                    <a href="#" class="btn btn-primary btn-block"><b>View Detail</b></a>
+                    @if ($data_mngr == null)
+                        <form action="{{route('mngr-store')}}" method="post">
+                            @csrf
+                            <ul class="list-group list-group-unbordered">
+                                <li class="list-group-item">
+                                    <label for=""><b>Mngr login</b></label>
+                                    <select class="form-control" name="mngr_login" id="" >
+                                        <option value selected disabled>Pilih Status</option>
+                                        <option value="true">True</option>
+                                        <option value="false">False</option>
+                                    </select>
+                                </li>
+                                <li class="list-group-item">
+                                    <label for=""><b>Mngr Register <span style="color: red;">*</span></b></label>
+                                    <select class="form-control" name="mngr_register" id="" >
+                                        <option value selected disabled>Pilih Status</option>
+                                        <option value="true">True</option>
+                                        <option value="false">False</option>
+                                    </select>
+                                </li>
+                                <li class="list-group-item">
+                                    <label for=""><b>Mngr FgPasword</b></label>
+                                    <select class="form-control" name="mngr_fgpassword" id="" >
+                                        <option value selected disabled>Pilih Status</option>
+                                        <option value="true">True</option>
+                                        <option value="false">False</option>
+                                    </select>
+                                </li>
+                            </ul>
+                            <button type="submit" class="btn btn-primary btn-block">Save</button>
+                        </form>
+                    @elseif ($data_mngr != null)
+                        <form action="{{route('mngr-update', $data_mngr->id)}}" method="post">
+                            @csrf
+                            {{method_field('put')}}
+
+                            <ul class="list-group list-group-unbordered">
+                                <li class="list-group-item">
+                                    <label for=""><b>Mngr login</b></label>
+                                    <select class="form-control" name="mngr_login" id="" >
+                                        <optgroup label="Mngr Login Saat Ini">
+                                            <option value="{{$data_mngr->mngr_login}}">
+                                                @if ($data_mngr->mngr_login == "true")
+                                                    True
+                                                @elseif ($data_mngr->mngr_login == "false")
+                                                    False
+                                                @endif
+                                            </option>
+                                        </optgroup>
+                                        <optgroup label="Mngr Login Baru">
+                                            <option value="true">True</option>
+                                            <option value="false">False</option>
+                                        </optgroup>
+                                    </select>
+                                </li>
+                                <li class="list-group-item">
+                                    <label for=""><b>Mngr Register <span style="color: red;">*</span></b></label>
+                                    <select class="form-control" name="mngr_register" id="" >
+                                        <optgroup label="Mngr Register Saat Ini">
+                                            <option value="{{$data_mngr->mngr_register}}">
+                                                @if ($data_mngr->mngr_register == "true")
+                                                    True
+                                                @elseif ($data_mngr->mngr_register == "false")
+                                                    False
+                                                @endif
+                                            </option>
+                                        </optgroup>
+                                        <optgroup label="Mngr Register Baru">
+                                            <option value="true">True</option>
+                                            <option value="false">False</option>
+                                        </optgroup>
+                                    </select>
+                                </li>
+                                <li class="list-group-item">
+                                    <label for=""><b>Mngr FgPasword</b></label>
+                                    <select class="form-control" name="mngr_fgpassword" id="" >
+                                        <optgroup label="Mngr FgPassword Saat Ini">
+                                            <option value="{{$data_mngr->mngr_fgpassword}}">
+                                                @if ($data_mngr->mngr_fgpassword == "true")
+                                                    True
+                                                @elseif ($data_mngr->mngr_fgpassword == "false")
+                                                    False
+                                                @endif
+                                            </option>
+                                        </optgroup>
+                                        <optgroup label="Mngr FgPassword Baru">
+                                            <option value="true">True</option>
+                                            <option value="false">False</option>
+                                        </optgroup>
+                                    </select>
+                                </li>
+                            </ul>
+                            <button type="submit" class="btn btn-primary btn-block">Save</button>
+                        </form>
+                    @endif
+
                     </div>
                     <!-- /.box-body -->
                 </div>

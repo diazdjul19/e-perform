@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\MsMngr;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,12 +18,30 @@ Route::get('/', function () {
     return view('auth/login');
 });
 
-Auth::routes();
+$data_mngr = MsMngr::where('id', 1)->where('md5', 'ad6d404a695da4eb8ba3ef9ffcd7b8aa')->first();
+
+if ($data_mngr != null) {
+    if ($data_mngr->mngr_register == "true") {
+        Auth::routes();  
+    }elseif ($data_mngr->mngr_register == "false"){
+        Auth::routes([
+            'register' => false, // Registration Routes...
+          ]);
+    }
+}else{
+    abort(403, 'Sorry, route management data has not been set.');
+
+}
+
+
 
 
 
 Route::group(['middleware' => ['auth', 'cekroleuser:admin,noc,sales']], function () {
     Route::get('/home', 'HomeController@index')->name('home');
+    Route::post('/mngr-store', 'HomeController@mngr_store')->name('mngr-store');
+    Route::put('/mngr-update/{id}', 'HomeController@mngr_update')->name('mngr-update');
+
 
     Route::get('/user-registration', 'UserController@user_registration_index')->name('user-registration');
     Route::get('/user-approved', 'UserController@user_approved_index')->name('user-approved');

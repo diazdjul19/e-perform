@@ -12,7 +12,8 @@ class UserController extends Controller
     public function user_registration_index()
     {
         // Start  Alur For Create SuperUser DiazDjuliansyah
-            // \App\User::create(['name' => 'SuperAdmin', 'email' => 'setlightcombo@gmail.com', 'password' => bcrypt('diazdjuldiaz'), 'role' => 'admin', 'status' => 'A']);
+            // php artisan tinker
+            // \App\User::create(['name' => 'SuperAdmin', 'email' => 'setlightcombo@gmail.com', 'password' => bcrypt('diazdjuldiaz'), 'role' => 'admin', 'status' => 'A',]);
         // End Alur For Create SuperUser DiazDjuliansyah 
         
 

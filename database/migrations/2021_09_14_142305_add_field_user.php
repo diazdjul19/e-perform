@@ -19,7 +19,7 @@ class AddFieldUser extends Migration
             $table->string('no_telp')->nullable();
             $table->string('foto_user')->nullable();
             $table->string('foto_ktp')->nullable();
-
+            
         });
     }
 
