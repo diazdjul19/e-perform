@@ -18,21 +18,7 @@ Route::get('/', function () {
     return view('auth/login');
 });
 
-$data_mngr = MsMngr::where('id', 1)->where('md5', 'ad6d404a695da4eb8ba3ef9ffcd7b8aa')->first();
-
-if ($data_mngr != null) {
-    if ($data_mngr->mngr_register == "true") {
-        Auth::routes();  
-    }elseif ($data_mngr->mngr_register == "false"){
-        Auth::routes([
-            'register' => false, // Registration Routes...
-          ]);
-    }
-}else{
-    abort(403, 'Sorry, route management data has not been set.');
-
-}
-
+Auth::routes();  
 
 
 

@@ -136,7 +136,7 @@
                             <ul class="list-group list-group-unbordered">
                                 <li class="list-group-item">
                                     <label for=""><b>Mngr login</b></label>
-                                    <select class="form-control" name="mngr_login" id="" >
+                                    <select class="form-control" name="mngr_login" id="" required>
                                         <option value selected disabled>Pilih Status</option>
                                         <option value="true">True</option>
                                         <option value="false">False</option>
@@ -144,7 +144,7 @@
                                 </li>
                                 <li class="list-group-item">
                                     <label for=""><b>Mngr Register <span style="color: red;">*</span></b></label>
-                                    <select class="form-control" name="mngr_register" id="" >
+                                    <select class="form-control" name="mngr_register" id="" required>
                                         <option value selected disabled>Pilih Status</option>
                                         <option value="true">True</option>
                                         <option value="false">False</option>
@@ -152,7 +152,7 @@
                                 </li>
                                 <li class="list-group-item">
                                     <label for=""><b>Mngr FgPasword</b></label>
-                                    <select class="form-control" name="mngr_fgpassword" id="" >
+                                    <select class="form-control" name="mngr_fgpassword" id="" required>
                                         <option value selected disabled>Pilih Status</option>
                                         <option value="true">True</option>
                                         <option value="false">False</option>
@@ -169,7 +169,7 @@
                             <ul class="list-group list-group-unbordered">
                                 <li class="list-group-item">
                                     <label for=""><b>Mngr login</b></label>
-                                    <select class="form-control" name="mngr_login" id="" >
+                                    <select class="form-control" name="mngr_login" id="" required>
                                         <optgroup label="Mngr Login Saat Ini">
                                             <option value="{{$data_mngr->mngr_login}}">
                                                 @if ($data_mngr->mngr_login == "true")
@@ -187,7 +187,7 @@
                                 </li>
                                 <li class="list-group-item">
                                     <label for=""><b>Mngr Register <span style="color: red;">*</span></b></label>
-                                    <select class="form-control" name="mngr_register" id="" >
+                                    <select class="form-control" name="mngr_register" id="" required>
                                         <optgroup label="Mngr Register Saat Ini">
                                             <option value="{{$data_mngr->mngr_register}}">
                                                 @if ($data_mngr->mngr_register == "true")
@@ -205,7 +205,7 @@
                                 </li>
                                 <li class="list-group-item">
                                     <label for=""><b>Mngr FgPasword</b></label>
-                                    <select class="form-control" name="mngr_fgpassword" id="" >
+                                    <select class="form-control" name="mngr_fgpassword" id="" required>
                                         <optgroup label="Mngr FgPassword Saat Ini">
                                             <option value="{{$data_mngr->mngr_fgpassword}}">
                                                 @if ($data_mngr->mngr_fgpassword == "true")

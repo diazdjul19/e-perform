@@ -31,6 +31,13 @@ class HomeController extends Controller
 
     public function mngr_store(Request $request)
     {
+        $this->validate($request, [
+            'mngr_login' => ['required', 'string', 'max:255'],
+            'mngr_register' => ['required', 'string', 'max:255'],
+            'mngr_fgpassword' => ['required', 'string', 'max:255'],
+
+        ]);
+
         try {
 
             \DB::beginTransaction();
@@ -56,6 +63,13 @@ class HomeController extends Controller
 
     public function mngr_update(Request $request, $id)
     {
+        $this->validate($request, [
+            'mngr_login' => ['required', 'string', 'max:255'],
+            'mngr_register' => ['required', 'string', 'max:255'],
+            'mngr_fgpassword' => ['required', 'string', 'max:255'],
+
+        ]);
+
         try {
             
             \DB::beginTransaction();
