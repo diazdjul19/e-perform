@@ -73,7 +73,7 @@
                                             <label class="col-md-2 col-form-label" for="no_telp"><h6 style="color: black; font-weight:bold;font-size:13px;">No Telp</h6></label>
                                             
                                             <div class="col-md-10">
-                                                <input type="text" name="no_telp" class="form-control input-sm" id="no_telp" placeholder=""  >
+                                                <input type="text" name="no_telp" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" class="form-control input-sm" id="no_telp" placeholder=""  >
                                             </div>
                                         </div>
                                         <div class="form-group row" style="margin:0px;">

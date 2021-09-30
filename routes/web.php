@@ -58,6 +58,10 @@ Route::group(['middleware' => ['auth', 'cekroleuser:admin,noc,sales']], function
     
     Route::resource('vendor-element', 'VendorController');
     Route::get('/vendor-element-delete/{id}', 'VendorController@destroy')->name('vendor-element-delete');
+
+    Route::resource('client-element', 'ClientController');
+    Route::get('/client-element-delete/{id}', 'ClientController@destroy')->name('client-element-delete');
+
     
 
     Route::get('/noc-daily-report', 'NocReportController@noc_daily_report')->name('noc-daily-report');
@@ -71,6 +75,11 @@ Route::group(['middleware' => ['auth', 'cekroleuser:admin,noc,sales']], function
     Route::post('/perform-noc-history-store', 'NocReportController@perform_noc_history_store')->name('perform-noc-history-store');
 
     
+    Route::get('/sales-lobbyist-process', 'SalesReportController@sales_lobbyist_process')->name('sales-lobbyist-process');
+    Route::post('/sales-lobbyist-store', 'SalesReportController@sales_lobbyist_store')->name('sales-lobbyist-store');
+    Route::put('/sales-lobbyist-update/{id}', 'SalesReportController@sales_lobbyist_update')->name('sales-lobbyist-update');
+    Route::post('/select-delete-lobbyist', 'SalesReportController@select_delete_lobbyist')->name('select-delete-lobbyist');
+
 
 
 

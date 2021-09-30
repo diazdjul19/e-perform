@@ -167,7 +167,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="" for="exampleInputEmail1">Nomer Telpon</label>
-                                    <input type="text" name="no_telp" class="form-control" id="exampleInputEmail1"  placeholder="Nomer Telpon" value="{{$data->no_telp}}">
+                                    <input type="text" name="no_telp" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" class="form-control" id="exampleInputEmail1"  placeholder="Nomer Telpon" value="{{$data->no_telp}}">
                                 </div>
                             </div>
 

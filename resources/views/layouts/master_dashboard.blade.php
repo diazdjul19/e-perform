@@ -271,12 +271,12 @@
                         </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li class="{{ request()->is('noc-daily-report', 'noc-daily-report-edit/*', 'noc-daily-report-show/*') ? 'active' : '' }}"><a href="{{route('noc-daily-report')}}"><i class="fa fa-circle-o"></i> NOC daily Report</a></li>
+                        <li class="{{ request()->is('noc-daily-report', 'noc-daily-report-edit/*', 'noc-daily-report-show/*') ? 'active' : '' }}"><a href="{{route('noc-daily-report')}}"><i class="fa fa-circle-o"></i> NOC Daily Report</a></li>
                         <li class="{{ request()->is('perform-noc-history', 'perform-noc-history-store') ? 'active' : '' }}"><a href="{{route('perform-noc-history')}}"><i class="fa fa-circle-o"></i> NOC Perform Report</a></li>
                     </ul>
                 </li>
 
-                <li class="treeview">
+                <li class="treeview {{ request()->is('sales-lobbyist-process') ? 'active' : '' }}">
                     <a href="#">
                         <i class="fa fa-sellsy"></i> <span>Sales Management</span>
                         <span class="pull-right-container">
@@ -284,12 +284,13 @@
                         </span>
                     </a>
                     <ul class="treeview-menu">
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
+                        <li class="{{ request()->is('sales-lobbyist-process') ? 'active' : '' }}"><a href="{{route('sales-lobbyist-process')}}"><i class="fa fa-circle-o"></i> Sales Lobbyist Process</a></li>
+                        <li><a href="#"><i class="fa fa-circle-o"></i> Sales Daily Report</a></li>
+                        <li><a href="#"><i class="fa fa-circle-o"></i> Sales Report Perform</a></li>
                     </ul>
                 </li>
-
-                <li class="treeview {{ request()->is('vendor-element', 'site-element', 'capacity-element', 'link-element') ? 'active' : '' }}">
+                
+                <li class="treeview {{ request()->is('vendor-element', 'site-element', 'capacity-element', 'link-element', 'client-element', 'client-element/create') ? 'active' : '' }}">
                     <a href="#">
                         <i class="fa fa-book"></i> <span>Elements</span>
                         <span class="pull-right-container">
@@ -297,6 +298,7 @@
                         </span>
                     </a>
                     <ul class="treeview-menu">
+                        <li class="{{ request()->is('client-element', 'client-element/create') ? 'active' : '' }}"><a href="{{route('client-element.index')}}"><i class="fa fa-circle-o"></i> Client Element</a></li>
                         <li class="{{ request()->is('link-element') ? 'active' : '' }}"><a href="{{route('link-element.index')}}"><i class="fa fa-circle-o"></i> Link Element</a></li>
                         <li class="{{ request()->is('capacity-element') ? 'active' : '' }}"><a href="{{route('capacity-element.index')}}"><i class="fa fa-circle-o"></i> Capacity Element</a></li>
                         <li class="{{ request()->is('site-element') ? 'active' : '' }}"><a href="{{route('site-element.index')}}"><i class="fa fa-circle-o"></i> Site Element</a></li>
