@@ -40,11 +40,15 @@
                                         </div>
 
                                         <div class="form-group row" style="margin:0px;">
-                                            <label class="col-md-4 col-form-label" for="penanggung_jawab_link"><h6 style="color: black; font-weight:bold;font-size:13px;">Nama Penanggung Jawab<span style="color: red;">*</span></h6></label>
-                                            
+                                            <label class="col-md-4 col-form-label" for="id_client_rel"><h6 style="color: black; font-weight:bold;font-size:13px;">Select Client<span style="color: red;">*</span></h6></label>
                                             <div class="col-md-8">
-                                                <input id="penanggung_jawab_link" name="penanggung_jawab_link" type="text" class="form-control" required autocomplete="off" placeholder="Add Person Pesponsible">
-                                            </div>
+                                                <select class="form-control select2"  name="id_client_rel" id="" style="width: 100%;" required>
+                                                    <option value selected disabled>Choise</option>
+                                                        @foreach ($data_client as $item)
+                                                            <option value="{{$item->id}}">{{$item->name_client}}</option>
+                                                        @endforeach
+                                                </select>
+                                            </div>                         
                                         </div>
 
                                         <div class="form-group row" style="margin:0px;">
@@ -139,13 +143,22 @@
                                         </div>
 
                                         <div class="form-group row" style="margin:0px;">
-                                            <label class="col-md-4 col-form-label" for="penanggung_jawab_link_ed"><h6 style="color: black; font-weight:bold;font-size:13px;">Nama Penanggung Jawab<span style="color: red;">*</span></h6></label>
+                                            <label class="col-md-4 col-form-label" for="id_client_rel_ed"><h6 style="color: black; font-weight:bold;font-size:13px;">Capacity Bandwith</h6></label>
                                             
-                                            <div class="col-md-8">
-                                                <input id="penanggung_jawab_link_ed" name="penanggung_jawab_link" type="text" class="form-control" required autocomplete="off" placeholder="Add Person Pesponsible">
+                                            <div class="col-md-4">
+                                                <input id="id_client_rel_ed" name="" type="text" class="form-control" autocomplete="off" placeholder="" autofocus readonly>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <select class="form-control pt-0 pb-0" id="" name="id_client_rel" style="height:30px;" >
+                                                        <option value selected disabled>Choise</option>
+                                                        @foreach ($data_client as $item)
+                                                            <option value="{{$item->id}}">{{$item->name_client}}</option>
+                                                        @endforeach
+                                                </select>
+
                                             </div>
                                         </div>
-
                                         <div class="form-group row" style="margin:0px;">
                                             <label class="col-md-4 col-form-label" for="vlan_ed"><h6 style="color: black; font-weight:bold;font-size:13px;">Vlan</h6></label>
                                             
@@ -269,7 +282,12 @@
                                     <tr>
                                         <td>{{$loop->iteration}}</td>
                                         <td style="min-width:120px;">{{$d->name_link}}</td>
-                                        <td style="min-width:120px;" class="text-center">{{$d->penanggung_jawab_link}}</td>
+
+                                        @if ($d->jnsclient != null)
+                                            <td style="min-width:120px;" class="text-center">{{$d->jnsclient->name_client}}</td>
+                                        @elseif ($d->jnsclient == null) 
+                                            <td style="min-width:120px; text-align:center; font-weight:bold;">ID Not Found !!!</td>
+                                        @endif
 
                                         @if ($d->jnscapacity != null)
                                             <td style="min-width:120px;" class="text-center">{{$d->jnscapacity->bandwith_capacity}} {{$d->jnscapacity->type_trasfer}}</td>
@@ -349,7 +367,7 @@
             console.log(data);
 
             $('#name_link_ed').val(data[1]);
-            $('#penanggung_jawab_link_ed').val(data[2]);
+            $('#id_client_rel_ed').val(data[2]);
             $('#id_capacity_rel_ed').val(data[3]);
             $('#vlan_ed').val(data[4]);
             $('#id_site_rel_ed').val(data[5]);
@@ -365,6 +383,12 @@
         // End Edit Modal
 
         });
+    </script>
+@endpush
+
+@push('select2')
+    <script>
+        $('.select2').select2()
     </script>
 @endpush
 

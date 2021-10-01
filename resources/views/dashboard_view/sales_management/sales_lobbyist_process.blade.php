@@ -208,9 +208,10 @@
                                             <td style="min-width:120px; text-align:center;">{{$d->relation_from}}</td>
                                             <td style="min-width:120px;" style="padding-top: 15px;" class="text-center">
                                                 @if ($d->respont_prospective_client == "po")
-                                                    <span class="label label-success" style="font-size:12px; margin-left:2px; margin-right:2px;">Client Sudah PO !!!</span>
+                                                    <span class="label label-success" style="font-size:12px; margin-left:2px; margin-right:2px;">Opened By : {{$d->open_by}}</span>
+                                                    <span class="label label-danger" style="font-size:12px; margin-left:2px; margin-right:2px;">Closed By : {{$d->close_by}}</span>
                                                 @elseif ($d->respont_prospective_client == "n_po" || $d->respont_prospective_client == "labil")
-                                                    <a href="#" id="open-modal" class="btn btn-success btn-xs"  style="margin: 2px;"><i class="fa fa-edit"></i> Edit</a>
+                                                    <a href="#" id="open-modal" class="btn bg-purple btn-xs"  style="margin: 2px;"><i class="fa fa-edit"></i> Edit</a>
                                                 @endif
                                             </td>
                                             <td class="text-center"><input type="checkbox" name="select_delete[]" value="{{$d->id}}"></td>

@@ -6,18 +6,27 @@ use Illuminate\Http\Request;
 use App\Models\MsLobbyist;
 use App\Models\MsSalesReport;
 use App\Models\MsClient;
+use Auth;
 use Webpatser\Uuid\Uuid;
 
 class SalesReportController extends Controller
 {
     public function sales_lobbyist_process()
     {
-        $data = MsLobbyist::all();
-        return view('dashboard_view.sales_management.sales_lobbyist_process', compact('data'));
+        $get_auth = Auth::user();
+
+        if ($get_auth->role == "admin" || $get_auth->role == "sales") {
+            $data = MsLobbyist::all();
+            return view('dashboard_view.sales_management.sales_lobbyist_process', compact('data'));
+        }else {
+            return abort(404);
+        }
     }
 
     public function sales_lobbyist_store(Request $request)
     {
+        $get_auth = Auth::user();
+
         $this->validate($request, [
             'name_prospective_client' => ['required', 'string', 'max:255'],
             'respont_prospective_client' => ['required', 'string', 'max:255'],
@@ -32,14 +41,19 @@ class SalesReportController extends Controller
             $data->name_prospective_client = $request->name_prospective_client;
             $data->respont_prospective_client = $request->respont_prospective_client;
             $data->relation_from = $request->relation_from;
+            
 
             if ($data->respont_prospective_client == "po") {
+                $data->open_by = $get_auth->name;
+                $data->close_by = $get_auth->name;
                 $data->save();
                 // \DB::commit() ini akan menginput data jika dari proses diatas tidak ada yg salah atau error.
                 \DB::commit();
                 return redirect(route('client-create-wuuid', [$data->uuid_lobbyists]));
                 // Data akan langsung di lempar ke Create Data Client
             }elseif ($data->respont_prospective_client == "n_po" || $data->respont_prospective_client == "labil") {
+                $data->open_by = $get_auth->name;
+                $data->close_by = "NotBeenSet";
                 $data->save();
                 // \DB::commit() ini akan menginput data jika dari proses diatas tidak ada yg salah atau error.
                 \DB::commit();
@@ -58,6 +72,8 @@ class SalesReportController extends Controller
 
     public function sales_lobbyist_update(Request $request, $id)
     {
+        $get_auth = Auth::user();
+
         $this->validate($request, [
             'name_prospective_client' => ['required', 'string', 'max:255'],
             // 'respont_prospective_client' => ['required', 'string', 'max:255'],
@@ -76,11 +92,13 @@ class SalesReportController extends Controller
 
 
             if ($data->respont_prospective_client == "po") {
+                $data->update(['close_by' => $get_auth->name]);
                 $data->save();
                 // \DB::commit() ini akan menginput data jika dari proses diatas tidak ada yg salah atau error.
                 \DB::commit();
                 return redirect(route('client-create-wuuid', [$data->uuid_lobbyists]));
             }elseif ($data->respont_prospective_client == "n_po" || $data->respont_prospective_client == "labil") {
+                $data->close_by = "NotBeenSet";
                 $data->save();
                 // \DB::commit() ini akan menginput data jika dari proses diatas tidak ada yg salah atau error.
                 \DB::commit();
@@ -116,5 +134,11 @@ class SalesReportController extends Controller
         } else {
             return redirect()->back();
         }
+    }
+
+
+    public function sales_daily_report()
+    {
+        return view('dashboard_view.sales_management.sales_daily_report');
     }
 }

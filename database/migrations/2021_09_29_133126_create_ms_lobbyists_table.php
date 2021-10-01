@@ -19,6 +19,8 @@ class CreateMsLobbyistsTable extends Migration
             $table->string("name_prospective_client");
             $table->string("respont_prospective_client");
             $table->string("relation_from")->nullable();
+            $table->string("open_by")->nullable();
+            $table->string("close_by")->nullable();
             $table->timestamps();
         });
     }

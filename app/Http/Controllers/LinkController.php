@@ -7,6 +7,8 @@ use App\Models\MsLink;
 use App\Models\MsCapacity;
 use App\Models\MsSite;
 use App\Models\MsVendor;
+use App\Models\MsClient;
+
 
 
 class LinkController extends Controller
@@ -18,12 +20,14 @@ class LinkController extends Controller
      */
     public function index()
     {
-        $data = MsLink::with('jnscapacity', 'jnssite', 'jnsvendor')->get();
+        $data = MsLink::with('jnscapacity','jnsclient', 'jnssite', 'jnsvendor')->get();
         $data_capacity = MsCapacity::all();
+        $data_client = MsClient::all();
         $data_site = MsSite::all();
         $data_vendor = MsVendor::all();
+        
 
-        return view('dashboard_view.elements.link', compact('data', 'data_capacity', 'data_site', 'data_vendor'));
+        return view('dashboard_view.elements.link', compact('data', 'data_capacity', 'data_client',  'data_site', 'data_vendor'));
     }
 
     /**
@@ -46,7 +50,7 @@ class LinkController extends Controller
     {
         $this->validate($request, [
             'name_link' => ['required', 'string', 'max:255'],
-            'penanggung_jawab_link' => ['required', 'string', 'max:255'],
+            'id_client_rel' => ['required', 'integer'],
 
         ]);
 
@@ -56,7 +60,7 @@ class LinkController extends Controller
 
             $data = new MsLink;
             $data->name_link = $request->name_link;
-            $data->penanggung_jawab_link = $request->penanggung_jawab_link;
+            $data->id_client_rel = $request->id_client_rel;
             $data->vlan = $request->vlan;
             $data->id_capacity_rel = $request->id_capacity_rel;
             $data->id_site_rel = $request->id_site_rel;
@@ -66,7 +70,7 @@ class LinkController extends Controller
             $data->save();
             // \DB::commit() ini akan menginput data jika dari proses diatas tidak ada yg salah atau error.
             \DB::commit();
-            alert()->success('Success Created',"Successfully Created Link : $data->name_link");
+            alert()->success('Success Created',"Successfully Created Link");
             return redirect(route('link-element.index'));
 
         } catch (\Exception $e) {
@@ -109,7 +113,8 @@ class LinkController extends Controller
     {
         $this->validate($request, [
             'name_link' => ['required', 'string', 'max:255'],
-            'penanggung_jawab_link' => ['required', 'string', 'max:255'],
+            'id_client_rel' => ['required', 'integer'],
+            
         ]);
 
         try {
@@ -118,7 +123,7 @@ class LinkController extends Controller
 
             $data = MsLink::find($id);
             $data->name_link = $request->get('name_link');
-            $data->penanggung_jawab_link = $request->get('penanggung_jawab_link');
+            $data->id_client_rel = $request->get('id_client_rel');
             $data->vlan = $request->get('vlan');
 
             if (isset($request->id_capacity_rel)) {
@@ -136,7 +141,7 @@ class LinkController extends Controller
             $data->save();
 
             \DB::commit();
-            alert()->success('Success Updated',"Successfully Updated Link : $data->name_link");
+            alert()->success('Success Updated',"Successfully Updated Link");
             return redirect(route('link-element.index'));
             
         } catch (\Exception $e) {

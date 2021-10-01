@@ -276,7 +276,7 @@
                     </ul>
                 </li>
 
-                <li class="treeview {{ request()->is('sales-lobbyist-process') ? 'active' : '' }}">
+                <li class="treeview {{ request()->is('sales-lobbyist-process', 'sales-daily-report') ? 'active' : '' }}">
                     <a href="#">
                         <i class="fa fa-sellsy"></i> <span>Sales Management</span>
                         <span class="pull-right-container">
@@ -285,7 +285,7 @@
                     </a>
                     <ul class="treeview-menu">
                         <li class="{{ request()->is('sales-lobbyist-process') ? 'active' : '' }}"><a href="{{route('sales-lobbyist-process')}}"><i class="fa fa-circle-o"></i> Sales Lobbyist Process</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Sales Daily Report</a></li>
+                        <li class="{{ request()->is('sales-daily-report') ? 'active' : '' }}"><a href="{{route('sales-daily-report')}}"><i class="fa fa-circle-o"></i> Sales Daily Report</a></li>
                         <li><a href="#"><i class="fa fa-circle-o"></i> Sales Report Perform</a></li>
                     </ul>
                 </li>
