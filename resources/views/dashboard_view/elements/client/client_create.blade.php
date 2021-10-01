@@ -39,7 +39,13 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label class="name_client" for="">Nama Client <span class="text-danger">*</span></label>
-                                <input id="name_client" type="text" class="form-control" name="name_client" required autocomplete="off" placeholder="Sample : Diaz Djuliansyah">
+                                @if (empty($data))
+                                    <input id="name_client" type="text" class="form-control" name="name_client" required autocomplete="off" placeholder="Sample : Diaz Djuliansyah" >
+                                @else
+                                    <input id="name_client" type="text" class="form-control" name="name_client" required autocomplete="off" placeholder="Sample : Diaz Djuliansyah" value="{{$data->name_prospective_client}}" readonly>
+                                    <input type="hidden" name="uuid_lobbyists" value="{{$data->uuid_lobbyists }}">
+                                @endif
+                                
                             </div>
                         </div>
 
@@ -53,7 +59,12 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label class="email_client" for="">Email <span class="text-danger">*</span></label>
-                                <input id="email_client" type="email" class="form-control" name="email_client" required autocomplete="off" placeholder="Sample : sample@imedianet.id">
+                                <input id="email_client" type="email" class="form-control  @error('email_client') is-invalid @enderror" name="email_client" value="{{ old('email_client') }}" required autocomplete="off" placeholder="Sample : sample@imedianet.id">
+                                @error('email_client')
+                                    <span class="invalid-feedback" role="alert" style="color: red;">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
 
@@ -95,6 +106,3 @@
 
     
 @endsection
-
-
-

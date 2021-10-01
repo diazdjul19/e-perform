@@ -67,7 +67,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Tutup</button>
-                                <button type="submit" class="btn btn-primary btn-sm">Simpan</button>
+                                <button type="submit" id="confirm-input" class="btn btn-primary btn-sm">Simpan</button>
                             </div>
                         </form>
                     
@@ -142,7 +142,7 @@
                     </div>
                 </div>
             </div>
-        {{-- End Modal Edit Bootstrap --}}
+            {{-- End Modal Edit Bootstrap --}}
 
             <!-- Default box -->
             <div class="box box-success">
@@ -207,7 +207,11 @@
                                             
                                             <td style="min-width:120px; text-align:center;">{{$d->relation_from}}</td>
                                             <td style="min-width:120px;" style="padding-top: 15px;" class="text-center">
-                                                <a href="#" id="open-modal" class="btn btn-success btn-xs"  style="margin: 2px;"><i class="fa fa-edit"></i> Edit</a>
+                                                @if ($d->respont_prospective_client == "po")
+                                                    <span class="label label-success" style="font-size:12px; margin-left:2px; margin-right:2px;">Client Sudah PO !!!</span>
+                                                @elseif ($d->respont_prospective_client == "n_po" || $d->respont_prospective_client == "labil")
+                                                    <a href="#" id="open-modal" class="btn btn-success btn-xs"  style="margin: 2px;"><i class="fa fa-edit"></i> Edit</a>
+                                                @endif
                                             </td>
                                             <td class="text-center"><input type="checkbox" name="select_delete[]" value="{{$d->id}}"></td>
                                             <td style="display:none;">{{$d->id}}</td>
@@ -322,6 +326,33 @@
             });
         // End Confirm Select Delete Using SweetAlert2
     </script>
+
+    <script>
+        // Start Confirm Delete Using SweetAlert2
+            $('#confirm-input').on('click',function(e){
+                e.preventDefault();
+
+                var form = $(this).parents('form');
+                Swal.fire({
+                    title: 'Confirm Alert?',
+                    text: "Apa anda yakin sudah mengisi data ini dengan benar?",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, I am sure !'
+                }).then((result) => {
+                    if (result.value) {
+                        
+                        form.submit();
+                    }
+                });
+            });
+        
+        // End Confirm Delete Using SweetAlert2
+    </script>
 @endpush
+
+
 
 

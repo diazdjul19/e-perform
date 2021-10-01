@@ -81,7 +81,7 @@ class HomeController extends Controller
             $data->save();
 
             \DB::commit();
-            alert()->success('Success Created',"Successfully Created Data");
+            alert()->success('Success Updated',"Successfully Updated Data");
             return redirect(route('home'));
 
             

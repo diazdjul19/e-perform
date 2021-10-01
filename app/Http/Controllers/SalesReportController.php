@@ -35,9 +35,9 @@ class SalesReportController extends Controller
 
             if ($data->respont_prospective_client == "po") {
                 $data->save();
+                // \DB::commit() ini akan menginput data jika dari proses diatas tidak ada yg salah atau error.
                 \DB::commit();
-                alert()->success('Success Created',"Successfully added data to database.");
-                return redirect(route('sales-lobbyist-process'));
+                return redirect(route('client-create-wuuid', [$data->uuid_lobbyists]));
                 // Data akan langsung di lempar ke Create Data Client
             }elseif ($data->respont_prospective_client == "n_po" || $data->respont_prospective_client == "labil") {
                 $data->save();
@@ -77,15 +77,14 @@ class SalesReportController extends Controller
 
             if ($data->respont_prospective_client == "po") {
                 $data->save();
+                // \DB::commit() ini akan menginput data jika dari proses diatas tidak ada yg salah atau error.
                 \DB::commit();
-                alert()->success('Success Created',"Successfully added data to database.");
-                return redirect(route('sales-lobbyist-process'));
-                // Data akan langsung di lempar ke Create Data Client
+                return redirect(route('client-create-wuuid', [$data->uuid_lobbyists]));
             }elseif ($data->respont_prospective_client == "n_po" || $data->respont_prospective_client == "labil") {
                 $data->save();
                 // \DB::commit() ini akan menginput data jika dari proses diatas tidak ada yg salah atau error.
                 \DB::commit();
-                alert()->success('Success Edit',"Successfully edited data to database.");
+                alert()->success('Success Edit',"Successfully Updated data to database.");
                 return redirect(route('sales-lobbyist-process'));
             }else {
                 return abort(404);

@@ -31,8 +31,10 @@
                     </div>
                     <!-- /.box-body -->
                     <div class="box-footer">
-                        <a href="{{route('client-element.index')}}" class="btn bg-olive margin" ><i class="fa fa-refresh"></i> Tetap Di Halaman Ini</a>
-                        <a href="#" class="btn bg-purple margin" ><i class="fa fa-paper-plane"></i> Buat Laporan Penjualan (Klient ini)</a>
+                        @if ($message = Session::get('session_data'))
+                            <a href="{{route('client-element.index')}}" class="btn bg-olive margin" ><i class="fa fa-refresh"></i> Tetap Di Halaman Ini</a>
+                            <a href="{{route('sales-daily-report-create', $message)}}" class="btn bg-purple margin" ><i class="fa fa-paper-plane"></i> Buat Laporan Penjualan (Klient ini)</a>
+                        @endif
 
                     </div>
                 </div>
@@ -40,7 +42,7 @@
 
 
             {{-- Start Modal Edit Bootstrap --}}
-                {{-- <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                         <div class="modal-header">
@@ -49,7 +51,7 @@
                             <h4 class="modal-title">Edit Client Elements</h4>
                         </div>
                         
-                        <form action="" method="post" enctype="multipart/form-data" id="editForm">
+                        <form action="/client-element" method="post" enctype="multipart/form-data" id="editForm">
                             @csrf
                             {{method_field('PUT')}}
                             <div class="modal-body">
@@ -58,10 +60,46 @@
 
                                         <div class="form-group row" style="margin:0px;">
                                             <label class="col-md-4 col-form-label" for="name_client"><h6 style="color: black; font-weight:bold;font-size:13px;">Nama Client<span style="color: red;">*</span></h6></label>
-
                                             
                                             <div class="col-md-8">
                                                 <input type="text" name="name_client" class="form-control" id="name_client_ed"  style="height:30px;" required >
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row" style="margin:0px;">
+                                            <label class="col-md-4 col-form-label" for="no_telp"><h6 style="color: black; font-weight:bold;font-size:13px;">No Telp<span style="color: red;">*</span></h6></label>
+                                            
+                                            <div class="col-md-8">
+                                                <input type="text" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" name="no_telp_client" class="form-control" id="no_telp_ed"  style="height:30px;" required >
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row" style="margin:0px;">
+                                            <label class="col-md-4 col-form-label" for="email_client"><h6 style="color: black; font-weight:bold;font-size:13px;">Email<span style="color: red;">*</span></h6></label>
+                                            
+                                            <div class="col-md-8">
+                                                <input type="text" name="email_client" class="form-control @error('email_client') is-invalid @enderror" value="{{ old('email_client') }}" id="email_client_ed"  style="height:30px;" required >
+                                                @error('email_client')
+                                                    <span class="invalid-feedback" role="alert" style="color: red;">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row" style="margin:0px;">
+                                            <label class="col-md-4 col-form-label" for="company_client"><h6 style="color: black; font-weight:bold;font-size:13px;">Nama Perusahaan</h6></label>
+                                            
+                                            <div class="col-md-8">
+                                                <input type="text" name="company_client" class="form-control" id="company_client_ed"  style="height:30px;" >
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row" style="margin:0px;">
+                                            <label class="col-md-4 col-form-label" for="address_client"><h6 style="color: black; font-weight:bold;font-size:13px;">Alamat Client<span style="color: red;">*</span></h6></label>
+                                            
+                                            <div class="col-md-8">
+                                                <input type="text" name="address_client" class="form-control" id="address_client_ed"  style="height:30px;" required >
                                             </div>
                                         </div>
 
@@ -75,7 +113,7 @@
                         </form>
                         </div>
                     </div>
-                </div> --}}
+                </div>
             {{-- End Modal Edit Bootstrap --}}
 
             <!-- Default box -->
@@ -186,12 +224,15 @@
             var data = table.row($tr).data();
             console.log(data);
 
-            $('#name_site_ed').val(data[1]);
-            $('#location_site_ed').val(data[2]);
+            $('#name_client_ed').val(data[1]);
+            $('#company_client_ed').val(data[2]);
+            $('#no_telp_ed').val(data[3]);
+            $('#email_client_ed').val(data[4]);
+            $('#address_client_ed').val(data[5]);
         
 
 
-            $('#editForm').attr('action', '/site-element/'+ data[6]);
+            $('#editForm').attr('action', '/client-element/'+ data[7]);
             $('#editModal').modal('show');
         });
         // End Edit Modal

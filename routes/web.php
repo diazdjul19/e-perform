@@ -60,6 +60,7 @@ Route::group(['middleware' => ['auth', 'cekroleuser:admin,noc,sales']], function
     Route::get('/vendor-element-delete/{id}', 'VendorController@destroy')->name('vendor-element-delete');
 
     Route::resource('client-element', 'ClientController');
+    Route::get('/client-create-wuuid/{uuid}', 'ClientController@client_create_wuuid')->name('client-create-wuuid');
     Route::get('/client-element-delete/{id}', 'ClientController@destroy')->name('client-element-delete');
 
     
@@ -80,6 +81,9 @@ Route::group(['middleware' => ['auth', 'cekroleuser:admin,noc,sales']], function
     Route::put('/sales-lobbyist-update/{id}', 'SalesReportController@sales_lobbyist_update')->name('sales-lobbyist-update');
     Route::post('/select-delete-lobbyist', 'SalesReportController@select_delete_lobbyist')->name('select-delete-lobbyist');
 
+    Route::get('/sales-daily-report', 'SalesReportController@sales_daily_report')->name('sales-daily-report');
+    Route::get('/sales-daily-report-create', 'SalesReportController@sales_daily_report_create_nemail')->name('sales-daily-report-create');
+    Route::get('/sales-daily-report-create/{emailclient}', 'SalesReportController@sales_daily_report_wemail')->name('sales-daily-report-create');
 
 
 

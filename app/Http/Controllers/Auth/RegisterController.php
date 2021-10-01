@@ -8,6 +8,8 @@ use App\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Models\MsMngr;
+
 
 class RegisterController extends Controller
 {
@@ -23,6 +25,21 @@ class RegisterController extends Controller
     */
 
     use RegistersUsers;
+
+    public function showRegistrationForm()
+    {
+        $data_mngr = MsMngr::where('id', 1)->where('md5', 'ad6d404a695da4eb8ba3ef9ffcd7b8aa')->first();
+
+        if ($data_mngr != null) {
+            if ($data_mngr->mngr_register == "true") {
+                return view('auth.register');
+            }elseif ($data_mngr->mngr_register == "false") {
+                return abort(404);
+            }
+        }else {
+            return view('auth.register');
+        }
+    }
     
 
     /**
