@@ -16,7 +16,7 @@ class CreateMsLinksTable extends Migration
         Schema::create('ms_links', function (Blueprint $table) {
             $table->id();
             $table->string("name_link");
-            $table->string("id_client_rel");
+            $table->integer("id_client_rel");
             $table->string("vlan")->nullable();
             $table->integer('id_capacity_rel')->nullable();
             $table->integer('id_site_rel')->nullable();

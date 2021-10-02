@@ -82,7 +82,7 @@ Route::group(['middleware' => ['auth', 'cekroleuser:admin,noc,sales']], function
     Route::post('/select-delete-lobbyist', 'SalesReportController@select_delete_lobbyist')->name('select-delete-lobbyist');
 
     Route::get('/sales-daily-report', 'SalesReportController@sales_daily_report')->name('sales-daily-report');
-    Route::get('/sales-daily-report-create', 'SalesReportController@sales_daily_report_create_nemail')->name('sales-daily-report-create');
+    Route::get('/sales-daily-report-create-nemail', 'SalesReportController@sales_daily_report_create_nemail')->name('sales-daily-report-create-nemail');
     Route::get('/sales-daily-report-create/{emailclient}', 'SalesReportController@sales_daily_report_wemail')->name('sales-daily-report-create');
     
 

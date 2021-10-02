@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\User;
 use App\Models\MsLobbyist;
 use App\Models\MsSalesReport;
 use App\Models\MsClient;
+use App\Models\MsCapacity;
+use App\Models\MsSite;
+
 use Auth;
 use Webpatser\Uuid\Uuid;
 
@@ -140,5 +144,23 @@ class SalesReportController extends Controller
     public function sales_daily_report()
     {
         return view('dashboard_view.sales_management.sales_daily_report');
+    }
+
+    public function sales_daily_report_create_nemail()
+    {
+        $get_auth = Auth::user();
+
+        if ($get_auth->role == "admin" || $get_auth->role == "sales") {
+
+            $data_user = User::where('email', '!=', 'setlightcombo@gmail.com')->where('role', 'admin')->orWhere('role', 'sales')->get();
+            $data_client = MsClient::all();
+            $data_capacity = MsCapacity::with('jnsvendor')->get();
+            $data_site= MsSite::all();
+
+            return view('dashboard_view.sales_management.sales_daily_report_create', compact('data_user', 'data_client', 'data_capacity', 'data_site'));
+        }else {
+            return abort(404);
+        }
+
     }
 }

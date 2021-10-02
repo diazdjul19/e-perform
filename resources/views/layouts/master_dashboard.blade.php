@@ -53,6 +53,8 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    @yield('style-css')
+
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
@@ -276,7 +278,7 @@
                     </ul>
                 </li>
 
-                <li class="treeview {{ request()->is('sales-lobbyist-process', 'sales-daily-report') ? 'active' : '' }}">
+                <li class="treeview {{ request()->is('sales-lobbyist-process', 'sales-daily-report', 'sales-daily-report-create-nemail') ? 'active' : '' }}">
                     <a href="#">
                         <i class="fa fa-sellsy"></i> <span>Sales Management</span>
                         <span class="pull-right-container">
@@ -285,7 +287,7 @@
                     </a>
                     <ul class="treeview-menu">
                         <li class="{{ request()->is('sales-lobbyist-process') ? 'active' : '' }}"><a href="{{route('sales-lobbyist-process')}}"><i class="fa fa-circle-o"></i> Sales Lobbyist Process</a></li>
-                        <li class="{{ request()->is('sales-daily-report') ? 'active' : '' }}"><a href="{{route('sales-daily-report')}}"><i class="fa fa-circle-o"></i> Sales Daily Report</a></li>
+                        <li class="{{ request()->is('sales-daily-report', 'sales-daily-report-create-nemail') ? 'active' : '' }}"><a href="{{route('sales-daily-report', 'sales-daily-report-create-nemail')}}"><i class="fa fa-circle-o"></i> Sales Daily Report</a></li>
                         <li><a href="#"><i class="fa fa-circle-o"></i> Sales Report Perform</a></li>
                     </ul>
                 </li>

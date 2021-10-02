@@ -20,7 +20,7 @@
         <!-- Default box -->
         <div class="box box-success">
             <div class="box-header with-border">
-                <h3 class="box-title"><i class="fa fa-expeditedssl"></i> Form Edit Password</h3>
+                <h3 class="box-title"><i class="fa fa-plus-square"></i> Tambah Client Element</h3>
 
                 <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
