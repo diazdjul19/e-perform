@@ -212,7 +212,35 @@
     </script>
 @endpush
 
+@push('input-rupiah')
+    <script>
+    
+        var dengan_rupiah = document.getElementById('id_profit_noppn');
+        dengan_rupiah.addEventListener('keyup', function(e)
+        {
+            dengan_rupiah.value = formatRupiah(this.value, 'Rp. ');
+        });
+        
+        /* Fungsi */
+        function formatRupiah(angka, prefix)
+        {
+            var number_string = angka.replace(/[^,\d]/g, '').toString(),
+                split	= number_string.split(','),
+                sisa 	= split[0].length % 3,
+                rupiah 	= split[0].substr(0, sisa),
+                ribuan 	= split[0].substr(sisa).match(/\d{3}/gi);
+                
+            if (ribuan) {
+                separator = sisa ? '.' : '';
+                rupiah += separator + ribuan.join('.');
+            }
+            
+            rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+            return prefix == undefined ? rupiah : (rupiah ? 'Rp ' + rupiah : '');
+        }
 
+    </script>
+@endpush
 
 @push('autocomplate-ajax')
     <script>
@@ -229,6 +257,10 @@
             success: function (response) {
                 // console.log(response);
                 var capacity_fromme = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(response.price_capacity_fromme);
+                // var replace_rp = capacity_fromme.replace('Rp', '');
+                // var replace_dot = replace_rp.replace(/\./g, '');
+                // var replace_coma00 = replace_dot.replace(',00', '');
+
                 $('#capacity_fromme').val(capacity_fromme);
                 
                 var capacity_vendor = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(response.price_capacity_vendor);
@@ -239,6 +271,9 @@
 
                 var id_profit_plusppn = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(response.price_capacity_fromme);
                 $('#id_profit_plusppn').val(id_profit_plusppn);
+
+                // $('#id_profit_noppn').val(response.price_capacity_fromme);
+                // $('#id_profit_plusppn').val(response.price_capacity_fromme);    
 
 
             },
@@ -254,36 +289,52 @@
     <script>
         $('#id_profit_noppn'). on('keyup', function(){
             var id_profit_noppn = $(this).val();
+            var replace_rp = id_profit_noppn.replace('Rp', '');
+            var replace_dot = replace_rp.replace(/\./g, '');
+            var replace_coma00 = replace_dot.replace(',00', '');
+            
+
             var ppn_percentage = $('#id_ppn').val();
             var subtotal_plus_ppn = $('#id_profit_plusppn').val();
 
-            var total_profit_noppn = id_profit_noppn;
+            var total_profit_noppn = replace_coma00;
+
+
             var calc_ppn = (ppn_percentage * total_profit_noppn) / 100; 
-            $('#id_profit_noppn').val(total_profit_noppn);
+            $('#id_profit_noppn').val(id_profit_noppn);
             
-            var total_profit_plusppn = parseInt(calc_ppn) + parseInt(id_profit_noppn);
+            var total_profit_plusppn = parseInt(calc_ppn) + parseInt(total_profit_noppn);
             
             if (isNaN(total_profit_plusppn)) {
                 total_profit_plusppn = 0;
             }
             console.log(total_profit_plusppn);
-            $('#id_profit_plusppn').val(total_profit_plusppn);
+            var id_profit_plusppn = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(total_profit_plusppn);
+            $('#id_profit_plusppn').val(id_profit_plusppn);
+
 
         })
 
         $('#id_ppn'). on('keyup', function(){
-            var id_profit_noppn = $('#id_profit_noppn').val();
+            var get_id_profit_noppn = $('#id_profit_noppn').val();
+            var replace_rp = get_id_profit_noppn.replace('Rp', '');
+            var replace_dot = replace_rp.replace(/\./g, '');
+            var replace_coma00 = replace_dot.replace(',00', '');
+            var id_profit_noppn = replace_coma00;
+
             var ppn_percentage = $('#id_ppn').val();
             var subtotal_plus_ppn = $(this).val();
 
             var total_profit_noppn = id_profit_noppn;
             var calc_ppn = (ppn_percentage * total_profit_noppn) / 100; 
-            $('#id_profit_noppn').val(total_profit_noppn);
+            $('#id_profit_noppn').val(get_id_profit_noppn);
 
             var total_profit_plusppn = parseInt(calc_ppn) + parseInt(id_profit_noppn);
             
             console.log(total_profit_plusppn);
-            $('#id_profit_plusppn').val(total_profit_plusppn);
+            var id_profit_plusppn = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(total_profit_plusppn);
+            $('#id_profit_plusppn').val(id_profit_plusppn);
+
 
         })
 
