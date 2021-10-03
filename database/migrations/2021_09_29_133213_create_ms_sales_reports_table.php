@@ -22,10 +22,8 @@ class CreateMsSalesReportsTable extends Migration
             $table->integer('id_site_rel');
             $table->float("price_capacity_fromme")->nullable();
             $table->float("price_capacity_vendor")->nullable();
-
             $table->float("ppn_percentage")->nullable();
             $table->float("subtotal_plus_ppn")->nullable();
-
             $table->string('status');
             $table->timestamps();
         });

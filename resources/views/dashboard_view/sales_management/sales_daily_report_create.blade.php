@@ -108,8 +108,8 @@
         
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="" for="">Select Capacity Bandwith <span class="text-danger">*</span></label>
-                                        <select class="form-control select2" style="width: 100%;" name="id_client_rel" required>
+                                        <label class="" for="id_capacity_rel">Select Capacity Bandwith <span class="text-danger">*</span></label>
+                                        <select class="form-control select2" style="width: 100%;" id="id_capacity_rel" name="id_capacity_rel" required>
                                             <option value selected disabled>Choise</option>
                                             @foreach ($data_capacity as $item)
                                                 <option value="{{$item->id}}">
@@ -126,14 +126,14 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="" for="">Price From Me </label>
-                                        <input id="price_capacity_fromme" type="text" class="form-control" name="price_capacity_fromme" autocomplete="off" placeholder="" readonly>
+                                        <input id="capacity_fromme" type="text" class="form-control" name="price_capacity_fromme" autocomplete="off" placeholder="" readonly >
                                     </div>
                                 </div>
 
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="" for="">Price From Vendor </label>
-                                        <input id="price_capacity_vendor" type="text" class="form-control" name="price_capacity_vendor" autocomplete="off" placeholder="" readonly>
+                                        <input id="capacity_vendor" type="text" class="form-control" name="price_capacity_vendor" autocomplete="off" placeholder="" readonly >
                                     </div>
                                 </div>
                             </div>
@@ -165,13 +165,13 @@
                                 <li class="list-group-item">
                                     <div class="form-group">
                                         <label class="font-weight-bold" for="total_harga"> Harga Bandwith Tanpa PPN ( Rp. )</label>
-                                        <input type="number" name="" class="form-control" id=""  placeholder="">      
+                                        <input type="text" name="profit_no_ppn" class="form-control" id="id_profit_noppn" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"  placeholder="">      
                                     </div>
 
                                     <div class="form-group">
                                         <label for="biaya_antar">PPN ( % )</label>
                                         <div class="input-group">
-                                            <input type="number" class="form-control" name="">
+                                            <input type="number" class="form-control" name="ppn_percentage" id="id_ppn" value="0">
                                             <span class="input-group-addon">%</span>
                                         </div>
                                     </div>
@@ -179,7 +179,7 @@
                                 <li class="list-group-item">
                                     <div class="form-group">
                                         <label class="font-weight-bold" for="exampleInputEmail1"> Total Harga + PPN ( Rp. )</label>
-                                        <input type="number" name="" class="form-control" id=""  placeholder="" readonly autocomplete="off">
+                                        <input type="text" name="subtotal_plus_ppn" class="form-control" id="id_profit_plusppn" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"  placeholder="" readonly autocomplete="off">
                                     </div>
                                 </li>
                                 
@@ -209,5 +209,85 @@
 @push('select2')
     <script>
         $('.select2').select2()
+    </script>
+@endpush
+
+
+
+@push('autocomplate-ajax')
+    <script>
+        $('#id_capacity_rel').on('change', function(){
+            var id = $(this).children('option:selected').val();
+
+            $.ajax({
+            url: '/salesdaily-getprice-capacit',
+            method : 'get',
+            type : 'json',
+            data: {
+                id: id
+            },
+            success: function (response) {
+                // console.log(response);
+                var capacity_fromme = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(response.price_capacity_fromme);
+                $('#capacity_fromme').val(capacity_fromme);
+                
+                var capacity_vendor = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(response.price_capacity_vendor);
+                $('#capacity_vendor').val(capacity_vendor);
+                
+                var id_profit_noppn = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(response.price_capacity_fromme);
+                $('#id_profit_noppn').val(id_profit_noppn);
+
+                var id_profit_plusppn = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(response.price_capacity_fromme);
+                $('#id_profit_plusppn').val(id_profit_plusppn);
+
+
+            },
+            error: function (response) {
+                console.log(response);
+            }
+
+            })
+        })
+
+    </script>
+
+    <script>
+        $('#id_profit_noppn'). on('keyup', function(){
+            var id_profit_noppn = $(this).val();
+            var ppn_percentage = $('#id_ppn').val();
+            var subtotal_plus_ppn = $('#id_profit_plusppn').val();
+
+            var total_profit_noppn = id_profit_noppn;
+            var calc_ppn = (ppn_percentage * total_profit_noppn) / 100; 
+            $('#id_profit_noppn').val(total_profit_noppn);
+            
+            var total_profit_plusppn = parseInt(calc_ppn) + parseInt(id_profit_noppn);
+            
+            if (isNaN(total_profit_plusppn)) {
+                total_profit_plusppn = 0;
+            }
+            console.log(total_profit_plusppn);
+            $('#id_profit_plusppn').val(total_profit_plusppn);
+
+        })
+
+        $('#id_ppn'). on('keyup', function(){
+            var id_profit_noppn = $('#id_profit_noppn').val();
+            var ppn_percentage = $('#id_ppn').val();
+            var subtotal_plus_ppn = $(this).val();
+
+            var total_profit_noppn = id_profit_noppn;
+            var calc_ppn = (ppn_percentage * total_profit_noppn) / 100; 
+            $('#id_profit_noppn').val(total_profit_noppn);
+
+            var total_profit_plusppn = parseInt(calc_ppn) + parseInt(id_profit_noppn);
+            
+            console.log(total_profit_plusppn);
+            $('#id_profit_plusppn').val(total_profit_plusppn);
+
+        })
+
+        // })
+
     </script>
 @endpush

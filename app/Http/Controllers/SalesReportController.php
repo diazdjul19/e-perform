@@ -163,4 +163,11 @@ class SalesReportController extends Controller
         }
 
     }
+
+    // ajax
+    public function getprice_capacitybandwith(Request $request)
+    {
+        $data = MsCapacity::find($request->id);
+        return response()->json($data, 200);
+    }
 }

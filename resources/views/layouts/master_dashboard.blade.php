@@ -595,6 +595,7 @@
     @stack('select2')
     @stack('datetime-picker')
     @stack('show-hide-input')
+    @stack('autocomplate-ajax')
 
 
 
