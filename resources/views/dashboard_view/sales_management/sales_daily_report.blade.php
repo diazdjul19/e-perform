@@ -91,6 +91,61 @@
                                                 <td style="min-width:120px;font-weight:bold;">ID Not Found !!!</td>
                                             @endif
 
+                                            @if ($d->jnsclient != null)
+                                                <td style="min-width:120px;">
+                                                    {{$d->jnsclient->name_client}}
+                                                </td>
+                                            @elseif ($d->jnsclient == null) 
+                                                <td style="min-width:120px;font-weight:bold;">ID Not Found !!!</td>
+                                            @endif
+
+                                            @if ($d->jnscapacity != null)
+                                                <td style="min-width:120px;text-align:center;">
+                                                    {{$d->jnscapacity->bandwith_capacity}}
+                                                    {{$d->jnscapacity->type_trasfer}}  ||
+                                                    
+                                                    @inject('vendor', 'App\Models\MsVendor')
+                                                    {{substr($vendor->where('id', $d->jnscapacity->id_vendor_rel)->first('name_vendor'), 16, -2)}}
+                                                </td>
+                                            @elseif ($d->jnscapacity == null) 
+                                                <td style="min-width:120px;text-align:center;font-weight:bold;">ID Not Found !!!</td>
+                                            @endif
+
+                                            @if ($d->jnssite != null)
+                                                <td style="min-width:120px;text-align:center;">
+                                                    {{$d->jnssite->name_site}}
+                                                </td>
+                                            @elseif ($d->jnssite == null) 
+                                                <td style="min-width:120px;text-align:center;font-weight:bold;">ID Not Found !!!</td>
+                                            @endif
+
+                                            <td style="min-width:120px;text-align:center;">
+                                                Rp. {{number_format($d->price_capacity_fromme - $d->price_capacity_vendor ,2,',','.')}}
+                                            </td>
+
+                                            <td class="text-center">
+                                                @if ($d->status == "opn")
+                                                    <span class="label label-warning">On Process NOC</span>
+                                                @elseif ($d->status == "finish")
+                                                    <span class="label label-primary">Finish</span>
+                                                @elseif ($d->status == "fail")
+                                                    <span class="label label-danger">Fail</span>
+                                                @endif
+                                            </td>
+
+                                            @if (Auth::user()->role == "admin")
+                                                <td class="text-center"><input type="checkbox" name="select_delete[]" value="{{$d->id}}"></td>
+                                            @elseif (Auth::user()->role == "sales")
+                                                @if ($d->jnsuser == null)
+                                                    <td class="text-center"><input type="checkbox" name="select_delete[]" value="{{$d->id}}"></td>
+                                                @elseif ($d->jnsuser->id == Auth::user()->id)
+                                                    <td class="text-center"><input type="checkbox" name="select_delete[]" value="{{$d->id}}"></td>
+                                                @elseif ($d->jnsuser->id != Auth::user()->id)
+                                                    <td></td>
+                                                @endif
+                                            @else
+                                                <td>-</td>
+                                            @endif
 
                                         </tr>
                                     @endforeach

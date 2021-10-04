@@ -143,7 +143,7 @@ class SalesReportController extends Controller
 
     public function sales_daily_report()
     {
-        $data = MsSalesReport::with('jnsuser', 'jnsclient', '[jnscapacity]', 'jnssite')->get();
+        $data = MsSalesReport::with('jnsuser', 'jnsclient', 'jnscapacity', 'jnssite')->get();
         return view('dashboard_view.sales_management.sales_daily_report', compact('data'));
     }
 
