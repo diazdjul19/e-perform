@@ -64,7 +64,6 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="" for="">Report By <span class="text-danger">*</span></label>
-                                                    
                                         @if (Auth::user()->role == "admin")
                                             <select class="form-control select2" style="width: 100%;" name="id_user_rel" required>
                                                 <option value selected disabled>Choise</option>
@@ -94,15 +93,23 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="" for="">Select Client <span class="text-danger">*</span></label>
-                                        <select class="form-control select2" style="width: 100%;" name="id_client_rel" required>
-                                            <option value selected disabled>Choise</option>
-                                            @foreach ($data_client as $item)
-                                                <option value="{{$item->id}}">
-                                                    {{$item->name_client}}
-                                                </option>
-                                            @endforeach
-                                        </select>
+                                        @if (!isset($data_client_byemail))
+                                            <label class="" for="">Select Client <span class="text-danger">*</span></label>
+                                            <select class="form-control select2" style="width: 100%;" name="id_client_rel" required>
+                                                <option value selected disabled>Choise</option>
+                                                @foreach ($data_client as $item)
+                                                    <option value="{{$item->id}}">
+                                                        {{$item->name_client}} || {{$item->email_client}}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                        @elseif (isset($data_client_byemail))
+                                            <label class="" for="">Name || Email Client <span class="text-danger">*</span></label>
+
+                                            <input id="id_client_rel" name="" type="text" class="form-control"required autocomplete="off" placeholder="" value="{{$data_client_byemail->name_client}} || {{$data_client_byemail->email_client}}" readonly>
+                                            <input type="hidden" name="id_client_rel" value="{{$data_client_byemail->id}}" required readonly  >
+                                        @endif
+                                        
                                     </div>
                                 </div>
         
@@ -325,6 +332,13 @@
             console.log(total_profit_plusppn);
             var id_profit_plusppn = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(total_profit_plusppn);
             $('#id_profit_plusppn').val(id_profit_plusppn);
+
+
+        })
+
+        $('#id_capacity_rel'). on('change', function(){
+            var goto_zero = parseInt("0")
+            $('#id_ppn').val(goto_zero);
 
 
         })

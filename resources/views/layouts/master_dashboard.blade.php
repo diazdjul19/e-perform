@@ -278,7 +278,7 @@
                     </ul>
                 </li>
 
-                <li class="treeview {{ request()->is('sales-lobbyist-process', 'sales-daily-report', 'sales-daily-report-create-nemail') ? 'active' : '' }}">
+                <li class="treeview {{ request()->is('sales-lobbyist-process', 'sales-daily-report', 'sales-daily-report-create-nemail', 'sales-daily-report-create/*') ? 'active' : '' }}">
                     <a href="#">
                         <i class="fa fa-sellsy"></i> <span>Sales Management</span>
                         <span class="pull-right-container">
@@ -287,8 +287,8 @@
                     </a>
                     <ul class="treeview-menu">
                         <li class="{{ request()->is('sales-lobbyist-process') ? 'active' : '' }}"><a href="{{route('sales-lobbyist-process')}}"><i class="fa fa-circle-o"></i> Sales Lobbyist Process</a></li>
-                        <li class="{{ request()->is('sales-daily-report', 'sales-daily-report-create-nemail') ? 'active' : '' }}"><a href="{{route('sales-daily-report', 'sales-daily-report-create-nemail')}}"><i class="fa fa-circle-o"></i> Sales Daily Report</a></li>
-                        <li><a href="#"><i class="fa fa-circle-o"></i> Sales Report Perform</a></li>
+                        <li class="{{ request()->is('sales-daily-report', 'sales-daily-report-create-nemail', 'sales-daily-report-create/*') ? 'active' : '' }}"><a href="{{route('sales-daily-report', 'sales-daily-report-create-nemail')}}"><i class="fa fa-circle-o"></i> Sales Daily Report</a></li>
+                        {{-- <li><a href="#"><i class="fa fa-circle-o"></i> Sales Report Perform</a></li> --}}
                     </ul>
                 </li>
                 

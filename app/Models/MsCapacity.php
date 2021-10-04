@@ -12,4 +12,5 @@ class MsCapacity extends Model
     public function jnsvendor(){
         return $this->belongsTo(MsVendor::class,'id_vendor_rel','id');
     }
+
 }

@@ -143,7 +143,8 @@ class SalesReportController extends Controller
 
     public function sales_daily_report()
     {
-        return view('dashboard_view.sales_management.sales_daily_report');
+        $data = MsSalesReport::with('jnsuser', 'jnsclient', '[jnscapacity]', 'jnssite')->get();
+        return view('dashboard_view.sales_management.sales_daily_report', compact('data'));
     }
 
     public function sales_daily_report_create_nemail()
@@ -164,12 +165,42 @@ class SalesReportController extends Controller
             $tiket_autogenerate = "AutoGenerage-Tiket";
 
         }else {
-            $tiket_autogenerate = "ICT" . "-" . str_pad($id_daily->id + 1, 6, "0", STR_PAD_LEFT);
+            $tiket_autogenerate = "INV" . "-" . str_pad($id_daily->id + 1, 6, "0", STR_PAD_LEFT);
         }
 
         $data_user = User::where('email', '!=', 'setlightcombo@gmail.com')->where('role', 'admin')->orWhere('role', 'sales')->get();
 
         return view('dashboard_view.sales_management.sales_daily_report_create', compact('data_user', 'data_client', 'data_capacity', 'data_site', 'tiket_autogenerate'));
+    }
+
+    public function sales_daily_report_wemail($emailclient)
+    {
+
+        $get_auth = Auth::user();
+
+        $data_client_byemail = MsClient::where('email_client', $emailclient)->first();
+
+        if ($get_auth->role == "admin" || $get_auth->role == "sales") {
+            $data_client = MsClient::all();
+            $data_capacity = MsCapacity::with('jnsvendor')->get();
+            $data_site= MsSite::all();
+        }else {
+            return abort(404);
+        }
+
+        $id_daily = MsSalesReport::orderBy('id', 'DESC')->first();
+        if ($id_daily == null) {
+            // $tiket_autogenerate = "ICT" . "-" . str_pad(1, 6, "0", STR_PAD_LEFT);
+            $tiket_autogenerate = "AutoGenerage-Tiket";
+
+        }else {
+            $tiket_autogenerate = "INV" . "-" . str_pad($id_daily->id + 1, 6, "0", STR_PAD_LEFT);
+        }
+
+        $data_user = User::where('email', '!=', 'setlightcombo@gmail.com')->where('role', 'admin')->orWhere('role', 'sales')->get();
+
+        return view('dashboard_view.sales_management.sales_daily_report_create', compact('data_client_byemail', 'data_user', 'data_client', 'data_capacity', 'data_site', 'tiket_autogenerate'));
+        
     }
 
     // Ajax Autocomplate
@@ -182,15 +213,15 @@ class SalesReportController extends Controller
 
     public function sales_daily_report_store(Request $request)
     {
-        // $this->validate($request, [
-        //     'tiket_report' => ['required', 'string', 'max:255'],
-        //     'id_user_rel' => ['required', 'integer', 'min:1'],
-        //     'id_client_rel' => ['required', 'integer', 'min:1'],
-        //     'id_capacity_rel' => ['required', 'integer', 'min:1'],
-        //     'id_site_rel' => ['required', 'integer', 'min:1'],
-        //     'id_client_rel' => ['required', 'integer', 'min:1'],
-        //     'status' => ['required', 'string', 'max:255'],
-        // ]);
+        $this->validate($request, [
+            'tiket_report' => ['required', 'string', 'max:255'],
+            'id_user_rel' => ['required', 'integer', 'min:1'],
+            'id_client_rel' => ['required', 'integer', 'min:1'],
+            'id_capacity_rel' => ['required', 'integer', 'min:1'],
+            'id_site_rel' => ['required', 'integer', 'min:1'],
+            'id_client_rel' => ['required', 'integer', 'min:1'],
+            'status' => ['required', 'string', 'max:255'],
+        ]);
 
         try {
 
@@ -198,6 +229,7 @@ class SalesReportController extends Controller
 
             $data = new MsSalesReport;
             $data->tiket_report = $request->tiket_report;
+
             $data->id_user_rel = $request->id_user_rel;
             $data->id_client_rel = $request->id_client_rel;
             $data->id_capacity_rel = $request->id_capacity_rel;
@@ -221,25 +253,23 @@ class SalesReportController extends Controller
             $data->subtotal_plus_ppn = substr($replace_coma00subtotal, 2);
 
             $data->status = $request->status; 
-            
+            $data->save();
+
             // Ini fungsi untuk generate otomatis untuk yang pertama.
             if ($data->tiket_report == "AutoGenerage-Tiket") {
-                $tiket_autogenerate_first = "ICT" . "-" . str_pad($data->id, 6, "0", STR_PAD_LEFT);
+                $tiket_autogenerate_first = "INV" . "-" . str_pad($data->id, 6, "0", STR_PAD_LEFT);
                 $data->update(['tiket_report' => $tiket_autogenerate_first]);
             }
             
-            // dd($data);
-            $data->save();
             // \DB::commit() ini akan menginput data jika dari proses diatas tidak ada yg salah atau error.
             \DB::commit();
             alert()->success('Success Created',"Ticket Invoice $data->tiket_report has been successfully entered.");
             return redirect(route('sales-daily-report'));
 
         } catch (\Exception $e) {
-            return $e->getMessage();
-            // \DB::rollback();
-            // alert()->error('Error',$e->getMessage());
-            // return redirect(route('sales-daily-report'));
+            \DB::rollback();
+            alert()->error('Error',$e->getMessage());
+            return redirect(route('sales-daily-report'));
         }
     }
 

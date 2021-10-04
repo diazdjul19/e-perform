@@ -86,9 +86,10 @@ Route::group(['middleware' => ['auth', 'cekroleuser:admin,noc,sales']], function
     Route::get('/sales-daily-report-create/{emailclient}', 'SalesReportController@sales_daily_report_wemail')->name('sales-daily-report-create');
     Route::post('/sales-daily-report-store', 'SalesReportController@sales_daily_report_store')->name('sales-daily-report-store');
     
-    // ajax buying
     Route::get('/salesdaily-getprice-capacit', "SalesReportController@getprice_capacitybandwith");
 
+    Route::get('/sales-daily-report-edit/{id}', 'SalesReportController@sales_daily_report_editshow')->name('sales-daily-report-edit');
+    Route::get('/sales-daily-report-show/{id}', 'SalesReportController@sales_daily_report_editshow')->name('sales-daily-report-show');
 
 });
 

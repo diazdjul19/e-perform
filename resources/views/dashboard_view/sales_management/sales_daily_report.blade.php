@@ -51,16 +51,49 @@
                                         <th>Tiket Invoice</th>
                                         <th>Report By</th>
                                         <th>Name Client</th>
+                                        <th class="text-center">Capacity</th>
+                                        <th class="text-center">Site</th>
+                                        <th class="text-center">Margin Profit</th>
                                         <th class="text-center">Status</th>
-                                        <th class="text-center">Action</th>
                                         <th class="text-center" style="padding:5px;">&#128073; <input type="checkbox" id="cekall" style="margin-bottom: 10px;"  data-toggle="tooltip" title="Click here to Check All" data-placement="top"> &#128072;</th>
-                                        <th style="display:none;">ID</th>
-
                                     </tr>
                                 </thead>
 
                                 <tbody>
-                                    {{-- Untuk Action, Sediakan Add, Edit, Delete, Download PDF, Detail, Detail PDF --}}
+                                    @foreach ($data as $d)
+                                        <tr>
+                                            <td>{{$loop->iteration}}</td>
+
+                                            @if (Auth::user()->role == "admin")
+                                                <td style="min-width:120px;"><a href="{{route('sales-daily-report-edit', $d->id)}}" style="color: #17a2b8;text-decoration:none;" data-toggle="tooltip" title="Click here to view or edit data" data-placement="top">{{$d->tiket_report}}</a></td>
+                                            @elseif (Auth::user()->role == "sales")
+                                                @if ($d->jnsuser == null)
+                                                    <td style="min-width:120px;"><a href="{{route('sales-daily-report-edit', $d->id)}}" style="color: #17a2b8;text-decoration:none;" data-toggle="tooltip" title="Click here to view or edit data" data-placement="top">{{$d->tiket_report}}</a></td>
+                                                @elseif ($d->jnsuser->id == Auth::user()->id)
+                                                    <td style="min-width:120px;"><a href="{{route('sales-daily-report-edit', $d->id)}}" style="color: #17a2b8;text-decoration:none;" data-toggle="tooltip" title="Click here to view or edit data" data-placement="top">{{$d->tiket_report}}</a></td>
+                                                @elseif ($d->jnsuser->id != Auth::user()->id)
+                                                    <td style="min-width:120px;"><a href="{{route('sales-daily-report-show', $d->id)}}" style="color: #17a2b8;text-decoration:none;" data-toggle="tooltip" title="Click here to view or edit data" data-placement="top">{{$d->tiket_report}}</a></td>
+                                                @endif
+                                            @else
+                                                <td>-</td>
+                                            @endif
+
+                                            @if ($d->jnsuser != null)
+                                                <td style="min-width:120px;">
+                                                    {{$d->jnsuser->name}}
+                                                    @if ($d->jnsuser->role == "admin")
+                                                        (Admin)
+                                                    @elseif ($d->jnsuser->role == "sales")
+                                                        (Sales)
+                                                    @endif
+                                                </td>
+                                            @elseif ($d->jnsuser == null) 
+                                                <td style="min-width:120px;font-weight:bold;">ID Not Found !!!</td>
+                                            @endif
+
+
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                                 
                             </table>
