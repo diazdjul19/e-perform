@@ -151,23 +151,99 @@ class SalesReportController extends Controller
         $get_auth = Auth::user();
 
         if ($get_auth->role == "admin" || $get_auth->role == "sales") {
-
-            $data_user = User::where('email', '!=', 'setlightcombo@gmail.com')->where('role', 'admin')->orWhere('role', 'sales')->get();
             $data_client = MsClient::all();
             $data_capacity = MsCapacity::with('jnsvendor')->get();
             $data_site= MsSite::all();
-
-            return view('dashboard_view.sales_management.sales_daily_report_create', compact('data_user', 'data_client', 'data_capacity', 'data_site'));
         }else {
             return abort(404);
         }
 
+        $id_daily = MsSalesReport::orderBy('id', 'DESC')->first();
+        if ($id_daily == null) {
+            // $tiket_autogenerate = "ICT" . "-" . str_pad(1, 6, "0", STR_PAD_LEFT);
+            $tiket_autogenerate = "AutoGenerage-Tiket";
+
+        }else {
+            $tiket_autogenerate = "ICT" . "-" . str_pad($id_daily->id + 1, 6, "0", STR_PAD_LEFT);
+        }
+
+        $data_user = User::where('email', '!=', 'setlightcombo@gmail.com')->where('role', 'admin')->orWhere('role', 'sales')->get();
+
+        return view('dashboard_view.sales_management.sales_daily_report_create', compact('data_user', 'data_client', 'data_capacity', 'data_site', 'tiket_autogenerate'));
     }
 
-    // ajax
+    // Ajax Autocomplate
     public function getprice_capacitybandwith(Request $request)
     {
         $data = MsCapacity::find($request->id);
         return response()->json($data, 200);
     }
+    // Ajax Autocomplate
+
+    public function sales_daily_report_store(Request $request)
+    {
+        // $this->validate($request, [
+        //     'tiket_report' => ['required', 'string', 'max:255'],
+        //     'id_user_rel' => ['required', 'integer', 'min:1'],
+        //     'id_client_rel' => ['required', 'integer', 'min:1'],
+        //     'id_capacity_rel' => ['required', 'integer', 'min:1'],
+        //     'id_site_rel' => ['required', 'integer', 'min:1'],
+        //     'id_client_rel' => ['required', 'integer', 'min:1'],
+        //     'status' => ['required', 'string', 'max:255'],
+        // ]);
+
+        try {
+
+            \DB::beginTransaction();
+
+            $data = new MsSalesReport;
+            $data->tiket_report = $request->tiket_report;
+            $data->id_user_rel = $request->id_user_rel;
+            $data->id_client_rel = $request->id_client_rel;
+            $data->id_capacity_rel = $request->id_capacity_rel;
+            $data->id_site_rel = $request->id_site_rel;
+
+            $replace_rpfromme = str_replace("Rp" , "", $request->get('profit_no_ppn'));
+            $replace_dotfromme = str_replace("." , "", $replace_rpfromme);
+            $replace_coma00frome = str_replace(",00" , "", $replace_dotfromme);
+            $data->price_capacity_fromme = substr($replace_coma00frome, 2);
+
+            $replace_rpvendor = str_replace("Rp" , "", $request->get('price_capacity_vendor'));
+            $replace_dotvendor = str_replace("." , "", $replace_rpvendor);
+            $replace_coma00vendor = str_replace(",00" , "", $replace_dotvendor);
+            $data->price_capacity_vendor = substr($replace_coma00vendor, 2);
+
+            $data->ppn_percentage = $request->ppn_percentage;
+
+            $replace_rpsubtotal = str_replace("Rp" , "", $request->get('subtotal_plus_ppn'));
+            $replace_dotsubtotal = str_replace("." , "", $replace_rpsubtotal);
+            $replace_coma00subtotal = str_replace(",00" , "", $replace_dotsubtotal);
+            $data->subtotal_plus_ppn = substr($replace_coma00subtotal, 2);
+
+            $data->status = $request->status; 
+            
+            // Ini fungsi untuk generate otomatis untuk yang pertama.
+            if ($data->tiket_report == "AutoGenerage-Tiket") {
+                $tiket_autogenerate_first = "ICT" . "-" . str_pad($data->id, 6, "0", STR_PAD_LEFT);
+                $data->update(['tiket_report' => $tiket_autogenerate_first]);
+            }
+            
+            // dd($data);
+            $data->save();
+            // \DB::commit() ini akan menginput data jika dari proses diatas tidak ada yg salah atau error.
+            \DB::commit();
+            alert()->success('Success Created',"Ticket Invoice $data->tiket_report has been successfully entered.");
+            return redirect(route('sales-daily-report'));
+
+        } catch (\Exception $e) {
+            return $e->getMessage();
+            // \DB::rollback();
+            // alert()->error('Error',$e->getMessage());
+            // return redirect(route('sales-daily-report'));
+        }
+    }
+
+
 }
+
+

@@ -46,7 +46,7 @@
                 </div>
             </div>
 
-            <form class="form-sample" action="#" method="POST" enctype="multipart/form-data">
+            <form class="form-sample" action="{{route('sales-daily-report-store')}}" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 <div class="row">
@@ -56,7 +56,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="" for="">Tiket Invoice <span class="text-danger">*</span></label>
-                                        <input id="tiket_report" type="text" class="form-control" name="tiket_report" required autocomplete="off" placeholder="" >
+                                        <input id="tiket_report" type="text" class="form-control" name="tiket_report" autocomplete="off" required readonly value="{{$tiket_autogenerate}}">
                                         
                                     </div>
                                 </div>
@@ -141,12 +141,26 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
+                                        <label class="" for="">Select Site <span class="text-danger">*</span></label>
+                                        <select class="form-control select2" style="width: 100%;" name="id_site_rel" required>
+                                            <option value selected disabled>Choise</option>
+                                            @foreach ($data_site as $item)
+                                                <option value="{{$item->id}}">
+                                                    {{$item->name_site}}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
                                         <label class="" for="">Status Progrest </label>
                                             <select class="form-control pt-0 pb-0" id="status" name="status" style="height:35px;" required>
                                                 <option value selected disabled>Choise</option>
-                                                <option style="background-color: #FFCA2C;color:#000;" value="ocn">&#9201;&#65039; On Process NOC</option>
-                                                <option style="background-color: #157347;color:#FFF;" value="solved">&#10004; Finish</option>
-                                                <option style="background-color: #BB2D3B;color:#FFF;" value="n_solved">&#10006; Fail</option>
+                                                <option style="background-color: #FFCA2C;color:#000;" value="opn">&#9201;&#65039; On Process NOC</option>
+                                                <option style="background-color: #157347;color:#FFF;" value="finish">&#10004; Finish</option>
+                                                <option style="background-color: #BB2D3B;color:#FFF;" value="fail">&#10006; Fail</option>
                                             </select>
                                     </div>
                                 </div>
@@ -162,7 +176,7 @@
                             <ul class="list-group" style="padding: 10px;">
                                 <li class="list-group-item active "></li>
 
-                                <li class="list-group-item">
+                                <li class="list-group-item" id="IfSelected">
                                     <div class="form-group">
                                         <label class="font-weight-bold" for="total_harga"> Harga Bandwith Tanpa PPN ( Rp. )</label>
                                         <input type="text" name="profit_no_ppn" class="form-control" id="id_profit_noppn" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');"  placeholder="">      
@@ -236,7 +250,7 @@
             }
             
             rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-            return prefix == undefined ? rupiah : (rupiah ? 'Rp ' + rupiah : '');
+            return prefix == undefined ? rupiah : (rupiah ? 'Rp  ' + rupiah : '');
         }
 
     </script>
@@ -340,5 +354,27 @@
 
         // })
 
+    </script>
+@endpush
+
+@push('show-hide-input')
+    <script>
+        $("#id_capacity_rel").change(function() {
+            if ($(this).children('option:selected').val()) {
+                $('#IfSelected').show();
+                $('#id_profit_noppn').attr('required', '');
+                $('#id_profit_noppn').attr('data-error', 'This field is required.');
+                $('#id_ppn').attr('required', '');
+                $('#id_ppn').attr('data-error', 'This field is required.');
+            } else {
+                $('#IfSelected').hide();
+                $('#id_profit_noppn').removeAttr('required');
+                $('#id_profit_noppn').removeAttr('data-error');
+                $('#id_ppn').removeAttr('required');
+                $('#id_ppn').removeAttr('data-error');
+            }
+
+        });
+        $("#id_capacity_rel").trigger("change");
     </script>
 @endpush
