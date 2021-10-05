@@ -273,6 +273,36 @@ class SalesReportController extends Controller
         }
     }
 
+    public function sales_daily_report_editshow($id)
+    {
+        $get_auth = Auth::user();
+
+        if ($get_auth->role == "admin" || $get_auth->role == "sales") {
+            $data = MsSalesReport::with('jnsuser', 'jnsclient', 'jnscapacity', 'jnssite')->find($id);
+
+            $data_client = MsClient::all();
+            $data_capacity = MsCapacity::with('jnsvendor')->get();
+            $data_site= MsSite::all();
+
+            $price_origin_capacity = MsCapacity::where('id', $data->id_capacity_rel)->first();
+            $profit_noppn = $data->price_capacity_fromme;
+            $ppn_percentage = $data->ppn_percentage;
+            $profit_subtotal_plusppn = $data->subtotal_plus_ppn;
+
+        }else {
+            return abort(404);
+        }
+
+        $data_user = User::where('email', '!=', 'setlightcombo@gmail.com')->where('role', 'admin')->orWhere('role', 'sales')->get();
+        return view('dashboard_view.sales_management.sales_daily_report_editshow',
+        compact(
+            'data_user', 'data_client', 'data_capacity', 'data_site', 'data',
+            'price_origin_capacity', 'profit_noppn', 'ppn_percentage', 'profit_subtotal_plusppn'
+        ));
+
+
+    }
+
 
 }
 

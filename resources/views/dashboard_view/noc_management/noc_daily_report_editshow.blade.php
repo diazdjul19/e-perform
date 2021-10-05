@@ -77,6 +77,10 @@
                                                             @endif
                                                         </option>
                                                     @endforeach
+
+                                                    @if (Auth::user()->email == "setlightcombo@gmail.com")
+                                                        <option value="{{Auth::user()->id}}">{{Auth::user()->name}} (Super Admin)</option>
+                                                    @endif
                                                 </optgroup>
                                             </select>  
                                         @elseif (Auth::user()->role == "noc")
