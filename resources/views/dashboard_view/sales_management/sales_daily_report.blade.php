@@ -17,7 +17,7 @@
 
             <!-- Default box -->
             <div class="box box-success">
-                <form action="#" method="post" >
+                <form action="{{route('select-delete-daily-report-sales')}}" method="post" >
                     @csrf
                     <div class="box-header with-border">
                         <h3 class="box-title">Table Daily Report</h3>

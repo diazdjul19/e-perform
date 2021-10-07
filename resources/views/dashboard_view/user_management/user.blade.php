@@ -172,8 +172,8 @@
                                     <button type="button" class="btn btn-danger btn-sm" style="margin-top: 10px;" id="btn-co-delete" name="select_delete[]" type="submit">
                                         <i class="fa fa-trash" aria-hidden="true"></i> Hapus
                                     </button>
-                                @elseif(request()->is('user-approved'))
-                                    <button type="button" class="btn btn-info btn-sm" style="margin-top: 10px;"><i class="fa fa-print"></i> Print</button>
+                                @elseif(request()->is('user-approved')) 
+                                    <a href="{{route('user-approve-print')}}" class="btn btn-info btn-sm" style="margin-top: 10px;"><i class="fa fa-print"></i> Print</a>
                                     <button type="button" class="btn btn-danger btn-sm" style="margin-top: 10px;" id="btn-co-delete" name="select_delete[]" type="submit">
                                         <i class="fa fa-trash" aria-hidden="true"></i> Hapus
                                     </button>

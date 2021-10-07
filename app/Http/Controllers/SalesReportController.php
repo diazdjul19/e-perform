@@ -219,7 +219,6 @@ class SalesReportController extends Controller
             'id_client_rel' => ['required', 'integer', 'min:1'],
             'id_capacity_rel' => ['required', 'integer', 'min:1'],
             'id_site_rel' => ['required', 'integer', 'min:1'],
-            'id_client_rel' => ['required', 'integer', 'min:1'],
             'status' => ['required', 'string', 'max:255'],
         ]);
 
@@ -235,24 +234,21 @@ class SalesReportController extends Controller
             $data->id_capacity_rel = $request->id_capacity_rel;
             $data->id_site_rel = $request->id_site_rel;
 
-            $replace_rpfromme = str_replace("Rp" , "", $request->get('profit_no_ppn'));
+            $replace_rpfromme = str_replace("Rp. " , "", $request->get('profit_no_ppn'));
             $replace_dotfromme = str_replace("." , "", $replace_rpfromme);
-            $replace_coma00frome = str_replace(",00" , "", $replace_dotfromme);
-            $data->price_capacity_fromme = substr($replace_coma00frome, 2);
+            $data->price_capacity_fromme = $replace_dotfromme;
 
-            $replace_rpvendor = str_replace("Rp" , "", $request->get('price_capacity_vendor'));
+            $replace_rpvendor = str_replace("Rp. " , "", $request->get('price_capacity_vendor'));
             $replace_dotvendor = str_replace("." , "", $replace_rpvendor);
-            $replace_coma00vendor = str_replace(",00" , "", $replace_dotvendor);
-            $data->price_capacity_vendor = substr($replace_coma00vendor, 2);
+            $data->price_capacity_vendor = $replace_dotvendor;
 
             $data->ppn_percentage = $request->ppn_percentage;
 
-            $replace_rpsubtotal = str_replace("Rp" , "", $request->get('subtotal_plus_ppn'));
+            $replace_rpsubtotal = str_replace("Rp. " , "", $request->get('subtotal_plus_ppn'));
             $replace_dotsubtotal = str_replace("." , "", $replace_rpsubtotal);
-            $replace_coma00subtotal = str_replace(",00" , "", $replace_dotsubtotal);
-            $data->subtotal_plus_ppn = substr($replace_coma00subtotal, 2);
+            $data->subtotal_plus_ppn = $replace_dotsubtotal;
 
-            $data->status = $request->status; 
+            $data->status = $request->status;
             $data->save();
 
             // Ini fungsi untuk generate otomatis untuk yang pertama.
@@ -301,6 +297,102 @@ class SalesReportController extends Controller
         ));
 
 
+    }
+
+    public function sales_daily_report_showonly($id)
+    {
+        $data = MsSalesReport::with('jnsuser', 'jnsclient', 'jnscapacity', 'jnssite')->find($id);
+
+        $data_client = MsClient::all();
+        $data_capacity = MsCapacity::with('jnsvendor')->get();
+        $data_site= MsSite::all();
+
+        $price_origin_capacity = MsCapacity::where('id', $data->id_capacity_rel)->first();
+        $profit_noppn = $data->price_capacity_fromme;
+        $ppn_percentage = $data->ppn_percentage;
+        $profit_subtotal_plusppn = $data->subtotal_plus_ppn;
+
+        return view('dashboard_view.sales_management.sales_daily_report_showonly',
+        compact(
+            'data_client', 'data_capacity', 'data_site', 'data',
+            'price_origin_capacity', 'profit_noppn', 'ppn_percentage', 'profit_subtotal_plusppn'
+        ));
+
+    }
+
+    public function sales_daily_report_update(Request $request, $id)
+    {
+        $this->validate($request, [
+            'tiket_report' => ['required', 'string', 'max:255'],
+            'id_user_rel' => ['required', 'integer', 'min:1'],
+            'id_client_rel' => ['required', 'integer', 'min:1'],
+            'id_capacity_rel' => ['required', 'integer', 'min:1'],
+            'id_site_rel' => ['required', 'integer', 'min:1'],
+            'status' => ['required', 'string', 'max:255'],
+        ]);
+
+        try {
+
+            \DB::beginTransaction();
+
+            $data = MsSalesReport::find($id);
+            $data->tiket_report = $request->tiket_report;
+
+            $data->id_user_rel = $request->get('id_user_rel');
+            $data->id_client_rel = $request->get('id_client_rel');
+            $data->id_capacity_rel = $request->get('id_capacity_rel');
+            $data->id_site_rel = $request->get('id_site_rel');
+            
+                
+            $replace_rpfromme = str_replace("Rp. " , "", $request->get('profit_no_ppn'));
+            $replace_dotfromme = str_replace("." , "", $replace_rpfromme);
+            $data->price_capacity_fromme = $replace_dotfromme;
+            
+            $replace_rpvendor = str_replace("Rp. " , "", $request->get('price_capacity_vendor'));
+            $replace_dotvendor = str_replace("." , "", $replace_rpvendor);
+            $data->price_capacity_vendor = $replace_dotvendor;
+            
+            $data->ppn_percentage = $request->get('ppn_percentage');
+
+            $replace_rpsubtotal = str_replace("Rp. " , "", $request->get('subtotal_plus_ppn'));
+            $replace_dotsubtotal = str_replace("." , "", $replace_rpsubtotal);
+            $data->subtotal_plus_ppn = $replace_dotsubtotal;
+
+
+            $data->status = $request->get('status');
+            $data->save();
+            
+            // \DB::commit() ini akan menginput data jika dari proses diatas tidak ada yg salah atau error.
+            \DB::commit();
+            alert()->success('Success Updated',"Ticket Invoice $data->tiket_report has been successfully entered.");
+            return redirect(route('sales-daily-report'));
+
+        } catch (\Exception $e) {
+            \DB::rollback();
+            alert()->error('Error',$e->getMessage());
+            return redirect(route('sales-daily-report'));
+        }
+    }
+
+    public function select_delete_daily_report_sales(Request $request)
+    {
+        $select_delete = $request->get('select_delete');
+
+        if ($select_delete == true) {
+
+            $data_confirm = MsSalesReport::whereIn('id', $select_delete)->get('id');
+
+            if ($data_confirm == true) {
+                $delete_now = MsSalesReport::whereIn('id', $data_confirm)->delete();
+            } else {
+                return "Gagal Menghapus Data :(";
+            }
+
+            alert()->success('Success Delete',"Data Berhasil Di Hapus");
+            return redirect()->back();
+        } else {
+            return redirect()->back();
+        }
     }
 
 

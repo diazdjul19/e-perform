@@ -150,7 +150,7 @@ class NocReportController extends Controller
                 return "Gagal Menghapus Data :(";
             }
 
-            alert()->info('Success Delete',"Data Berhasil Di Hapus");
+            alert()->success('Success Delete',"Data Berhasil Di Hapus");
             return redirect()->back();
         } else {
             return redirect()->back();

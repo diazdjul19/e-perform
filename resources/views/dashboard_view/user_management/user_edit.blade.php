@@ -388,7 +388,7 @@
                 <!-- /.box-footer -->
                 <div class="box-footer">
                     <a href="{{ URL::previous() }}" class="btn btn-warning" ><i class="fa  fa-arrow-circle-left"></i> Back</a>
-                    <button type="submit" class="btn btn-info"><i class="fa fa-save"></i> Update</button>
+                    <button type="submit" id="btn-co-submit" class="btn btn-info"><i class="fa fa-save"></i> Update</button>
                 </div>
             </form>
             
@@ -472,5 +472,43 @@
             });
         } );
         
+    </script>
+@endpush
+
+@push('confirm-alert')
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
+    <script>
+        // Start Confirm Select submit Using SweetAlert2
+            $('#btn-co-submit').on('click',function(e){
+                e.preventDefault();
+
+                var form = $(this).parents('form');
+                Swal.fire({
+                    title: 'Apakah Anda Yakin?',
+                    text: "Anda akan mengubah password ini!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, I am sure'
+                }).then((result) => {
+                    if (result.value) {
+                        Swal.fire(
+                        'Success!',
+                        'Success Submit Form.',
+                        'success'
+                        )
+                        form.submit();
+                    } else {
+                        Swal.fire(
+                            'Cancelled!',
+                            'Our imaginary file is safe :).',
+                            'error'
+                        )
+                    } 
+                });
+            });
+        // End Confirm Select submit Using SweetAlert2
     </script>
 @endpush

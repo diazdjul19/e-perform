@@ -181,7 +181,7 @@
                     <!-- Menu Footer-->
                     <li class="user-footer">
                         <div class="pull-left">
-                        <a href="" class="btn btn-default btn-flat">Profil & Password</a>
+                        <a href="{{route('edit-profil-password', Auth::user()->id)}}" class="btn btn-default btn-flat">Profil & Password</a>
                         </div>
                         <div class="pull-right">
                             <a class="btn btn-default btn-flat" href="{{ route('logout') }}"
@@ -241,56 +241,65 @@
             <ul class="sidebar-menu" data-widget="tree">
                 <li class="header">MAIN NAVIGATION</li>
                 <li class="{{ request()->is('home') ? 'active' : '' }}"><a href="{{route('home')}}"><i class="fa fa-tachometer"></i> <span>Dashboard</span></a></li>
-                <li class="treeview {{ request()->is('user-registration', 'user-approved', 'user-rejected', 'user-editregistration/*', 'user-editapproved/*', 'user-editrejected/*') ? 'active' : '' }}">
-                    <a href="#">
-                        <i class="fa fa-users"></i> <span> User Management</span>
-                        <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                        </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li class="{{ request()->is('user-registration', 'user-editregistration/*') ? 'active' : '' }}">
-                            <a href="{{route('user-registration')}}">
-                                <i class="fa fa-circle-o text-yellow"></i> User Registration
-                                <span class="pull-right-container">
-                                    <small class="label pull-right bg-yellow">
-                                        {{ \App\User::all()->where('status', 'P')->count() }}
-                                    </small>
-                                </span>
-                            </a>
-                        </li>
-                        <li class="{{ request()->is('user-approved', 'user-editapproved/*') ? 'active' : '' }}"><a href="{{route('user-approved')}}"><i class="fa fa-circle-o text-aqua"></i> User Approved</a></li>
-                        <li class="{{ request()->is('user-rejected', 'user-editrejected/*') ? 'active' : '' }}"><a href="{{route('user-rejected')}}"><i class="fa fa-circle-o text-red"></i> User Rejected</a></li>
+                
+                @if (Auth::user()->role == "admin")
+                    <li class="treeview {{ request()->is('user-registration', 'user-approved', 'user-rejected', 'user-editregistration/*', 'user-editapproved/*', 'user-editrejected/*') ? 'active' : '' }}">
+                        <a href="#">
+                            <i class="fa fa-users"></i> <span> User Management</span>
+                            <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="{{ request()->is('user-registration', 'user-editregistration/*') ? 'active' : '' }}">
+                                <a href="{{route('user-registration')}}">
+                                    <i class="fa fa-circle-o text-yellow"></i> User Registration
+                                    <span class="pull-right-container">
+                                        <small class="label pull-right bg-yellow">
+                                            {{ \App\User::all()->where('status', 'P')->count() }}
+                                        </small>
+                                    </span>
+                                </a>
+                            </li>
+                            <li class="{{ request()->is('user-approved', 'user-editapproved/*') ? 'active' : '' }}"><a href="{{route('user-approved')}}"><i class="fa fa-circle-o text-aqua"></i> User Approved</a></li>
+                            <li class="{{ request()->is('user-rejected', 'user-editrejected/*') ? 'active' : '' }}"><a href="{{route('user-rejected')}}"><i class="fa fa-circle-o text-red"></i> User Rejected</a></li>
 
-                    </ul>
-                </li>
+                        </ul>
+                    </li>
+                @endif
 
-                <li class="treeview {{ request()->is('noc-daily-report', 'noc-daily-report-edit/*', 'noc-daily-report-show/*', 'perform-noc-history', 'perform-noc-history-store') ? 'active' : '' }}">
-                    <a href="#">
-                        <i class="fa fa-desktop"></i> <span>NOC Management</span>
-                        <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                        </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li class="{{ request()->is('noc-daily-report', 'noc-daily-report-edit/*', 'noc-daily-report-show/*') ? 'active' : '' }}"><a href="{{route('noc-daily-report')}}"><i class="fa fa-circle-o"></i> NOC Daily Report</a></li>
-                        <li class="{{ request()->is('perform-noc-history', 'perform-noc-history-store') ? 'active' : '' }}"><a href="{{route('perform-noc-history')}}"><i class="fa fa-circle-o"></i> NOC Perform Report</a></li>
-                    </ul>
-                </li>
+                @if (Auth::user()->role == "admin" || Auth::user()->role == "noc")
+                    <li class="treeview {{ request()->is('noc-daily-report', 'noc-daily-report-edit/*', 'noc-daily-report-show/*', 'perform-noc-history', 'perform-noc-history-store') ? 'active' : '' }}">
+                        <a href="#">
+                            <i class="fa fa-desktop"></i> <span>NOC Management</span>
+                            <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="{{ request()->is('noc-daily-report', 'noc-daily-report-edit/*', 'noc-daily-report-show/*') ? 'active' : '' }}"><a href="{{route('noc-daily-report')}}"><i class="fa fa-circle-o"></i> NOC Daily Report</a></li>
+                            @if (Auth::user()->role == "admin")
+                                <li class="{{ request()->is('perform-noc-history', 'perform-noc-history-store') ? 'active' : '' }}"><a href="{{route('perform-noc-history')}}"><i class="fa fa-circle-o"></i> NOC Perform Report</a></li>
+                            @endif
+                        </ul>
+                    </li>
+                @endif
 
-                <li class="treeview {{ request()->is('sales-lobbyist-process', 'sales-daily-report', 'sales-daily-report-create-nemail', 'sales-daily-report-create/*') ? 'active' : '' }}">
-                    <a href="#">
-                        <i class="fa fa-sellsy"></i> <span>Sales Management</span>
-                        <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i>
-                        </span>
-                    </a>
-                    <ul class="treeview-menu">
-                        <li class="{{ request()->is('sales-lobbyist-process') ? 'active' : '' }}"><a href="{{route('sales-lobbyist-process')}}"><i class="fa fa-circle-o"></i> Sales Lobbyist Process</a></li>
-                        <li class="{{ request()->is('sales-daily-report', 'sales-daily-report-create-nemail', 'sales-daily-report-create/*') ? 'active' : '' }}"><a href="{{route('sales-daily-report', 'sales-daily-report-create-nemail')}}"><i class="fa fa-circle-o"></i> Sales Daily Report</a></li>
-                        {{-- <li><a href="#"><i class="fa fa-circle-o"></i> Sales Report Perform</a></li> --}}
-                    </ul>
-                </li>
+                @if (Auth::user()->role == "admin" || Auth::user()->role == "sales")
+                    <li class="treeview {{ request()->is('sales-lobbyist-process', 'sales-daily-report', 'sales-daily-report-create-nemail', 'sales-daily-report-create/*') ? 'active' : '' }}">
+                        <a href="#">
+                            <i class="fa fa-sellsy"></i> <span>Sales Management</span>
+                            <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="{{ request()->is('sales-lobbyist-process') ? 'active' : '' }}"><a href="{{route('sales-lobbyist-process')}}"><i class="fa fa-circle-o"></i> Sales Lobbyist Process</a></li>
+                            <li class="{{ request()->is('sales-daily-report', 'sales-daily-report-create-nemail', 'sales-daily-report-create/*') ? 'active' : '' }}"><a href="{{route('sales-daily-report', 'sales-daily-report-create-nemail')}}"><i class="fa fa-circle-o"></i> Sales Daily Report</a></li>
+                            {{-- <li><a href="#"><i class="fa fa-circle-o"></i> Sales Report Perform</a></li> --}}
+                        </ul>
+                    </li>
+                @endif
                 
                 <li class="treeview {{ request()->is('vendor-element', 'site-element', 'capacity-element', 'link-element', 'client-element', 'client-element/create', 'client-create-wuuid/*') ? 'active' : '' }}">
                     <a href="#">
@@ -301,10 +310,13 @@
                     </a>
                     <ul class="treeview-menu">
                         <li class="{{ request()->is('client-element', 'client-element/create', 'client-create-wuuid/*') ? 'active' : '' }}"><a href="{{route('client-element.index')}}"><i class="fa fa-circle-o"></i> Client Element</a></li>
-                        <li class="{{ request()->is('link-element') ? 'active' : '' }}"><a href="{{route('link-element.index')}}"><i class="fa fa-circle-o"></i> Link Element</a></li>
-                        <li class="{{ request()->is('capacity-element') ? 'active' : '' }}"><a href="{{route('capacity-element.index')}}"><i class="fa fa-circle-o"></i> Capacity Element</a></li>
-                        <li class="{{ request()->is('site-element') ? 'active' : '' }}"><a href="{{route('site-element.index')}}"><i class="fa fa-circle-o"></i> Site Element</a></li>
-                        <li class="{{ request()->is('vendor-element') ? 'active' : '' }}"><a href="{{route('vendor-element.index')}}"><i class="fa fa-circle-o"></i> Vendor Element</a></li>
+
+                        @if (Auth::user()->role == "admin" || Auth::user()->role == "noc")
+                            <li class="{{ request()->is('link-element') ? 'active' : '' }}"><a href="{{route('link-element.index')}}"><i class="fa fa-circle-o"></i> Link Element</a></li>
+                            <li class="{{ request()->is('capacity-element') ? 'active' : '' }}"><a href="{{route('capacity-element.index')}}"><i class="fa fa-circle-o"></i> Capacity Element</a></li>
+                            <li class="{{ request()->is('site-element') ? 'active' : '' }}"><a href="{{route('site-element.index')}}"><i class="fa fa-circle-o"></i> Site Element</a></li>
+                            <li class="{{ request()->is('vendor-element') ? 'active' : '' }}"><a href="{{route('vendor-element.index')}}"><i class="fa fa-circle-o"></i> Vendor Element</a></li>
+                        @endif
                     </ul>
                 </li>
 

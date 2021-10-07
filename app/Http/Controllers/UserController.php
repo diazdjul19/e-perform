@@ -204,6 +204,12 @@ class UserController extends Controller
         }
     }
 
+    public function user_approve_print()
+    {
+        $data = User::where('status', 'A')->where('email', '!=', 'setlightcombo@gmail.com')->get();
+        return view('dashboard_view.user_management.user_print_approve', compact('data'));
+    }
+
     public function user_active($id)
     {
         $data = User::find($id);
