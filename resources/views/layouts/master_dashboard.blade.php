@@ -269,7 +269,7 @@
                 @endif
 
                 @if (Auth::user()->role == "admin" || Auth::user()->role == "noc")
-                    <li class="treeview {{ request()->is('noc-daily-report', 'noc-daily-report-edit/*', 'noc-daily-report-show/*', 'perform-noc-history', 'perform-noc-history-store') ? 'active' : '' }}">
+                    <li class="treeview {{ request()->is('noc-daily-report', 'noc-daily-report-edit/*', 'noc-daily-report-show/*', 'perform-noc-history', 'perform-noc-history-get') ? 'active' : '' }}">
                         <a href="#">
                             <i class="fa fa-desktop"></i> <span>NOC Management</span>
                             <span class="pull-right-container">
@@ -279,7 +279,7 @@
                         <ul class="treeview-menu">
                             <li class="{{ request()->is('noc-daily-report', 'noc-daily-report-edit/*', 'noc-daily-report-show/*') ? 'active' : '' }}"><a href="{{route('noc-daily-report')}}"><i class="fa fa-circle-o"></i> NOC Daily Report</a></li>
                             @if (Auth::user()->role == "admin")
-                                <li class="{{ request()->is('perform-noc-history', 'perform-noc-history-store') ? 'active' : '' }}"><a href="{{route('perform-noc-history')}}"><i class="fa fa-circle-o"></i> NOC Perform Report</a></li>
+                                <li class="{{ request()->is('perform-noc-history', 'perform-noc-history-get') ? 'active' : '' }}"><a href="{{route('perform-noc-history')}}"><i class="fa fa-circle-o"></i> NOC Perform Report</a></li>
                             @endif
                         </ul>
                     </li>

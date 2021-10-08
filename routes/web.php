@@ -50,10 +50,12 @@ Route::group(['middleware' => ['auth', 'cekroleuser:admin']], function () {
 
 
     Route::get('/perform-noc-history', 'NocReportController@perform_noc_history')->name('perform-noc-history');
-    Route::post('/perform-noc-history-store', 'NocReportController@perform_noc_history_store')->name('perform-noc-history-store');
+    Route::get('/perform-noc-history-get', 'NocReportController@perform_noc_history_get')->name('perform-noc-history-get');
+    Route::get('/pdf-perform-noc-history', 'NocReportController@download_perform_noc_history')->name('pdf-perform-noc-history');
+
 
     Route::get('/perform-sales-history', 'SalesReportController@perform_sales_history')->name('perform-sales-history');
-    Route::post('/perform-sales-history-store', 'SalesReportController@perform_sales_history_store')->name('perform-sales-history-store');
+    Route::get('/perform-sales-history-get', 'SalesReportController@perform_sales_history_get')->name('perform-sales-history-get');
 
 
 });

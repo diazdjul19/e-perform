@@ -29,7 +29,7 @@
                     </div>
                 </div>
 
-                <form class="form-sample" action="{{route('perform-noc-history-store')}}" method="POST" enctype="multipart/form-data">
+                <form class="form-sample" action="{{route('perform-noc-history-get')}}" method="get" >
                         @csrf
                         <!-- /.box-body -->
                         <div class="box-body">
@@ -131,8 +131,8 @@
         
                         <div class="row">
                             <div class="col-md-6">
-                                <a href="" class="btn btn-sm" style="margin-top: 10px; background-color:#1be7aa;color:#fff;"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Excel</a>
-                                <a href="" class="btn btn-sm" style="margin-top: 10px; background-color:#ff8f9e;color:#fff;"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> PDF</a>
+                                <a href="#" class="btn btn-sm" style="margin-top: 10px; background-color:#1be7aa;color:#fff;"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Excel</a>
+                                <a href="{{route('pdf-perform-noc-history')}}?{{$data_url}}" class="btn btn-sm" style="margin-top: 10px; background-color:#ff8f9e;color:#fff;"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> PDF</a>
                             </div>
                             <div class="col-md-c"></div>
                         </div>   
@@ -209,8 +209,8 @@
                                                 @endif
                                             </td>
 
-                                            <td style="min-width:120px;">{{$d->solution}}</td>
-                                            <td style="min-width:120px;">{{$d->notes}}</td>
+                                            <td style="min-width:120px;" class="text-center">{{$d->solution}}</td>
+                                            <td style="min-width:120px;" class="text-center">{{$d->notes}}</td>
 
 
                                         </tr>

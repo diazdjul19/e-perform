@@ -174,8 +174,12 @@ class NocReportController extends Controller
         }
     }
 
-    public function perform_noc_history_store(Request $request)
+    public function perform_noc_history_get(Request $request)
     {
+        // data url untuk get link
+        $data_url = $request->fullUrl();
+        $data_url = \Str::substr($data_url, 46);
+
         // Data From perform_noc_history
         $get_auth = Auth::user();
 
@@ -246,8 +250,79 @@ class NocReportController extends Controller
             return abort(404); 
         }
 
-        return view('dashboard_view.noc_management.perform_noc_history', compact('data_history', 'data', 'data_user', 'data_link'));
+        return view('dashboard_view.noc_management.perform_noc_history', compact('data_history', 'data', 'data_user', 'data_link', 'data_url'));
         
         
+    }
+
+    public function download_perform_noc_history(Request $request)
+    {
+        $this->validate($request, [
+            'id_user_rel' => ['required', 'integer', 'min:1'],
+            'id_link_rel' => ['required', 'numeric'],
+            'status' => ['required', 'string', 'max:255'],
+
+        ]);
+
+        // Data Pendukung (whereBetween)
+        $data_dari_long = date('Y-m-d H:i',strtotime($request->input('from_long')));
+        $data_sampai_long = date('Y-m-d H:i',strtotime($request->input('after_long')));
+        $data_link = $request->id_link_rel;
+        $data_user = $request->id_user_rel;
+        $data_status = $request->status;
+
+        if ($data_status == "solved") {
+
+            if ($data_dari_long == "1970-01-01 00:00" || $data_sampai_long == "1970-01-01 00:00") {
+                alert()->error('ErrorAlert','Pastikan field (From Time / After Time) sudah terisi !!!');
+                return redirect(route('perform-noc-history'));  
+            }else {
+                if ($data_link != "0101010101" ) {
+                    $data_history = MsNocReport::whereBetween('created_at',[$data_dari_long, $data_sampai_long])
+                        ->where('id_user_rel',$data_user)
+                        ->where('id_link_rel',$data_link)
+                        ->where('status',$data_status)
+                        ->with('jnsuser', 'jnslink')
+                        ->get();
+                }elseif ($data_link == "0101010101" ) {
+                    $data_history = MsNocReport::whereBetween('created_at',[$data_dari_long, $data_sampai_long])
+                        ->where('id_user_rel',$data_user)
+                        ->where('status',$data_status)
+                        ->with('jnsuser', 'jnslink')
+                        ->get();
+                }else {
+                    return abort(404);   
+                }
+            }        
+            
+        } elseif ($data_status == "ocn" || $data_status == "n_solved") {
+            if ($data_dari_long == "1970-01-01 00:00" || $data_sampai_long == "1970-01-01 00:00") {
+                if ($data_link != "0101010101" ) {
+                    $data_history = MsNocReport::where('id_user_rel',$data_user)
+                        ->where('id_link_rel',$data_link)
+                        ->where('status',$data_status)
+                        ->with('jnsuser', 'jnslink')
+                        ->get();
+                }elseif ($data_link == "0101010101" ) {
+                    $data_history = MsNocReport::where('id_user_rel',$data_user)
+                        ->where('status',$data_status)
+                        ->with('jnsuser', 'jnslink')
+                        ->get();
+                }else {
+                    return abort(404);   
+                }
+            }
+
+        } else{
+            return abort(404); 
+        }
+
+        $getname = User::where('id', $data_user)->first();
+
+        $pdf = \PDF::loadView('pdf.pdf_perform_noc_history', compact('data_history', 'data', 'data_user', 'data_link', 'data_url', 'getname', 'data_dari_long', 'data_sampai_long'))->setPaper('A4')->setOrientation('landscape');
+        return $pdf->download("NOC-Daily-Report-($getname->name).pdf");
+
+
+
     }
 }
