@@ -19,11 +19,11 @@
         <div class="row">
             <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="info-box bg-aqua">
-                <span class="info-box-icon"><i class="fa fa-bookmark-o"></i></span>
+                <span class="info-box-icon"><i class="fa fa-users"></i></span>
 
                 <div class="info-box-content">
-                <span class="info-box-text">Example</span>
-                <span class="info-box-number">0</span>
+                <span class="info-box-text">Total User Active</span>
+                <span class="info-box-number">{{$data_user}} User</span>
 
                 <div class="progress">
                     <div class="progress-bar" style="width: 100%"></div>
@@ -39,11 +39,11 @@
             <!-- /.col -->
             <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="info-box bg-green">
-                <span class="info-box-icon"><i class="fa fa-thumbs-o-up"></i></span>
+                <span class="info-box-icon"><i class="fa fa-street-view"></i></span>
 
                 <div class="info-box-content">
-                <span class="info-box-text">Example</span>
-                <span class="info-box-number">0</span>
+                <span class="info-box-text">Total Client</span>
+                <span class="info-box-number">{{$data_client}} Client</span>
 
                 <div class="progress">
                     <div class="progress-bar" style="width: 100%"></div>
@@ -59,11 +59,11 @@
             <!-- /.col -->
             <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="info-box bg-yellow">
-                <span class="info-box-icon"><i class="fa fa-calendar"></i></span>
+                <span class="info-box-icon"><i class="fa fa-file-text"></i></span>
 
                 <div class="info-box-content">
-                <span class="info-box-text">Example</span>
-                <span class="info-box-number">0</span>
+                <span class="info-box-text">Total Report Sales</span>
+                <span class="info-box-number">{{$data_sales_report}}</span>
 
                 <div class="progress">
                     <div class="progress-bar" style="width: 100%"></div>
@@ -79,11 +79,11 @@
             <!-- /.col -->
             <div class="col-md-3 col-sm-6 col-xs-12">
             <div class="info-box bg-red">
-                <span class="info-box-icon"><i class="fa fa-comments-o"></i></span>
+                <span class="info-box-icon"><i class="fa fa-file-text"></i></span>
 
                 <div class="info-box-content">
-                <span class="info-box-text">Example</span>
-                <span class="info-box-number">0</span>
+                <span class="info-box-text">Total Report NOC</span>
+                <span class="info-box-number">{{$data_noc_report}}</span>
 
                 <div class="progress">
                     <div class="progress-bar" style="width: 100%"></div>

@@ -395,6 +395,33 @@ class SalesReportController extends Controller
         }
     }
 
+    public function pdf_daily_report_sales(Request $request)
+    {
+        $data = MsSalesReport::with('jnsuser', 'jnsclient', 'jnscapacity', 'jnssite')->get();
+        $pdf = \PDF::loadView('pdf.pdf_daily_report_sales', compact('data'))->setPaper('A4')->setOrientation('landscape');
+        return $pdf->download("Sales-Daily-Report.pdf");
+    }
+
+    public function pdf_daily_report_sales_detail($id)
+    {
+        $data = MsSalesReport::with('jnsuser', 'jnsclient', 'jnscapacity', 'jnssite')->find($id);
+
+        $data_client = MsClient::all();
+        $data_capacity = MsCapacity::with('jnsvendor')->get();
+        $data_site= MsSite::all();
+
+        $price_origin_capacity = MsCapacity::where('id', $data->id_capacity_rel)->first();
+        $profit_noppn = $data->price_capacity_fromme;
+        $ppn_percentage = $data->ppn_percentage;
+        $profit_subtotal_plusppn = $data->subtotal_plus_ppn;
+
+        $pdf = \PDF::loadView('pdf.pdf_daily_report_sales_detail',
+        compact('data_client', 'data_capacity', 'data_site', 'data', 'price_origin_capacity', 'profit_noppn', 'ppn_percentage', 'profit_subtotal_plusppn'))->setPaper('A4')->setOrientation('landscape');
+        return $pdf->download("Sales-Daily-Report-($data->tiket_report).pdf");
+
+        
+    }
+
 
 }
 

@@ -33,7 +33,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <a href="{{route('sales-daily-report-create-nemail')}}" class="btn btn-info btn-sm" style="margin-top: 10px;"><i class="fa fa-plus"></i> Tambah</a>
-                                <a href="#" class="btn btn-sm" style="margin-top: 10px; background-color:#ff8f9e;color:#fff;"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> PDF</a>
+                                <a href="{{route('pdf-daily-report-sales')}}" class="btn btn-sm" style="margin-top: 10px; background-color:#ff8f9e;color:#fff;"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> PDF</a>
                                 <button type="button" class="btn btn-danger btn-sm" style="margin-top: 10px;" id="btn-co-delete" name="select_delete[]" type="submit">
                                     <i class="fa fa-trash" aria-hidden="true"></i> Hapus
                                 </button>

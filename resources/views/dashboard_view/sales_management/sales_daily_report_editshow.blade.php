@@ -283,7 +283,7 @@
                     <button type="submit" class="btn btn-info"><i class="fa fa-save"></i> Save</button>
 
                     {{-- <a href="#" target="_blank" class="btn btn-sm btn-default" style="float: right; margin-left:2px; margin-right:2px;"><i class="fa fa-print"></i> Print</a> --}}
-                    <a href="#"  class="btn btn-sm btn-danger" style="float: right; margin-left:2px; margin-right:2px;"><i class="fa fa-file-pdf-o"></i> Download PDF</a>
+                    <a href="{{route('pdf-daily-report-sales-detail', $data->id)}}"  class="btn btn-sm btn-danger" style="float: right; margin-left:2px; margin-right:2px;"><i class="fa fa-file-pdf-o"></i> Download PDF</a>
                 </div>
             </form>
             

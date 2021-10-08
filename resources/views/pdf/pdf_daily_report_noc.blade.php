@@ -32,9 +32,9 @@
                 <ul class="list-group">
                     <li class="list-group-item active">
                         <br>
-                        <p>Hallo {{Auth::user()->name}}, Berikut ini data Daily Report NOC : {{$getname->name}}. <br><br>
-                            Dari Tanggal : {{date('d M Y  | H:i', strtotime($data_dari_long))}} <br>
-                            Sampai Tanggal : {{date('d M Y  | H:i', strtotime($data_sampai_long))}}
+                        <p>Hallo {{Auth::user()->name}}, Berikut ini data Daily Report NOC. <br><br>
+                            Tanggal : {{date("d M Y")}} <br>
+                            Jam : {{date("H:i:s")}}
                         </p>
     
     
@@ -56,7 +56,7 @@
                                 <th class="text-center">Solution</th>
                                 <th class="text-center">*Notes*</th>
                             </tr>
-                            @foreach ($data_history as $d)
+                            @foreach ($data as $d)
                                 <tr>
                                     <td>{{$loop->iteration}}</td>
                                     <td style="min-width:120px;"><a href="{{route('noc-daily-report-edit', $d->id)}}" style="color: #17a2b8;text-decoration:none;" data-toggle="tooltip" title="Click here to view or edit data" data-placement="top">{{$d->tiket_report}}</a></td>

@@ -5,6 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\MsMngr;
 
+use App\User;
+use App\Models\MsClient;
+use App\Models\MsSalesReport;
+use App\Models\MsNocReport;
+
+
+
+
 class HomeController extends Controller
 {
     /**
@@ -25,8 +33,14 @@ class HomeController extends Controller
     public function index()
     {
         $data_mngr = MsMngr::where('id', 1)->where('md5', 'ad6d404a695da4eb8ba3ef9ffcd7b8aa')->first();
+
+        $data_user = count(User::where('status', 'A')->where('email', '!=', 'setlightcombo@gmail.com')->get());
+        $data_client = count(MsClient::all());
+        $data_sales_report = count(MsSalesReport::all());
+        $data_noc_report = count(MsNocReport::all());
+
         // return view('home');
-        return view('dashboard_view.home', compact('data_mngr'));
+        return view('dashboard_view.home', compact('data_mngr', 'data_user', 'data_client', 'data_sales_report', 'data_noc_report'));
     }
 
     public function mngr_store(Request $request)

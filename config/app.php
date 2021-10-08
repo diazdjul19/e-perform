@@ -168,6 +168,9 @@ return [
         // Wkhtmltopdf Laravel
         Barryvdh\Snappy\ServiceProvider::class,
 
+        // Laravel Excel 
+        Maatwebsite\Excel\ExcelServiceProvider::class,
+
         /*
          * Package Service Providers...
          */
@@ -239,6 +242,9 @@ return [
         // Wkhtmltopdf Laravel
         'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
         'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
+
+        // Laravel Excel 
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
 
 
 

@@ -255,6 +255,14 @@ class NocReportController extends Controller
         
     }
 
+    public function pdf_daily_report_noc(Request $request)
+    {
+        $data = MsNocReport::with('jnsuser', 'jnslink')->get();
+        $pdf = \PDF::loadView('pdf.pdf_daily_report_noc', compact('data'))->setPaper('A4')->setOrientation('landscape');
+        return $pdf->download("NOC-Daily-Report.pdf");
+
+    }
+
     public function download_perform_noc_history(Request $request)
     {
         $this->validate($request, [

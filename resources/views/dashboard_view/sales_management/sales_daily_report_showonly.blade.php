@@ -125,7 +125,7 @@
             <div class="row no-print">
                 <div class="col-xs-12">
                     {{-- <a href="#" target="_blank" class="btn btn-sm btn-default"><i class="fa fa-print"></i> Print</a> --}}
-                    <a href="#"  class="btn btn-sm btn-danger"><i class="fa fa-file-pdf-o"></i> Download PDF</a>
+                    <a href="{{route('pdf-daily-report-sales-detail', $data->id)}}"  class="btn btn-sm btn-danger"><i class="fa fa-file-pdf-o"></i> Download PDF</a>
                     
                 </div>
             </div>

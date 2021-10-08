@@ -80,6 +80,7 @@ Route::group(['middleware' => ['auth', 'cekroleuser:admin,noc']], function () {
     Route::put('/noc-daily-report-update/{id}', 'NocReportController@noc_daily_report_update')->name('noc-daily-report-update');
     Route::post('/select-delete-daily-report-noc', 'NocReportController@select_delete_daily_report_noc')->name('select-delete-daily-report-noc');
 
+    Route::get('/pdf-daily-report-noc', 'NocReportController@pdf_daily_report_noc')->name('pdf-daily-report-noc');
 
     Route::resource('link-element', 'LinkController');
     Route::get('/link-element-delete/{id}', 'LinkController@destroy')->name('link-element-delete');
@@ -113,6 +114,9 @@ Route::group(['middleware' => ['auth', 'cekroleuser:admin,sales']], function () 
     Route::get('/sales-daily-report-show/{id}', 'SalesReportController@sales_daily_report_showonly')->name('sales-daily-report-show');
     Route::put('/sales-daily-report-update/{id}', 'SalesReportController@sales_daily_report_update')->name('sales-daily-report-update');
     Route::post('/select-delete-daily-report-sales', 'SalesReportController@select_delete_daily_report_sales')->name('select-delete-daily-report-sales');
+
+    Route::get('/pdf-daily-report-sales', 'SalesReportController@pdf_daily_report_sales')->name('pdf-daily-report-sales');
+    Route::get('/pdf-daily-report-sales-detail/{id}', 'SalesReportController@pdf_daily_report_sales_detail')->name('pdf-daily-report-sales-detail');
 
 });
 
