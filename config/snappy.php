@@ -40,7 +40,7 @@ return [
         'binary'  => env('SNAPPY_BIN', '"C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf"'),
         
         // BINARY FOR VENDOR wemersonjanuario
-        //'binary' => base_path('vendor\wemersonjanuario\wkhtmltopdf-windows\bin\64bit\wkhtmltopdf'),
+        'binary' => base_path('vendor\wemersonjanuario\wkhtmltopdf-windows\bin\64bit\wkhtmltopdf'),
 
         'timeout' => false,
         'options' => [],
@@ -54,7 +54,7 @@ return [
         'binary'  => env('SNAPPY_BIN', '"C:\Program Files\wkhtmltopdf\bin\wkhtmltoimage"'),
         
         // BINARY FOR VENDOR wemersonjanuario
-        //'binary' => base_path('vendor\wemersonjanuario\wkhtmltopdf-windows\bin\64bit\wkhtmltoimage'),
+        'binary' => base_path('vendor\wemersonjanuario\wkhtmltopdf-windows\bin\64bit\wkhtmltoimage'),
 
         'timeout' => false,
         'options' => [],

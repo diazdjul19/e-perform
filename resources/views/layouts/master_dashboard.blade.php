@@ -296,7 +296,9 @@
                         <ul class="treeview-menu">
                             <li class="{{ request()->is('sales-lobbyist-process') ? 'active' : '' }}"><a href="{{route('sales-lobbyist-process')}}"><i class="fa fa-circle-o"></i> Sales Lobbyist Process</a></li>
                             <li class="{{ request()->is('sales-daily-report', 'sales-daily-report-create-nemail', 'sales-daily-report-create/*', 'sales-daily-report-edit/*') ? 'active' : '' }}"><a href="{{route('sales-daily-report', 'sales-daily-report-create-nemail')}}"><i class="fa fa-circle-o"></i> Sales Daily Report</a></li>
-                            {{-- <li><a href="#"><i class="fa fa-circle-o"></i> Sales Report Perform</a></li> --}}
+                            @if (Auth::user()->role == "admin")
+                                <li {{ request()->is('perform-sales-history') ? 'active' : '' }}><a href="{{route('perform-sales-history')}}"><i class="fa fa-circle-o"></i> Sales Report Perform</a></li>
+                            @endif
                         </ul>
                     </li>
                 @endif

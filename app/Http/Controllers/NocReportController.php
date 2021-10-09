@@ -195,7 +195,7 @@ class NocReportController extends Controller
 
         $this->validate($request, [
             'id_user_rel' => ['required', 'integer', 'min:1'],
-            'id_link_rel' => ['required', 'numeric'],
+            'id_link_rel' => ['required'],
             'status' => ['required', 'string', 'max:255'],
 
         ]);
@@ -210,14 +210,14 @@ class NocReportController extends Controller
                 alert()->error('ErrorAlert','Pastikan field (From Time / After Time) sudah terisi !!!');
                 return redirect(route('perform-noc-history'));  
             }else {
-                if ($request->id_link_rel != "0101010101" ) {
+                if ($request->id_link_rel != "259b0d4e5350466fad1320653c37f80e" ) {
                     $data_history = MsNocReport::whereBetween('created_at',[$data_dari_long, $data_sampai_long])
                         ->where('id_user_rel',$request->id_user_rel)
                         ->where('id_link_rel',$request->id_link_rel)
                         ->where('status',$request->status)
                         ->with('jnsuser', 'jnslink')
                         ->get();
-                }elseif ($request->id_link_rel == "0101010101" ) {
+                }elseif ($request->id_link_rel == "259b0d4e5350466fad1320653c37f80e" ) {
                     $data_history = MsNocReport::whereBetween('created_at',[$data_dari_long, $data_sampai_long])
                         ->where('id_user_rel',$request->id_user_rel)
                         ->where('status',$request->status)
@@ -285,14 +285,14 @@ class NocReportController extends Controller
                 alert()->error('ErrorAlert','Pastikan field (From Time / After Time) sudah terisi !!!');
                 return redirect(route('perform-noc-history'));  
             }else {
-                if ($data_link != "0101010101" ) {
+                if ($data_link != "259b0d4e5350466fad1320653c37f80e" ) {
                     $data_history = MsNocReport::whereBetween('created_at',[$data_dari_long, $data_sampai_long])
                         ->where('id_user_rel',$data_user)
                         ->where('id_link_rel',$data_link)
                         ->where('status',$data_status)
                         ->with('jnsuser', 'jnslink')
                         ->get();
-                }elseif ($data_link == "0101010101" ) {
+                }elseif ($data_link == "259b0d4e5350466fad1320653c37f80e" ) {
                     $data_history = MsNocReport::whereBetween('created_at',[$data_dari_long, $data_sampai_long])
                         ->where('id_user_rel',$data_user)
                         ->where('status',$data_status)
@@ -305,13 +305,13 @@ class NocReportController extends Controller
             
         } elseif ($data_status == "ocn" || $data_status == "n_solved") {
             if ($data_dari_long == "1970-01-01 00:00" || $data_sampai_long == "1970-01-01 00:00") {
-                if ($data_link != "0101010101" ) {
+                if ($data_link != "259b0d4e5350466fad1320653c37f80e" ) {
                     $data_history = MsNocReport::where('id_user_rel',$data_user)
                         ->where('id_link_rel',$data_link)
                         ->where('status',$data_status)
                         ->with('jnsuser', 'jnslink')
                         ->get();
-                }elseif ($data_link == "0101010101" ) {
+                }elseif ($data_link == "259b0d4e5350466fad1320653c37f80e" ) {
                     $data_history = MsNocReport::where('id_user_rel',$data_user)
                         ->where('status',$data_status)
                         ->with('jnsuser', 'jnslink')

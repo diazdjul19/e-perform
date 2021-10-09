@@ -61,7 +61,7 @@
                                             @foreach ($data_link as $item)
                                                 <option value="{{$item->id}}">{{$item->name_link}} ({{$item->vlan}})</option>
                                             @endforeach
-                                            <option value="0101010101">&#127760; All Link</option>
+                                            <option value="259b0d4e5350466fad1320653c37f80e">&#127760; All Link</option>
                                         </select>
                                     </div>
                                 </div>

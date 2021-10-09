@@ -395,6 +395,49 @@ class SalesReportController extends Controller
         }
     }
 
+    public function perform_sales_history(Request $request)
+    {
+        $get_auth = Auth::user();
+
+        if ($get_auth->role == "admin") {
+            $data = MsSalesReport::with('jnsuser', 'jnsclient', 'jnscapacity', 'jnssite')->get();
+            $data_user = User::where('role', 'admin')->orWhere('role', 'sales')->get();
+            $data_client = MsClient::all();
+            $data_capacity = MsCapacity::with('jnsvendor')->get();
+            $data_site= MsSite::all();
+
+            return view('dashboard_view.sales_management.perform_sales_history', compact('data', 'data_user', 'data_client', 'data_capacity', 'data_site'));
+        }else {
+            return abort(404);
+        }
+    }
+
+    public function perform_sales_history_get(Request $request)
+    {
+        // data url untuk get link
+        $data_url = $request->fullUrl();
+        $data_url = \Str::substr($data_url, 48);
+
+        $this->validate($request, [
+            'id_user_rel' => ['required', 'integer', 'min:1'],
+            'id_client_rel' => ['required'],
+            'status' => ['required', 'string', 'max:255'],
+
+        ]);
+
+        // Data Pendukung (whereBetween)
+        $data_dari_long = date('Y-m-d H:i',strtotime($request->input('from_long')));
+        $data_sampai_long = date('Y-m-d H:i',strtotime($request->input('after_long')));
+        
+        if ($data_dari_long == "1970-01-01 00:00" || $data_sampai_long == "1970-01-01 00:00") {
+            alert()->error('Oops..','Pastikan Data "From Time" & "After Time" Sudah Terisi.');
+            return redirect()->back();
+        }
+
+
+
+    }
+
     public function pdf_daily_report_sales(Request $request)
     {
         $data = MsSalesReport::with('jnsuser', 'jnsclient', 'jnscapacity', 'jnssite')->get();
