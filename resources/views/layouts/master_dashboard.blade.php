@@ -286,7 +286,7 @@
                 @endif
 
                 @if (Auth::user()->role == "admin" || Auth::user()->role == "sales")
-                    <li class="treeview {{ request()->is('sales-lobbyist-process', 'sales-daily-report', 'sales-daily-report-create-nemail', 'sales-daily-report-create/*', 'sales-daily-report-edit/*') ? 'active' : '' }}">
+                    <li class="treeview {{ request()->is('sales-lobbyist-process', 'sales-daily-report', 'sales-daily-report-create-nemail', 'sales-daily-report-create/*', 'sales-daily-report-edit/*', 'perform-sales-history', 'perform-sales-history-get') ? 'active' : '' }}">
                         <a href="#">
                             <i class="fa fa-sellsy"></i> <span>Sales Management</span>
                             <span class="pull-right-container">
@@ -297,7 +297,7 @@
                             <li class="{{ request()->is('sales-lobbyist-process') ? 'active' : '' }}"><a href="{{route('sales-lobbyist-process')}}"><i class="fa fa-circle-o"></i> Sales Lobbyist Process</a></li>
                             <li class="{{ request()->is('sales-daily-report', 'sales-daily-report-create-nemail', 'sales-daily-report-create/*', 'sales-daily-report-edit/*') ? 'active' : '' }}"><a href="{{route('sales-daily-report', 'sales-daily-report-create-nemail')}}"><i class="fa fa-circle-o"></i> Sales Daily Report</a></li>
                             @if (Auth::user()->role == "admin")
-                                <li {{ request()->is('perform-sales-history') ? 'active' : '' }}><a href="{{route('perform-sales-history')}}"><i class="fa fa-circle-o"></i> Sales Report Perform</a></li>
+                                <li class="{{request()->is('perform-sales-history', 'perform-sales-history-get') ? 'active' : ''}}"><a href="{{route('perform-sales-history')}}"><i class="fa fa-circle-o"></i> Sales Report Perform</a></li>
                             @endif
                         </ul>
                     </li>

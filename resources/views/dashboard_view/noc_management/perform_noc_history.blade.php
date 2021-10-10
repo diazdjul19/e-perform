@@ -88,7 +88,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group ">
-                                                <label for="picker-2" style="color: black; font-weight:bold;font-size:13px;" data-toggle="tooltip" title="It is recommended to set the time to 00:00" data-placement="top">After Time<span style="color: red;">*</span></label>                                    
+                                                <label for="picker-2" style="color: black; font-weight:bold;font-size:13px;" data-toggle="tooltip" title="It is recommended to set the time to 23:59" data-placement="top">After Time<span style="color: red;">*</span></label>                                    
                                                 <input id="picker-2" type="text" class="form-control" name="after_long" autocomplete="off">
                                             </div>
                                         </div>

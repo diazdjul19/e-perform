@@ -418,6 +418,19 @@ class SalesReportController extends Controller
         $data_url = $request->fullUrl();
         $data_url = \Str::substr($data_url, 48);
 
+        $get_auth = Auth::user();
+
+        if ($get_auth->role == "admin") {
+            $data = MsSalesReport::with('jnsuser', 'jnsclient', 'jnscapacity', 'jnssite')->get();
+            $data_user = User::where('role', 'admin')->orWhere('role', 'sales')->get();
+            $data_client = MsClient::all();
+            $data_capacity = MsCapacity::with('jnsvendor')->get();
+            $data_site= MsSite::all();
+
+        }else {
+            return abort(404);
+        }
+
         $this->validate($request, [
             'id_user_rel' => ['required', 'integer', 'min:1'],
             'id_client_rel' => ['required'],
@@ -426,14 +439,34 @@ class SalesReportController extends Controller
         ]);
 
         // Data Pendukung (whereBetween)
-        $data_dari_long = date('Y-m-d H:i',strtotime($request->input('from_long')));
-        $data_sampai_long = date('Y-m-d H:i',strtotime($request->input('after_long')));
+        $data_dari_long = date('Y-m-d 00:00',strtotime($request->input('from_long')));
+        $data_sampai_long = date('Y-m-d 23:59',strtotime($request->input('after_long')));
         
         if ($data_dari_long == "1970-01-01 00:00" || $data_sampai_long == "1970-01-01 00:00") {
             alert()->error('Oops..','Pastikan Data "From Time" & "After Time" Sudah Terisi.');
             return redirect()->back();
-        }
 
+        }else {
+            if ($request->id_client_rel != "34e4e14c9085f747c60aeb339fde1f84" ) {
+                $data_history = MsSalesReport::whereBetween('created_at',[$data_dari_long, $data_sampai_long])
+                    ->where('id_user_rel',$request->id_user_rel)
+                    ->where('id_client_rel',$request->id_client_rel)
+                    ->where('status',$request->status)
+                    ->with('jnsuser', 'jnsclient', 'jnscapacity', 'jnssite')
+                    ->get();
+            }elseif ($request->id_client_rel == "34e4e14c9085f747c60aeb339fde1f84" ) {
+                $data_history = MsSalesReport::whereBetween('created_at',[$data_dari_long, $data_sampai_long])
+                    ->where('id_user_rel',$request->id_user_rel)
+                    ->where('status',$request->status)
+                    ->with('jnsuser', 'jnsclient', 'jnscapacity', 'jnssite')
+                    ->get();
+            }else {
+                return abort(404);   
+            }
+        }      
+
+        return view('dashboard_view.sales_management.perform_sales_history',
+        compact('data_history', 'data_url', 'data', 'data_user', 'data_client', 'data_capacity', 'data_site'));
 
 
     }
@@ -463,6 +496,49 @@ class SalesReportController extends Controller
         return $pdf->download("Sales-Daily-Report-($data->tiket_report).pdf");
 
         
+    }
+
+    public function download_perform_sales_history(Request $request)
+    {
+        $this->validate($request, [
+            'id_user_rel' => ['required', 'integer', 'min:1'],
+            'id_client_rel' => ['required'],
+            'status' => ['required', 'string', 'max:255'],
+
+        ]);
+
+        // Data Pendukung (whereBetween)
+        $data_dari_long = date('Y-m-d 00:00',strtotime($request->input('from_long')));
+        $data_sampai_long = date('Y-m-d 23:59',strtotime($request->input('after_long')));
+        
+        if ($data_dari_long == "1970-01-01 00:00" || $data_sampai_long == "1970-01-01 00:00") {
+            alert()->error('Oops..','Pastikan Data "From Time" & "After Time" Sudah Terisi.');
+            return redirect()->back();
+
+        }else {
+            if ($request->id_client_rel != "34e4e14c9085f747c60aeb339fde1f84" ) {
+                $data_history = MsSalesReport::whereBetween('created_at',[$data_dari_long, $data_sampai_long])
+                    ->where('id_user_rel',$request->id_user_rel)
+                    ->where('id_client_rel',$request->id_client_rel)
+                    ->where('status',$request->status)
+                    ->with('jnsuser', 'jnsclient', 'jnscapacity', 'jnssite')
+                    ->get();
+            }elseif ($request->id_client_rel == "34e4e14c9085f747c60aeb339fde1f84" ) {
+                $data_history = MsSalesReport::whereBetween('created_at',[$data_dari_long, $data_sampai_long])
+                    ->where('id_user_rel',$request->id_user_rel)
+                    ->where('status',$request->status)
+                    ->with('jnsuser', 'jnsclient', 'jnscapacity', 'jnssite')
+                    ->get();
+            }else {
+                return abort(404);   
+            }
+        }      
+
+        $getname = User::where('id', $request->id_user_rel)->first();
+
+        $pdf = \PDF::loadView('pdf.pdf_perform_sales_history', compact('data_history', 'data_url', 'data', 'data_user', 'data_client', 'data_capacity', 'data_site', 'getname', 'data_dari_long', 'data_sampai_long'))->setPaper('A4')->setOrientation('landscape');
+        return $pdf->download("Sales-Daily-Report-($getname->name).pdf");
+
     }
 
 

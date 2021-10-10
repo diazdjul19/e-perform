@@ -56,6 +56,7 @@ Route::group(['middleware' => ['auth', 'cekroleuser:admin']], function () {
 
     Route::get('/perform-sales-history', 'SalesReportController@perform_sales_history')->name('perform-sales-history');
     Route::get('/perform-sales-history-get', 'SalesReportController@perform_sales_history_get')->name('perform-sales-history-get');
+    Route::get('/pdf-perform-sales-history', 'SalesReportController@download_perform_sales_history')->name('pdf-perform-sales-history');
     
 });
 
