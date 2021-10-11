@@ -125,7 +125,7 @@
         
                         <div class="row">
                             <div class="col-md-6">
-                                <a href="#" class="btn btn-sm" style="margin-top: 10px; background-color:#1be7aa;color:#fff;"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Excel</a>
+                                <a href="{{route('excelex-perform-sales-history')}}?{{$data_url}}" class="btn btn-sm" style="margin-top: 10px; background-color:#1be7aa;color:#fff;"><i class="fa fa-file-excel-o" aria-hidden="true"></i> Excel</a>
                                 <a href="{{route('pdf-perform-sales-history')}}?{{$data_url}}" class="btn btn-sm" style="margin-top: 10px; background-color:#ff8f9e;color:#fff;"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> PDF</a>
                             </div>
                             <div class="col-md-c"></div>

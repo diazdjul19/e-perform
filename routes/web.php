@@ -52,11 +52,14 @@ Route::group(['middleware' => ['auth', 'cekroleuser:admin']], function () {
     Route::get('/perform-noc-history', 'NocReportController@perform_noc_history')->name('perform-noc-history');
     Route::get('/perform-noc-history-get', 'NocReportController@perform_noc_history_get')->name('perform-noc-history-get');
     Route::get('/pdf-perform-noc-history', 'NocReportController@download_perform_noc_history')->name('pdf-perform-noc-history');
+    Route::get('/excelex-perform-noc-history', 'NocReportController@excelex_perform_noc_history')->name('excelex-perform-noc-history');
 
 
     Route::get('/perform-sales-history', 'SalesReportController@perform_sales_history')->name('perform-sales-history');
     Route::get('/perform-sales-history-get', 'SalesReportController@perform_sales_history_get')->name('perform-sales-history-get');
     Route::get('/pdf-perform-sales-history', 'SalesReportController@download_perform_sales_history')->name('pdf-perform-sales-history');
+    Route::get('/excelex-perform-sales-history', 'SalesReportController@excelex_perform_sales_history')->name('excelex-perform-sales-history');
+
     
 });
 

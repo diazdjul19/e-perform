@@ -10,6 +10,10 @@ use App\Models\MsClient;
 use App\Models\MsCapacity;
 use App\Models\MsSite;
 
+// export excel
+use App\Exports\SalesPerformExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 use Auth;
 use Webpatser\Uuid\Uuid;
 
@@ -536,9 +540,19 @@ class SalesReportController extends Controller
 
         $getname = User::where('id', $request->id_user_rel)->first();
 
-        $pdf = \PDF::loadView('pdf.pdf_perform_sales_history', compact('data_history', 'data_url', 'data', 'data_user', 'data_client', 'data_capacity', 'data_site', 'getname', 'data_dari_long', 'data_sampai_long'))->setPaper('A4')->setOrientation('landscape');
+        $pdf = \PDF::loadView('pdf.pdf_perform_sales_history', compact('data_history', 'getname', 'data_dari_long', 'data_sampai_long'))->setPaper('A4')->setOrientation('landscape');
         return $pdf->download("Sales-Daily-Report-($getname->name).pdf");
 
+    }
+
+    public function excelex_perform_sales_history(Request $request)
+    {
+         // Data Pendukung (whereBetween)
+         $data_dari_long = date('Y-m-d 00:00',strtotime($request->input('from_long')));
+         $data_sampai_long = date('Y-m-d 23:59',strtotime($request->input('after_long')));
+
+        $getname = User::where('id', $request->id_user_rel)->first();
+        return Excel::download(new SalesPerformExport($request->id_user_rel, $request->id_client_rel, $request->status, $data_dari_long, $data_sampai_long), "Excel-Export-Perform-Sales-$getname->name.xlsx");
     }
 
 

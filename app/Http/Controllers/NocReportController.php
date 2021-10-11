@@ -7,6 +7,10 @@ use App\Models\MsNocReport;
 use App\User;
 use App\Models\MsLink;
 
+// export excel
+use App\Exports\NocPerformExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 use DateTime;
 
 class NocReportController extends Controller
@@ -332,5 +336,15 @@ class NocReportController extends Controller
 
 
 
+    }
+
+    public function excelex_perform_noc_history(Request $request)
+    {
+        // Data Pendukung (whereBetween)
+        $data_dari_long = date('Y-m-d H:i',strtotime($request->input('from_long')));
+        $data_sampai_long = date('Y-m-d H:i',strtotime($request->input('after_long')));
+
+        $getname = User::where('id', $request->id_user_rel)->first();
+        return Excel::download(new NocPerformExport($request->id_user_rel, $request->id_link_rel, $request->status, $data_dari_long, $data_sampai_long), "Excel-Export-Perform-NOC-$getname->name.xlsx");
     }
 }
