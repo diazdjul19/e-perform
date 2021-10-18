@@ -126,7 +126,7 @@ class UserController extends Controller
             $data->email = $request->get('email');
             $data->no_telp = $request->get('no_telp');
 
-            if (isset($request->level)) {
+            if (isset($request->role)) {
                 $data->role = $request->get('role');
             }
 
