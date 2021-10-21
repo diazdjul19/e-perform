@@ -143,7 +143,7 @@
                                         </div>
 
                                         <div class="form-group row" style="margin:0px;">
-                                            <label class="col-md-4 col-form-label" for="id_client_rel_ed"><h6 style="color: black; font-weight:bold;font-size:13px;">Capacity Bandwith</h6></label>
+                                            <label class="col-md-4 col-form-label" for="id_client_rel_ed"><h6 style="color: black; font-weight:bold;font-size:13px;">Select Client</h6></label>
                                             
                                             <div class="col-md-4">
                                                 <input id="id_client_rel_ed" name="" type="text" class="form-control" autocomplete="off" placeholder="" autofocus readonly>

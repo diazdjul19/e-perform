@@ -66,7 +66,6 @@ class LinkController extends Controller
             $data->id_site_rel = $request->id_site_rel;
             $data->id_vendor_rel = $request->id_vendor_rel;
 
-
             $data->save();
             // \DB::commit() ini akan menginput data jika dari proses diatas tidak ada yg salah atau error.
             \DB::commit();
@@ -113,7 +112,6 @@ class LinkController extends Controller
     {
         $this->validate($request, [
             'name_link' => ['required', 'string', 'max:255'],
-            'id_client_rel' => ['required', 'integer'],
             
         ]);
 
@@ -123,7 +121,11 @@ class LinkController extends Controller
 
             $data = MsLink::find($id);
             $data->name_link = $request->get('name_link');
-            $data->id_client_rel = $request->get('id_client_rel');
+
+            if (isset($request->id_client_rel)) {
+                $data->id_client_rel = $request->get('id_client_rel');
+            }
+
             $data->vlan = $request->get('vlan');
 
             if (isset($request->id_capacity_rel)) {
@@ -137,7 +139,7 @@ class LinkController extends Controller
             if (isset($request->id_vendor_rel)) {
                 $data->id_vendor_rel = $request->get('id_vendor_rel');
             }
-        
+
             $data->save();
 
             \DB::commit();

@@ -10,7 +10,7 @@ class MsLink extends Model
 
     // Untuk relasi ke tb ms_capacities
     public function jnscapacity(){
-        return $this->belongsTo(MsCapacity::class,'id_site_rel','id');
+        return $this->belongsTo(MsCapacity::class,'id_capacity_rel','id');
     }
 
     // Untuk relasi ke tb ms_capacities
