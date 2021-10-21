@@ -149,7 +149,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group" id="IfSolvedRange">
                                         <div class="row">
-                                            @if ($data->dari_long != "1970-01-01 00:00:00" and $data->sampai_long != "1970-01-01 00:00:00")
+                                            @if ($data->dari_long != "1970-01-01 07:00:00" and $data->sampai_long != "1970-01-01 07:00:00")
                                                 <div class="col-md-6">
                                                     <div class="form-group row">
                                                         <div class="col-md-12">
@@ -166,7 +166,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            @elseif ($data->dari_long == "1970-01-01 00:00:00" and $data->sampai_long != "1970-01-01 00:00:00")
+                                            @elseif ($data->dari_long == "1970-01-01 07:00:00" and $data->sampai_long != "1970-01-01 07:00:00")
                                                 <div class="col-md-6">
                                                     <div class="form-group row">
                                                         <div class="col-md-12">
@@ -183,7 +183,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            @elseif ($data->dari_long != "1970-01-01 00:00:00" and $data->sampai_long == "1970-01-01 00:00:00")
+                                            @elseif ($data->dari_long != "1970-01-01 07:00:00" and $data->sampai_long == "1970-01-01 07:00:00")
                                                 <div class="col-md-6">
                                                     <div class="form-group row">
                                                         <div class="col-md-12">
@@ -352,7 +352,7 @@
                         <div class="col-md-6">
                             <div class="form-group ">
                                 <div class="row">
-                                    @if ($data->dari_long != "1970-01-01 00:00:00" and $data->sampai_long != "1970-01-01 00:00:00")
+                                    @if ($data->dari_long != "1970-01-01 07:00:00" and $data->sampai_long != "1970-01-01 07:00:00")
                                         <div class="col-md-6">
                                             <div class="form-group row">
                                                 <div class="col-md-12">
@@ -369,7 +369,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    @elseif ($data->dari_long == "1970-01-01 00:00:00" and $data->sampai_long != "1970-01-01 00:00:00")
+                                    @elseif ($data->dari_long == "1970-01-01 07:00:00" and $data->sampai_long != "1970-01-01 07:00:00")
                                         <div class="col-md-6">
                                             <div class="form-group row">
                                                 <div class="col-md-12">
@@ -386,7 +386,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    @elseif ($data->dari_long != "1970-01-01 00:00:00" and $data->sampai_long == "1970-01-01 00:00:00")
+                                    @elseif ($data->dari_long != "1970-01-01 07:00:00" and $data->sampai_long == "1970-01-01 07:00:00")
                                         <div class="col-md-6">
                                             <div class="form-group row">
                                                 <div class="col-md-12">

@@ -68,7 +68,7 @@
 
                                     <td style="text-align:center;">{{$d->issues}}</td>
 
-                                    @if ($d->dari_long != "1970-01-01 00:00:00" and $d->sampai_long != "1970-01-01 00:00:00")
+                                    @if ($d->dari_long != "1970-01-01 07:00:00" and $d->sampai_long != "1970-01-01 07:00:00")
                                         <td style="width:30px;text-align:center;">
                                             <span class="label label-success" style="font-size:12px; margin-left:2px; margin-right:2px;">
                                                 {{date('d M Y  | H:i', strtotime($d->dari_long))}}

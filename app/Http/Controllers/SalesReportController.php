@@ -446,7 +446,7 @@ class SalesReportController extends Controller
         $data_dari_long = date('Y-m-d 00:00',strtotime($request->input('from_long')));
         $data_sampai_long = date('Y-m-d 23:59',strtotime($request->input('after_long')));
         
-        if ($data_dari_long == "1970-01-01 00:00" || $data_sampai_long == "1970-01-01 00:00") {
+        if ($data_dari_long == "1970-01-01 07:00" || $data_sampai_long == "1970-01-01 07:00") {
             alert()->error('Oops..','Pastikan Data "From Time" & "After Time" Sudah Terisi.');
             return redirect()->back();
 
@@ -515,7 +515,7 @@ class SalesReportController extends Controller
         $data_dari_long = date('Y-m-d 00:00',strtotime($request->input('from_long')));
         $data_sampai_long = date('Y-m-d 23:59',strtotime($request->input('after_long')));
         
-        if ($data_dari_long == "1970-01-01 00:00" || $data_sampai_long == "1970-01-01 00:00") {
+        if ($data_dari_long == "1970-01-01 07:00" || $data_sampai_long == "1970-01-01 07:00") {
             alert()->error('Oops..','Pastikan Data "From Time" & "After Time" Sudah Terisi.');
             return redirect()->back();
 

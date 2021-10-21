@@ -210,7 +210,7 @@ class NocReportController extends Controller
 
         if ($request->status == "solved") {
 
-            if ($data_dari_long == "1970-01-01 00:00" || $data_sampai_long == "1970-01-01 00:00") {
+            if ($data_dari_long == "1970-01-01 07:00" || $data_sampai_long == "1970-01-01 07:00") {
                 alert()->error('ErrorAlert','Pastikan field (From Time / After Time) sudah terisi !!!');
                 return redirect(route('perform-noc-history'));  
             }else {
@@ -233,7 +233,7 @@ class NocReportController extends Controller
             }        
             
         } elseif ($request->status == "ocn" || $request->status == "n_solved") {
-            if ($data_dari_long == "1970-01-01 00:00" || $data_sampai_long == "1970-01-01 00:00") {
+            if ($data_dari_long == "1970-01-01 07:00" || $data_sampai_long == "1970-01-01 07:00") {
                 if ($request->id_link_rel != "0101010101" ) {
                     $data_history = MsNocReport::where('id_user_rel',$request->id_user_rel)
                         ->where('id_link_rel',$request->id_link_rel)
@@ -285,7 +285,7 @@ class NocReportController extends Controller
 
         if ($data_status == "solved") {
 
-            if ($data_dari_long == "1970-01-01 00:00" || $data_sampai_long == "1970-01-01 00:00") {
+            if ($data_dari_long == "1970-01-01 07:00" || $data_sampai_long == "1970-01-01 07:00") {
                 alert()->error('ErrorAlert','Pastikan field (From Time / After Time) sudah terisi !!!');
                 return redirect(route('perform-noc-history'));  
             }else {
@@ -308,7 +308,7 @@ class NocReportController extends Controller
             }        
             
         } elseif ($data_status == "ocn" || $data_status == "n_solved") {
-            if ($data_dari_long == "1970-01-01 00:00" || $data_sampai_long == "1970-01-01 00:00") {
+            if ($data_dari_long == "1970-01-01 07:00" || $data_sampai_long == "1970-01-01 07:00") {
                 if ($data_link != "259b0d4e5350466fad1320653c37f80e" ) {
                     $data_history = MsNocReport::where('id_user_rel',$data_user)
                         ->where('id_link_rel',$data_link)

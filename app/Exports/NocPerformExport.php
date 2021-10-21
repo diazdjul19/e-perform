@@ -44,7 +44,7 @@ class NocPerformExport implements FromView
 
         if ($this->status == "solved") {
 
-            if ($this->data_dari_long == "1970-01-01 00:00" || $this->data_sampai_long == "1970-01-01 00:00") {
+            if ($this->data_dari_long == "1970-01-01 07:00" || $this->data_sampai_long == "1970-01-01 07:00") {
                 alert()->error('ErrorAlert','Pastikan field (From Time / After Time) sudah terisi !!!');
                 return redirect(route('perform-noc-history'));  
             }else {
@@ -67,7 +67,7 @@ class NocPerformExport implements FromView
             }        
             
         } elseif ($this->status == "ocn" || $this->status == "n_solved") {
-            if ($this->data_dari_long == "1970-01-01 00:00" || $this->data_sampai_long == "1970-01-01 00:00") {
+            if ($this->data_dari_long == "1970-01-01 07:00" || $this->data_sampai_long == "1970-01-01 07:00") {
                 if ($this->id_link_rel != "259b0d4e5350466fad1320653c37f80e" ) {
                     $data_history = MsNocReport::where('id_user_rel',$this->id_user_rel)
                         ->where('id_link_rel',$this->id_link_rel)

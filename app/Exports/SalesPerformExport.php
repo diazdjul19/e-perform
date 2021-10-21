@@ -43,7 +43,7 @@ class SalesPerformExport implements FromView
         // Data Pendukung (whereBetween)
         // Untuk data $data_dari_long & $data_sampai_long sudah di konversi ke format database pada controller jadi di sini tidak usah konversi kembali
         
-        if ($this->data_dari_long == "1970-01-01 00:00" || $this->data_sampai_long == "1970-01-01 00:00") {
+        if ($this->data_dari_long == "1970-01-01 07:00" || $this->data_sampai_long == "1970-01-01 07:00") {
             alert()->error('Oops..','Pastikan Data "From Time" & "After Time" Sudah Terisi.');
             return redirect()->back();
 
