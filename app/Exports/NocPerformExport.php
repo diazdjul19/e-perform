@@ -85,7 +85,18 @@ class NocPerformExport implements FromView
             }
 
         } else{
-            return abort(404); 
+            if ($request->id_link_rel != "259b0d4e5350466fad1320653c37f80e" ) {
+                $data_history = MsNocReport::where('id_user_rel',$request->id_user_rel)
+                    ->where('id_link_rel',$request->id_link_rel)
+                    ->with('jnsuser', 'jnslink')
+                    ->get();
+            }elseif ($request->id_link_rel == "259b0d4e5350466fad1320653c37f80e" ) {
+                $data_history = MsNocReport::where('id_user_rel',$request->id_user_rel)
+                    ->with('jnsuser', 'jnslink')
+                    ->get();
+            }else {
+                return abort(404);   
+            }
         }
 
         $getname = User::where('id', $this->id_user_rel)->first(); 

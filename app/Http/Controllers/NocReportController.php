@@ -200,7 +200,7 @@ class NocReportController extends Controller
         $this->validate($request, [
             'id_user_rel' => ['required', 'integer', 'min:1'],
             'id_link_rel' => ['required'],
-            'status' => ['required', 'string', 'max:255'],
+            // 'status' => ['required', 'string', 'max:255'],
 
         ]);
 
@@ -234,13 +234,13 @@ class NocReportController extends Controller
             
         } elseif ($request->status == "ocn" || $request->status == "n_solved") {
             if ($data_dari_long == "1970-01-01 07:00" || $data_sampai_long == "1970-01-01 07:00") {
-                if ($request->id_link_rel != "0101010101" ) {
+                if ($request->id_link_rel != "259b0d4e5350466fad1320653c37f80e" ) {
                     $data_history = MsNocReport::where('id_user_rel',$request->id_user_rel)
                         ->where('id_link_rel',$request->id_link_rel)
                         ->where('status',$request->status)
                         ->with('jnsuser', 'jnslink')
                         ->get();
-                }elseif ($request->id_link_rel == "0101010101" ) {
+                }elseif ($request->id_link_rel == "259b0d4e5350466fad1320653c37f80e" ) {
                     $data_history = MsNocReport::where('id_user_rel',$request->id_user_rel)
                         ->where('status',$request->status)
                         ->with('jnsuser', 'jnslink')
@@ -251,7 +251,18 @@ class NocReportController extends Controller
             }
 
         } else{
-            return abort(404); 
+            if ($request->id_link_rel != "259b0d4e5350466fad1320653c37f80e" ) {
+                $data_history = MsNocReport::where('id_user_rel',$request->id_user_rel)
+                    ->where('id_link_rel',$request->id_link_rel)
+                    ->with('jnsuser', 'jnslink')
+                    ->get();
+            }elseif ($request->id_link_rel == "259b0d4e5350466fad1320653c37f80e" ) {
+                $data_history = MsNocReport::where('id_user_rel',$request->id_user_rel)
+                    ->with('jnsuser', 'jnslink')
+                    ->get();
+            }else {
+                return abort(404);   
+            }
         }
 
         return view('dashboard_view.noc_management.perform_noc_history', compact('data_history', 'data', 'data_user', 'data_link', 'data_url'));
@@ -271,8 +282,8 @@ class NocReportController extends Controller
     {
         $this->validate($request, [
             'id_user_rel' => ['required', 'integer', 'min:1'],
-            'id_link_rel' => ['required', 'numeric'],
-            'status' => ['required', 'string', 'max:255'],
+            'id_link_rel' => ['required'],
+            // 'status' => ['required', 'string', 'max:255'],
 
         ]);
 
@@ -282,6 +293,7 @@ class NocReportController extends Controller
         $data_link = $request->id_link_rel;
         $data_user = $request->id_user_rel;
         $data_status = $request->status;
+
 
         if ($data_status == "solved") {
 
@@ -326,7 +338,18 @@ class NocReportController extends Controller
             }
 
         } else{
-            return abort(404); 
+            if ($request->id_link_rel != "259b0d4e5350466fad1320653c37f80e" ) {
+                $data_history = MsNocReport::where('id_user_rel',$request->id_user_rel)
+                    ->where('id_link_rel',$request->id_link_rel)
+                    ->with('jnsuser', 'jnslink')
+                    ->get();
+            }elseif ($request->id_link_rel == "259b0d4e5350466fad1320653c37f80e" ) {
+                $data_history = MsNocReport::where('id_user_rel',$request->id_user_rel)
+                    ->with('jnsuser', 'jnslink')
+                    ->get();
+            }else {
+                return abort(404);   
+            }
         }
 
         $getname = User::where('id', $data_user)->first();

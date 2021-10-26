@@ -57,12 +57,17 @@ class ClientController extends Controller
             \DB::beginTransaction();
 
             $data = new MsClient;
+            $data->cid_client = null;
             $data->name_client = $request->name_client;
             $data->no_telp_client = $request->no_telp_client;
             $data->email_client = $request->email_client;
             $data->address_client = $request->address_client;
             $data->company_client = $request->company_client;
             $data->save();
+
+            $cid = "CID" . "-" . str_pad($data->id, 4, "0", STR_PAD_LEFT);
+            $data->update(['cid_client' => $cid]);
+
             \DB::commit();
 
             if (empty($request->uuid_lobbyists)) {

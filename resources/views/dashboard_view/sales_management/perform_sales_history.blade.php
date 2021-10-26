@@ -68,8 +68,8 @@
 
                                 <div class="col-md-2">
                                     <div class="form-group ">
-                                        <label class="" for="status">Status<span style="color: red;">*</span></label>  
-                                        <select class="form-control pt-0 pb-0" id="status" name="status" style="height:35px;" required>
+                                        <label class="" for="status">Status</label>  
+                                        <select class="form-control pt-0 pb-0" id="status" name="status" style="height:35px;">
                                             <option value selected disabled>Choise</option>
                                             <option style="background-color: #FFCA2C;color:#000;" value="opn">&#9201;&#65039; On Process NOC</option>
                                             <option style="background-color: #157347;color:#FFF;" value="finish">&#10004; Finish</option>
@@ -82,13 +82,13 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group ">
-                                                <label for="picker-1" style="color: black; font-weight:bold;font-size:13px;" data-toggle="tooltip" title="It is recommended to set the time to 00:00" data-placement="top">From Time<span style="color: red;">*</span></label>                                    
+                                                <label for="picker-1" style="color: black; font-weight:bold;font-size:13px;" data-toggle="tooltip" title="It is recommended to set the time to 00:00" data-placement="top">From Time</label>                                    
                                                 <input id="picker-1" type="text" class="form-control" name="from_long" autocomplete="off">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group ">
-                                                <label for="picker-2" style="color: black; font-weight:bold;font-size:13px;" data-toggle="tooltip" title="It is recommended to set the time to 23:59" data-placement="top">After Time<span style="color: red;">*</span></label>                                    
+                                                <label for="picker-2" style="color: black; font-weight:bold;font-size:13px;" data-toggle="tooltip" title="It is recommended to set the time to 23:59" data-placement="top">After Time</label>                                    
                                                 <input id="picker-2" type="text" class="form-control" name="after_long" autocomplete="off">
                                             </div>
                                         </div>

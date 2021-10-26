@@ -57,6 +57,13 @@
                             <div class="modal-body">
                                 <div class="row">
                                     <div class="col-md-12">
+                                        <div class="form-group row" style="margin:0px;">
+                                            <label class="col-md-4 col-form-label" for="cid_client"><h6 style="color: black; font-weight:bold;font-size:13px;">CID Client<span style="color: red;">*</span></h6></label>
+                                            
+                                            <div class="col-md-8">
+                                                <input type="text" name="cid_client" class="form-control" id="cid_client_ed"  style="height:30px;" required readonly>
+                                            </div>
+                                        </div>
 
                                         <div class="form-group row" style="margin:0px;">
                                             <label class="col-md-4 col-form-label" for="name_client"><h6 style="color: black; font-weight:bold;font-size:13px;">Nama Client<span style="color: red;">*</span></h6></label>
@@ -147,6 +154,7 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
+                                    <th>CID</th>
                                     <th>Nama Client</th>
                                     <th class="text-center">Nama Perusahaan</th>
                                     <th class="text-center">No Telp</th>
@@ -162,6 +170,7 @@
                                 @foreach ($data as $d)
                                     <tr>
                                         <td>{{$loop->iteration}}</td>
+                                        <td style="min-width:100px;">{{$d->cid_client}}</td>
                                         <td style="min-width:120px;">{{$d->name_client}}</td>
                                         <td style="min-width:120px;" class="text-center">{{$d->company_client}}</td>
                                         <td style="min-width:120px;" class="text-center">{{$d->no_telp_client}}</td>
@@ -224,15 +233,16 @@
             var data = table.row($tr).data();
             console.log(data);
 
-            $('#name_client_ed').val(data[1]);
-            $('#company_client_ed').val(data[2]);
-            $('#no_telp_ed').val(data[3]);
-            $('#email_client_ed').val(data[4]);
-            $('#address_client_ed').val(data[5]);
+            $('#cid_client_ed').val(data[1]);
+            $('#name_client_ed').val(data[2]);
+            $('#company_client_ed').val(data[3]);
+            $('#no_telp_ed').val(data[4]);
+            $('#email_client_ed').val(data[5]);
+            $('#address_client_ed').val(data[6]);
         
 
 
-            $('#editForm').attr('action', '/client-element/'+ data[7]);
+            $('#editForm').attr('action', '/client-element/'+ data[8]);
             $('#editModal').modal('show');
         });
         // End Edit Modal

@@ -69,7 +69,7 @@
                                 <div class="col-md-2">
                                     <div class="form-group ">
                                         <label class="" for="status">Status<span style="color: red;">*</span></label>  
-                                        <select class="form-control pt-0 pb-0" id="status" name="status" style="height:35px;" required>
+                                        <select class="form-control pt-0 pb-0" id="status" name="status" style="height:35px;">
                                             <option value selected disabled>Choise</option>
                                             <option style="background-color: #FFCA2C;color:#000;" value="ocn">&#9201;&#65039; On Check NOC</option>
                                             <option style="background-color: #157347;color:#FFF;" value="solved">&#10004; Solved</option>

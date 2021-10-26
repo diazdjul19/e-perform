@@ -6,5 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class MsClient extends Model
 {
-    //
+    protected $guarded = [];
+
 }
